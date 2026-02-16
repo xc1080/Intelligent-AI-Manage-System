@@ -1,7 +1,9 @@
 package com.toryu.iims.ai.rag.service.impl;
 
-import com.toryu.iims.ai.rag.service.CustomizeVectorStoreService;
+import com.toryu.iims.ai.chat.model.entity.ModelSetting;
+import com.toryu.iims.ai.chat.service.AiChatSettingService;
 import com.toryu.iims.ai.chat.service.ModelService;
+import com.toryu.iims.ai.rag.service.CustomizeVectorStoreService;
 import io.milvus.client.MilvusServiceClient;
 import io.milvus.param.ConnectParam;
 import io.milvus.param.IndexType;
@@ -19,13 +21,17 @@ public class CustomizeVectorStoreServiceImpl implements CustomizeVectorStoreServ
 
     private final ModelService modelService;
 
-    public CustomizeVectorStoreServiceImpl(ModelService modelService) {
+    private final AiChatSettingService aiChatSettingService;
+
+    public CustomizeVectorStoreServiceImpl(ModelService modelService, AiChatSettingService aiChatSettingService) {
         this.modelService = modelService;
+        this.aiChatSettingService = aiChatSettingService;
     }
 
     @Override
     public VectorStore loadMilvusVectorStore(String dbName, String collectionName) {
-        EmbeddingModel embeddingModel = modelService.getEmbeddingModel(3L);
+        ModelSetting userModelSetting = aiChatSettingService.getUserModelSetting();
+        EmbeddingModel embeddingModel = modelService.getEmbeddingModel(userModelSetting.getEmbeddingModel());
         MilvusServiceClient milvusServiceClient = new MilvusServiceClient(ConnectParam.newBuilder().build());
         return MilvusVectorStore.builder(milvusServiceClient, embeddingModel)
                 .databaseName(dbName)
