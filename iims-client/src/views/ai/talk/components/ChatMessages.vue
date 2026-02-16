@@ -37,7 +37,25 @@
               justify-content: start;
             ">
             <el-avatar shape="square" size="small" style="min-width: 40px; min-height: 40px" :src="logoAvatarImage" />
-            <div class="info info-ai">
+
+            <div v-if="message.isLoadingAnswer" class="info-ai-loading">
+              <el-icon class="is-loading">
+                <Loading />
+              </el-icon>
+              <div v-if="statusData" style="
+                    display: flex;
+                    align-items: center;
+                    margin-left: 3px;
+                    font-size: 10px;
+                  ">
+                <span>{{ statusData.task }}</span>
+                <span style="margin-left: 6px; color: rgb(51.2, 126.4, 204)">{{ statusData.progress }}/{{
+                    statusData.total
+                  }}</span>
+              </div>
+            </div>
+
+            <div v-else class="info info-ai">
               <div v-for="(content, index) in message.aiContent" :key="index">
                 <div v-for="(result, index) in content.contentResult" :key="index">
                   <div v-if="result.type === 'reasoning'" style="margin-bottom: 6px !important;">
@@ -93,23 +111,6 @@
                   </el-collapse-item>
                 </el-collapse>
               </div>
-
-              <div v-if="message.isLoadingAnswer" style="display: flex; align-items: center">
-                <el-icon class="is-loading">
-                  <Loading />
-                </el-icon>
-                <div v-if="statusData" style="
-                    display: flex;
-                    align-items: center;
-                    margin-left: 3px;
-                    font-size: 10px;
-                  ">
-                  <span>{{ statusData.task }}</span>
-                  <span style="margin-left: 6px; color: rgb(51.2, 126.4, 204)">{{ statusData.progress }}/{{
-                      statusData.total
-                    }}</span>
-                </div>
-              </div>
               <div v-if="message.docMetadata" class="metadata-container">
                 <hr class="my-2 border-t border-gray-300 dark:border-gray-600" />
                 <div class="metadata-label">参考文献:</div>
@@ -122,25 +123,25 @@
                 <div v-else class="no-metadata">暂无参考文献</div>
               </div>
               <div class="chat-btn-box">
-                <el-button class="chat-btn" @click="
+                <el-button v-if="message.id" class="chat-btn" @click="
                   $emit('del-message', message.lastId, message.isStar, index)
                   "><i class="ri-delete-bin-line"></i></el-button>
                 <el-button class="chat-btn" @click="$emit('copy-content', message)"><i
                     class="ri-file-copy-2-line"></i></el-button>
-                <el-button class="chat-btn" @click="$emit('thumb-status', message.feedbackStatus, 1, index)">
-                  <i :class="'ri-thumb-up-' + (message.feedbackStatus === 1 ? 'fill' : 'line')
-                    "></i>
-                </el-button>
-                <el-button class="chat-btn" @click="$emit('thumb-status', message.feedbackStatus, -1, index)">
-                  <i :class="'ri-thumb-down-' + (message.feedbackStatus === -1 ? 'fill' : 'line')
-                    "></i>
-                </el-button>
-                <el-button class="chat-btn"><i class="ri-menu-4-line"></i></el-button>
-                <el-button class="chat-btn" @click="$emit('star-ai-chat', message, index)">
+                <el-button v-if="message.id" class="chat-btn"><i class="ri-menu-4-line"></i></el-button>
+                <el-button v-if="message.id" class="chat-btn" @click="$emit('star-ai-chat', message, index)">
                   <i :class="'ri-star-' + (message.isStar ? 'fill' : 'line')
                     "></i>
                 </el-button>
-                <el-button class="chat-btn"><i class="ri-refresh-line"></i></el-button>
+                <el-button v-if="message.id && (message.feedbackStatus === 1 || message.feedbackStatus === 0)" class="chat-btn" @click="$emit('thumb-status', message.feedbackStatus, 1, index)">
+                  <i :class="'ri-thumb-up-' + (message.feedbackStatus === 1 ? 'fill' : 'line')
+                    "></i>
+                </el-button>
+                <el-button v-if="message.id && (message.feedbackStatus === -1 || message.feedbackStatus === 0)" class="chat-btn" @click="$emit('thumb-status', message.feedbackStatus, -1, index)">
+                  <i :class="'ri-thumb-down-' + (message.feedbackStatus === -1 ? 'fill' : 'line')
+                    "></i>
+                </el-button>
+                <el-button v-if="message.id" class="chat-btn"><i class="ri-refresh-line"></i></el-button>
               </div>
             </div>
           </div>
