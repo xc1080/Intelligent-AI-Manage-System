@@ -34,6 +34,7 @@ import com.toryu.iims.integral.model.vo.admin.AdminVO;
 import com.toryu.iims.integral.service.AdminService;
 import com.toryu.iims.integral.service.OrganizationService;
 import io.micrometer.common.util.StringUtils;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
@@ -75,6 +77,10 @@ public class AdminServiceImpl implements AdminService {
 
     private final StringRedisTemplate redisTemplate;
 
+    private volatile String currentPublicKey;
+
+    private volatile String currentPrivateKey;
+
     public AdminServiceImpl(
             AdminMapper adminMapper, MinioService minioService,
             FileStorageService storageService, OrganizationService organizationService, StringRedisTemplate redisTemplate) {
@@ -83,6 +89,30 @@ public class AdminServiceImpl implements AdminService {
         this.storageService = storageService;
         this.organizationService = organizationService;
         this.redisTemplate = redisTemplate;
+    }
+
+    @PostConstruct
+    public void initializeKeyPair() {
+        refreshKeyPair();
+    }
+
+    @Scheduled(fixedRate = 5 * 60 * 1000) // 每5分钟刷新一次
+    public void scheduledRefreshKeyPair() {
+        refreshKeyPair();
+    }
+
+    private void refreshKeyPair() {
+        try {
+            KeyPair newKeyPair = RSAUtil.generateRSAKeyPair();
+            String publicKey = RSAUtil.encodePublicKey(newKeyPair);
+            String privateKey = RSAUtil.encodePrivateKey(newKeyPair);
+
+            this.currentPublicKey = publicKey;
+            this.currentPrivateKey = privateKey;
+        } catch (NoSuchAlgorithmException e) {
+            log.error("Failed to refresh RSA key pair", e);
+            throw new RuntimeException("Failed to generate RSA key pair", e);
+        }
     }
 
     /**
@@ -410,20 +440,19 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public PublicKey getPublicKey() {
-        KeyPair keyPair;
-        try {
-            keyPair = RSAUtil.generateRSAKeyPair();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        String publicKey = RSAUtil.encodePublicKey(keyPair);
-        String privateKey = RSAUtil.encodePrivateKey(keyPair);
+        String uuid = UUID.randomUUID().toString();
 
-        String uuid = java.util.UUID.randomUUID().toString();
+        // 使用当前的私钥存入 Redis
+        redisTemplate.opsForValue().set(
+                RSAUtil.generateRedisRSAKey(uuid),
+                currentPrivateKey,
+                5, TimeUnit.MINUTES
+        );
 
-        // 保存私钥到 Redis，5分钟有效期
-        redisTemplate.opsForValue().set(RSAUtil.generateRedisRSAKey(uuid), privateKey, 5, TimeUnit.MINUTES);
-        return PublicKey.builder().publicKey(publicKey).uuid(uuid).build();
+        return PublicKey.builder()
+                .publicKey(currentPublicKey)
+                .uuid(uuid)
+                .build();
     }
 
     /**
