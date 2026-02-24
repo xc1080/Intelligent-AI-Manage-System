@@ -211,10 +211,22 @@ onMounted(() => {
     event.preventDefault()
   }
 
+  const handleBeforeLeave = async () => {
+    if (document.hidden) {
+      await subscriberCompleted(userId.value)
+    } else {
+      cancelSubscriberConnect.value = subscriberConnect((item: any) => {
+        console.log(item)
+      })
+    }
+  }
+
   window.addEventListener('beforeunload', handleBeforeUnload);
+  window.addEventListener('visibilitychange', handleBeforeLeave);
   // 如果你需要清理资源，在组件销毁时也移除监听器
   onUnmounted(() => {
     window.removeEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('visibilitychange', handleBeforeLeave);
   });
 })
 </script>

@@ -278,7 +278,7 @@ const remoteMethod = (username: string) => {
       const info: { value: string; label: string }[] = []
       data.forEach((item: any) => {
         info.push({
-          value: item.id,
+          value: JSON.stringify({ id: item.id, username: item.username}),
           label: item.username
         })
       })
