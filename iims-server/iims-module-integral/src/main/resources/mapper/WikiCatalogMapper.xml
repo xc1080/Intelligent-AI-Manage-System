@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.toryu.iims.integral.mapper.WikiCatalogMapper">
+<mapper namespace="cn.aitenry.iims.integral.mapper.WikiCatalogMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into iims_integral_wiki_catalog(id, wiki_id, doc_id, type, title, level, parent_id, sort, is_deleted,

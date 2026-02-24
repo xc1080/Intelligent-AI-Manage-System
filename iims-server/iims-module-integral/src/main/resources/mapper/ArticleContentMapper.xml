@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.toryu.iims.integral.mapper.ArticleContentMapper">
+<mapper namespace="cn.aitenry.iims.integral.mapper.ArticleContentMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into iims_integral_article_content(id, article_id, content, create_by, create_time, update_by, update_time)

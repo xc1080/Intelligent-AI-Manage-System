@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.toryu.iims.ai.chat.mapper.AiChatDialogueMapper">
+<mapper namespace="cn.aitenry.iims.ai.chat.mapper.AiChatDialogueMapper">
 
-    <resultMap id="ChatDialogueMap" type="com.toryu.iims.ai.chat.model.entity.ChatDialogue">
+    <resultMap id="ChatDialogueMap" type="cn.aitenry.iims.ai.chat.model.entity.ChatDialogue">
         <id property="id" column="id"/>
         <result property="lastId" column="last_id"/>
         <result property="sender" column="sender"/>
         <result property="content" column="content"/>
         <result property="fileIds" column="file_ids"
-                typeHandler="com.toryu.iims.common.handler.JsonToListTypeHandler"/>
+                typeHandler="cn.aitenry.iims.common.handler.JsonToListTypeHandler"/>
         <result property="metadata" column="metadata"/>
         <result property="isStar" column="is_star"/>
     </resultMap>
@@ -18,7 +18,7 @@
         insert into iims_ai_chat_dialogue(id, last_id, topic_id, sender, content, metadata, tools, file_ids,
                                        is_deleted, is_star, create_by, create_time, update_by, update_time)
         values (#{id}, #{lastId}, #{topicId}, #{sender}, #{content}, #{metadata}, #{tools},
-                #{fileIds, typeHandler=com.toryu.iims.common.handler.JsonToListTypeHandler},
+                #{fileIds, typeHandler=cn.aitenry.iims.common.handler.JsonToListTypeHandler},
                 #{isDeleted}, #{isStar}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime})
     </insert>
 

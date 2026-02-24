@@ -1,1 +1,0 @@
-package com.toryu.iims.integral;

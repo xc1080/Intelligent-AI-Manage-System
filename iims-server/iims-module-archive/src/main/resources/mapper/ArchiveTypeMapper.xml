@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.toryu.dms.archive.mapper.ArchiveTypeMapper">
+<mapper namespace="cn.aitenry.iims.archive.mapper.ArchiveTypeMapper">
 
-    <select id="getArchiveTypesByIds" parameterType="list" resultType="com.toryu.dms.archive.model.entity.ArchiveType">
+    <select id="getArchiveTypesByIds" parameterType="list" resultType="cn.aitenry.iims.archive.model.entity.ArchiveType">
         SELECT
         id,
         name,

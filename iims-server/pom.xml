@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.toryu</groupId>
+    <groupId>cn.aitenry</groupId>
     <artifactId>iims-server</artifactId>
     <version>${revision}</version>
     <name>iims-server</name>
@@ -87,43 +87,43 @@
         <dependencies>
 
             <dependency>
-                <groupId>com.toryu</groupId>
+                <groupId>cn.aitenry</groupId>
                 <artifactId>iims-module-common</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.toryu</groupId>
+                <groupId>cn.aitenry</groupId>
                 <artifactId>iims-module-integral</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.toryu</groupId>
+                <groupId>cn.aitenry</groupId>
                 <artifactId>iims-module-subscriber</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.toryu</groupId>
+                <groupId>cn.aitenry</groupId>
                 <artifactId>iims-module-ai</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.toryu</groupId>
+                <groupId>cn.aitenry</groupId>
                 <artifactId>iims-module-auth</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.toryu</groupId>
+                <groupId>cn.aitenry</groupId>
                 <artifactId>iims-module-search</artifactId>
                 <version>${revision}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.toryu</groupId>
+                <groupId>cn.aitenry</groupId>
                 <artifactId>iims-module-archive</artifactId>
                 <version>${revision}</version>
             </dependency>

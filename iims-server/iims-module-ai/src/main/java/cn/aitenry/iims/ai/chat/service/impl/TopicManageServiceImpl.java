@@ -1,0 +1,76 @@
+package cn.aitenry.iims.ai.chat.service.impl;
+
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import cn.aitenry.iims.ai.chat.mapper.AiChatTopicMapper;
+import cn.aitenry.iims.ai.chat.model.dto.ChatRenameTopicDTO;
+import cn.aitenry.iims.ai.chat.model.dto.ChatTopicPageQueryDTO;
+import cn.aitenry.iims.ai.chat.model.entity.AiChatTopic;
+import cn.aitenry.iims.ai.chat.model.vo.ChatTopicVO;
+import cn.aitenry.iims.ai.chat.service.DialogueManageService;
+import cn.aitenry.iims.ai.chat.service.TopicManageService;
+import cn.aitenry.iims.common.context.BaseContext;
+import cn.aitenry.iims.common.model.entity.status.DeletedStatus;
+import cn.aitenry.iims.common.result.PageResult;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Slf4j
+public class TopicManageServiceImpl implements TopicManageService {
+
+    private final DialogueManageService dialogueManageService;
+
+    private final AiChatTopicMapper aiChatTopicMapper;
+
+    public TopicManageServiceImpl(DialogueManageService dialogueManageService,
+                                   AiChatTopicMapper aiChatTopicMapper) {
+        this.dialogueManageService = dialogueManageService;
+        this.aiChatTopicMapper = aiChatTopicMapper;
+    }
+
+    @Override
+    public PageResult chatTopicPageQuery(ChatTopicPageQueryDTO pageQueryDto) {
+        int page = pageQueryDto.getPage();
+        int pageSize = pageQueryDto.getPageSize();
+        PageHelper.startPage(page, pageSize);
+        AiChatTopic aiChatTopic = AiChatTopic.builder()
+                .isDeleted(false).build();
+        aiChatTopic.setCreateBy(BaseContext.getCurrentId());
+        BeanUtils.copyProperties(pageQueryDto, aiChatTopic);
+        Page<ChatTopicVO> chatTopicVOS = aiChatTopicMapper.pageQuery(aiChatTopic);
+        long total = chatTopicVOS.getTotal();
+        List<ChatTopicVO> records = chatTopicVOS.getResult();
+        return new PageResult(total, records);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void insertTopic(AiChatTopic aiChatTopic) {
+        aiChatTopicMapper.insert(aiChatTopic);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean delTopic(List<Long> ids) {
+        if (!ids.isEmpty()) {
+            DeletedStatus deletedStatus = DeletedStatus.builder()
+                    .isDeleted(true).ids(ids).build();
+            dialogueManageService.updateDeletedByTopicIds(ids);
+            return aiChatTopicMapper.updateTopicDeleted(deletedStatus);
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean renameTopic(ChatRenameTopicDTO renameTopicDto) {
+        return aiChatTopicMapper.update(AiChatTopic.builder()
+                .id(renameTopicDto.getId())
+                .title(renameTopicDto.getTitle()).build());
+    }
+
+}

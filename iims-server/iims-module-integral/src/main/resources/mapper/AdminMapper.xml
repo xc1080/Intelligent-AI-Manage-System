@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.toryu.iims.integral.mapper.AdminMapper">
+<mapper namespace="cn.aitenry.iims.integral.mapper.AdminMapper">
     <!--新增管理员-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into iims_integral_admin(id, name, username, email, password, phone, sex, id_number, avatar, role, create_by, create_time, update_by, update_time)
@@ -41,7 +41,7 @@
     </update>
 
     <!--根据用户名或者邮箱查询用户-->
-    <select id="getByUserNameOrEmail" resultType="com.toryu.iims.common.model.entity.integral.Admin">
+    <select id="getByUserNameOrEmail" resultType="cn.aitenry.iims.common.model.entity.integral.Admin">
         select * from iims_integral_admin
         <where>
             <if test="email != null and email != ''">
@@ -60,7 +60,7 @@
     </select>
 
     <!--分页查询-->
-    <select id="pageQuery" resultType="com.toryu.iims.integral.model.vo.admin.AdminVO">
+    <select id="pageQuery" resultType="cn.aitenry.iims.integral.model.vo.admin.AdminVO">
         select * from iims_integral_admin
         <where>
             and is_deleted = 0
@@ -81,12 +81,12 @@
     </select>
 
     <!--根据用户id查询角色集合-->
-    <select id="searchUserRoles" resultType="com.toryu.iims.integral.model.vo.role.RoleVO">
+    <select id="searchUserRoles" resultType="cn.aitenry.iims.integral.model.vo.role.RoleVO">
         SELECT r.id,r.role_name, r.role_en, r.menus FROM iims_integral_admin a JOIN iims_integral_role r ON JSON_CONTAINS(a.role, CONCAT('\"', CAST(r.id AS CHAR), '\"')) WHERE a.id = #{userId} AND a.is_disable = 0;
     </select>
 
     <!--根据用户id查询菜单集合-->
-    <select id="getMenusByUserId" resultType="com.toryu.iims.integral.model.vo.admin.AdminMenuVO">
+    <select id="getMenusByUserId" resultType="cn.aitenry.iims.integral.model.vo.admin.AdminMenuVO">
         SELECT m.* FROM iims_integral_admin a JOIN iims_integral_role r
             ON JSON_CONTAINS(a.role, CONCAT('\"', CAST(r.id AS CHAR), '\"')) JOIN iims_integral_menu m
                 ON JSON_CONTAINS(r.menus, CONCAT('\"', CAST(m.id AS CHAR), '\"'))
@@ -100,7 +100,7 @@
         </foreach>
     </select>
 
-    <select id="selectObjectByIds" resultType="com.toryu.iims.common.model.entity.integral.Admin">
+    <select id="selectObjectByIds" resultType="cn.aitenry.iims.common.model.entity.integral.Admin">
         SELECT * FROM iims_integral_admin WHERE id IN
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}

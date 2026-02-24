@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.toryu.iims.ai.chat.mapper.AiChatTopicMapper">
+<mapper namespace="cn.aitenry.iims.ai.chat.mapper.AiChatTopicMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into iims_ai_chat_topic(id, title, is_deleted, create_by, create_time, update_by, update_time)
         values (#{id}, #{title}, #{isDeleted}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime})
     </insert>
 
-    <select id="pageQuery" resultType="com.toryu.iims.ai.chat.model.vo.ChatTopicVO">
+    <select id="pageQuery" resultType="cn.aitenry.iims.ai.chat.model.vo.ChatTopicVO">
         select * from iims_ai_chat_topic
         <where>
             <if test="id != null">

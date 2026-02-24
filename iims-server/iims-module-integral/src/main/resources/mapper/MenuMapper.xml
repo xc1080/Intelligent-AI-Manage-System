@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.toryu.iims.integral.mapper.MenuMapper">
+<mapper namespace="cn.aitenry.iims.integral.mapper.MenuMapper">
     <insert id="insert">
         insert into iims_integral_menu(id, title, parent_id, order_num, path, name, component, icon, menu_type, perms, redirect, create_by, create_time, update_by, update_time, status, visible, is_frame)
         VALUES (#{id}, #{title}, #{parentId}, #{orderNum}, #{path}, #{name}, #{component}, #{icon}, #{menuType}, #{perms},
@@ -30,7 +30,7 @@
         where id = #{id}
     </update>
 
-    <select id="pageQuery" resultType="com.toryu.iims.integral.model.vo.menu.MenuVO">
+    <select id="pageQuery" resultType="cn.aitenry.iims.integral.model.vo.menu.MenuVO">
         select * from iims_integral_menu
         <where>
             <if test="title != null and title != ''">and title like concat('%', #{title}, '%')</if>
@@ -39,12 +39,12 @@
         order by order_num asc , create_time desc;
     </select>
 
-    <select id="list" resultType="com.toryu.iims.integral.model.vo.menu.MenuVO">
+    <select id="list" resultType="cn.aitenry.iims.integral.model.vo.menu.MenuVO">
         SELECT m.* FROM iims_integral_admin a JOIN iims_integral_role r ON JSON_CONTAINS(a.role, CAST(r.id AS CHAR)) JOIN iims_integral_menu m ON JSON_CONTAINS(r.menus, CAST(m.id AS CHAR))
         WHERE a.id = #{userId} AND a.is_disable = 1 order by m.parent_id, m.order_num;
     </select>
 
-    <select id="all" resultType="com.toryu.iims.integral.model.vo.menu.MenuVO">
+    <select id="all" resultType="cn.aitenry.iims.integral.model.vo.menu.MenuVO">
         select * from iims_integral_menu order by order_num;
     </select>
 </mapper>

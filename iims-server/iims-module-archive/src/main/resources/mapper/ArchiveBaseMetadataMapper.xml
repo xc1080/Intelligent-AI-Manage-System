@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.toryu.dms.archive.mapper.ArchiveMetadataMapper">
+<mapper namespace="cn.aitenry.iims.archive.mapper.ArchiveMetadataMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into iims_archive_metadata(id, archival_code, archival_title, archival_year, archival_date, archival_level, archival_deadline, archival_abstract, archival_responsible, metadata_property, metadata_ownership, is_deleted, create_by, create_time, update_by, update_time)
         values (#{id}, #{archivalCode}, #{archivalTitle}, #{archivalYear}, #{archivalDate}, #{archivalLevel}, #{archivalDeadline}, #{archivalAbstract}, #{archivalResponsible}, #{metadataProperty}, #{metadataOwnership}, #{isDeleted}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime})
     </insert>
 
-    <select id="pageQuery" resultType="com.toryu.dms.archive.model.entity.ArchiveBaseMetadata">
+    <select id="pageQuery" resultType="cn.aitenry.iims.archive.model.entity.ArchiveBaseMetadata">
         select * from iims_archive_metadata
         <where>
             is_deleted = 0
