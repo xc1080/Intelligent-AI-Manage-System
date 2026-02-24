@@ -9,6 +9,12 @@ import cn.aitenry.iims.common.result.PageResult;
 
 import java.util.List;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 档案基础模块层
+ **/
 public interface ArchiveBaseModuleService {
 
     List<ArchiveMenuVO> getTreeMenus();

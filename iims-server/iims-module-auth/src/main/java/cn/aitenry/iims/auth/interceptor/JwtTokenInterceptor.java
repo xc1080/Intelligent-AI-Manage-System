@@ -15,8 +15,11 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
- * jwt令牌校验的拦截器
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: jwt令牌校验的拦截器
+ **/
 @Component
 @Slf4j
 public class JwtTokenInterceptor implements HandlerInterceptor {

@@ -14,10 +14,10 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * @author: Aiox
- * @url: www.aiox.com
- * @date: 2023/11/1 14:41
- * @description: 自定义图片节点渲染器
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
  **/
 public class ImageNodeRenderer implements NodeRenderer {
 
@@ -41,14 +41,13 @@ public class ImageNodeRenderer implements NodeRenderer {
     public Set<Class<? extends Node>> getNodeTypes() {
         // 指定想要自定义渲染的节点，这里指定为图片 Image
         // return Sets.newHashSet(Image.class, Link.class);
-        return Sets.newHashSet(Image.class);
+        return Sets.newHashSet();
     }
 
     @Override
     public void render(Node node) {
-        if (node instanceof Image) {
+        if (node instanceof Image img) {
             // We only handle one type as per getNodeTypes, so we can just cast it here.
-            Image img = (Image) node;
             html.line();
             // 图片链接
             String imgUrl = img.getDestination();
@@ -67,9 +66,8 @@ public class ImageNodeRenderer implements NodeRenderer {
 
             // 图片宽高
             Node lastChild = node.getLastChild();
-            if (Objects.nonNull(lastChild) && lastChild instanceof ImageAttributes) {
-                ImageAttributes imageAttributes = (ImageAttributes) lastChild;
-                if (Objects.nonNull(imageAttributes) && !CollectionUtils.isEmpty(imageAttributes.getAttributes())) {
+            if (Objects.nonNull(lastChild) && lastChild instanceof ImageAttributes imageAttributes) {
+                if (!CollectionUtils.isEmpty(imageAttributes.getAttributes())) {
                     String width = imageAttributes.getAttributes().get(KEY_WIDTH);
                     String height = imageAttributes.getAttributes().get(KEY_HEIGHT);
                     sb.append(StringUtils.isBlank(width) ? "" : (" " + KEY_WIDTH + "=" + width + "\""));
@@ -87,21 +85,5 @@ public class ImageNodeRenderer implements NodeRenderer {
             html.raw(sb.toString());
             html.line();
         }
-        // else if (node instanceof Link) {
-        //     Link link = (Link) node;
-        //     System.out.println(link);
-        //     html.line();
-        //     html.tag("a");
-        //     String title = link.getTitle();
-        //
-        //     if (StringUtils.isNotBlank(title)) {
-        //
-        //     }
-        //
-        //     String url = link.getDestination();
-        //     html.text(url);
-        //     html.tag("/a");
-        //     html.line();
-        // }
     }
 }

@@ -7,6 +7,12 @@ import cn.aitenry.iims.ai.chat.model.entity.ModelUseInfo;
 import cn.aitenry.iims.common.model.entity.file.FileWarehouse;
 import org.springframework.stereotype.Component;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Component
 @FileTypeHandler({"jpg", "png"})
 public class MediaPromptHandler implements PromptHandler {

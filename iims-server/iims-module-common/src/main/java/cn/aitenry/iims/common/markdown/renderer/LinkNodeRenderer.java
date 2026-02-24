@@ -13,19 +13,14 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * @author: Aiox
- * @url: www.aiox.com
- * @date: 2023/11/1 14:41
- * @description: 自定义链接节点渲染器
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
  **/
 public class LinkNodeRenderer implements NodeRenderer {
 
     private final HtmlWriter html;
-
-    /**
-     * 网站域名（上线后需要改成自己的域名）
-     */
-    private final static String DOMAIN = "www.aiox.com";
 
 
     public LinkNodeRenderer(HtmlNodeRendererContext context) {
@@ -35,18 +30,16 @@ public class LinkNodeRenderer implements NodeRenderer {
     @Override
     public Set<Class<? extends Node>> getNodeTypes() {
         // 指定想要自定义渲染的节点，这里指定为超链接 Link
-        return Sets.newHashSet(Link.class);
+        return Sets.newHashSet();
     }
 
     @Override
     public void render(Node node) {
-        if (node instanceof Link) {
-            Link link = (Link) node;
+        if (node instanceof Link link) {
 
             // 链接的内容
             String linkDescription = null;
-            if (Objects.nonNull(link.getFirstChild()) && link.getFirstChild() instanceof Text) {
-                Text text = (Text) link.getFirstChild();
+            if (Objects.nonNull(link.getFirstChild()) && link.getFirstChild() instanceof Text text) {
                 linkDescription = text.getLiteral();
             }
 
@@ -63,11 +56,6 @@ public class LinkNodeRenderer implements NodeRenderer {
             // 添加 title="链接标题" 属性
             if (StringUtils.isNotBlank(linkTitle)) {
                 sb.append(String.format(" title=\"%s\"", linkTitle));
-            }
-
-            // 如果链接不是自己域名，则添加 rel="nofollow" 属性
-            if (!linkUrl.contains(DOMAIN)) {
-                sb.append(" ref=\"nofollow\"");
             }
 
             // 添加 target="_blank" 属性

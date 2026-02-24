@@ -3,6 +3,12 @@ package cn.aitenry.iims.common.exception;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Getter
 @Setter
 public class BizException extends RuntimeException {

@@ -40,8 +40,11 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 管理员
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @RestController
 @RequestMapping("/iims/admin")
 @Slf4j

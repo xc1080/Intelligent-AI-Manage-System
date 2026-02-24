@@ -7,9 +7,12 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * 后端统一返回结果
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
  * @param <T>
- */
+ * @Description: 后端统一返回结果
+ **/
 @Data
 public class Result<T> implements Serializable {
 

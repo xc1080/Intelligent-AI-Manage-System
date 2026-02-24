@@ -2,7 +2,6 @@ package cn.aitenry.iims.ai.chat.controller;
 
 import cn.aitenry.iims.ai.chat.model.dto.SendMessageDTO;
 import cn.aitenry.iims.ai.chat.model.vo.SelectEndpointVO;
-import cn.aitenry.iims.ai.chat.service.AiChatModelsService;
 import cn.aitenry.iims.ai.chat.service.ChatService;
 import cn.aitenry.iims.common.result.Result;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +13,12 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Slf4j
 @RestController
 @RequestMapping("/iims/ai/chat")
@@ -21,11 +26,8 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    private final AiChatModelsService aiChatModelsService;
-
-    public ChatController(ChatService ChatService, AiChatModelsService aiChatModelsService) {
+    public ChatController(ChatService ChatService) {
         this.chatService = ChatService;
-        this.aiChatModelsService = aiChatModelsService;
     }
 
     /**

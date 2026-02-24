@@ -1,16 +1,15 @@
 package cn.aitenry.iims.integral.controller;
 
+import cn.aitenry.iims.ai.chat.service.ModelToolService;
+import cn.aitenry.iims.ai.rag.enums.DomProcessEnum;
+import cn.aitenry.iims.common.result.PageResult;
+import cn.aitenry.iims.common.result.Result;
 import cn.aitenry.iims.integral.model.dto.article.FindArticleDetailDTO;
-import cn.aitenry.iims.integral.model.dto.wiki.*;
 import cn.aitenry.iims.integral.model.dto.wiki.*;
 import cn.aitenry.iims.integral.model.vo.wiki.FindWikiArticleDetailVO;
 import cn.aitenry.iims.integral.model.vo.wiki.FindWikiArticlePreNextVO;
 import cn.aitenry.iims.integral.model.vo.wiki.FindWikiCatalogListVO;
 import cn.aitenry.iims.integral.service.WikiService;
-import cn.aitenry.iims.ai.rag.enums.DomProcessEnum;
-import cn.aitenry.iims.ai.chat.service.ModelToolService;
-import cn.aitenry.iims.common.result.PageResult;
-import cn.aitenry.iims.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +18,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @RestController
 @RequestMapping("/iims/wiki")
 @Api(tags = "Admin 知识库模块")

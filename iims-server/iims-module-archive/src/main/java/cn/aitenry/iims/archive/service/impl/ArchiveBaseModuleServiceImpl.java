@@ -36,8 +36,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 /**
- * 档案基础模块层
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 档案基础模块层
+ **/
 @Service
 @Slf4j
 public class ArchiveBaseModuleServiceImpl implements ArchiveBaseModuleService {

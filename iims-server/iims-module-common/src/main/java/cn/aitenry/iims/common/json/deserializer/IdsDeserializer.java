@@ -9,7 +9,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
-// 自定义反序列化器：将 List<String> 转换为 JSON 数组字符串
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 自定义反序列化器：将 List<String> 转换为 JSON 数组字符串
+ **/
 public class IdsDeserializer extends JsonDeserializer<String> {
     @Override
     public String deserialize(JsonParser p, DeserializationContext text) throws IOException {

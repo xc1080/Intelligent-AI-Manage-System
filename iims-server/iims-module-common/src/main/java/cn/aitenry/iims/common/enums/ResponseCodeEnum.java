@@ -4,6 +4,12 @@ import cn.aitenry.iims.common.exception.BaseExceptionInterface;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Getter
 @AllArgsConstructor
 public enum ResponseCodeEnum implements BaseExceptionInterface {

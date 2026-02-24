@@ -7,9 +7,13 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
+
 /**
- * 菜单集合
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Menu extends BaseTable implements Serializable {

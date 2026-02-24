@@ -7,6 +7,12 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Data
 @ApiModel(description = "修改密码传递的数据模型")
 public class AdminPasswordDTO implements Serializable {

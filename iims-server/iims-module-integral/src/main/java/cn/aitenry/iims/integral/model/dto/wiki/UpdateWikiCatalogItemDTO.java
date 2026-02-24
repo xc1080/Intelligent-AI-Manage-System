@@ -1,16 +1,22 @@
 package cn.aitenry.iims.integral.model.dto.wiki;
 
 import cn.aitenry.iims.common.enums.DocumentTypeEnum;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -8,8 +8,11 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 封装分页查询结果
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -9,7 +9,12 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 import java.util.List;
 
-// 自定义序列化器：将 JSON 数组字符串解析为 List<String>
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 自定义序列化器：将 JSON 数组字符串解析为 List<String>
+ **/
 public class IdsSerializer extends JsonSerializer<String> {
     @Override
     public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) throws IOException {

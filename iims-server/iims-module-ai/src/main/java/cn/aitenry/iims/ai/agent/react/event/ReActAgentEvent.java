@@ -1,5 +1,11 @@
 package cn.aitenry.iims.ai.agent.react.event;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 public interface ReActAgentEvent {
     /**
      * 获取事件类型名称

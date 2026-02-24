@@ -1,6 +1,11 @@
 package cn.aitenry.iims.ai.tools.factory;
 
-// 抽象工具接口
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 抽象工具接口
+ **/
 public interface AITool {
     /**
      * 获取工具实例

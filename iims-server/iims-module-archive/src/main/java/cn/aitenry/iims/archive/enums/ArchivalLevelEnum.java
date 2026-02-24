@@ -1,7 +1,16 @@
 package cn.aitenry.iims.archive.enums;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
+@Getter
 public enum ArchivalLevelEnum {
 
     TOP_SECRET("1", "绝密"),
@@ -14,14 +23,6 @@ public enum ArchivalLevelEnum {
     ArchivalLevelEnum(String key, String info) {
         this.key = key;
         this.info = info;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getInfo() {
-        return info;
     }
 
     public static ArchivalLevelEnum fromKey(String key) {

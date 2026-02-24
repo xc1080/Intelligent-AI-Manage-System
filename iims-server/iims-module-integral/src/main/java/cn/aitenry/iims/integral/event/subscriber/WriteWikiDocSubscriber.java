@@ -12,6 +12,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Component
 @Slf4j
 public class WriteWikiDocSubscriber implements ApplicationListener<WriteWikiDocEvent> {

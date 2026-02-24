@@ -19,8 +19,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * 通用接口
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 通用接口
+ **/
 @RestController
 @RequestMapping("/iims/common")
 @Api(tags = "通用接口")

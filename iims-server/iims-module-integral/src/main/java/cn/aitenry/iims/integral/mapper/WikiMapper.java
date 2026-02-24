@@ -9,7 +9,12 @@ import cn.aitenry.iims.common.model.entity.status.DeletedStatus;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Mapper
 public interface WikiMapper {
 

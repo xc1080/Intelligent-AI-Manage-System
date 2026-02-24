@@ -1,9 +1,6 @@
 package cn.aitenry.iims.ai.chat.utils;
 
 import cn.aitenry.iims.ai.chat.model.entity.*;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import cn.aitenry.iims.ai.chat.model.entity.*;
 import cn.aitenry.iims.ai.chat.model.vo.DocMetadataVO;
 import cn.aitenry.iims.ai.chat.service.AiChatSettingService;
 import cn.aitenry.iims.ai.chat.service.DialogueManageService;
@@ -15,6 +12,8 @@ import cn.aitenry.iims.ai.rag.utils.PromptTemplateUtil;
 import cn.aitenry.iims.common.context.BaseContext;
 import cn.aitenry.iims.common.enums.FileStatusEnum;
 import cn.aitenry.iims.common.service.FileStorageService;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
@@ -35,6 +34,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Slf4j
 @Component
 public class ChatUtil {

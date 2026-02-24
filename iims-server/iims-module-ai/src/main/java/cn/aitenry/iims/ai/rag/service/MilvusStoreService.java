@@ -5,6 +5,12 @@ import org.springframework.ai.document.Document;
 
 import java.util.List;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 public interface MilvusStoreService {
 
     List<Document> loadDocumentByWikiReader(List<Long> wikiIds, String question, Integer topK);

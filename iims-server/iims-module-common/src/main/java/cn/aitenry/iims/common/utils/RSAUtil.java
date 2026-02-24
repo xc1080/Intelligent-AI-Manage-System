@@ -6,6 +6,12 @@ import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 public class RSAUtil {
 
     public static KeyPair generateRSAKeyPair() throws NoSuchAlgorithmException {

@@ -9,10 +9,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author: Aiox
- * @url: www.aiox.com
- * @date: 2023-09-15 14:07
- * @description: 文章上下页
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
  **/
 @Data
 @AllArgsConstructor

@@ -7,8 +7,11 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * iims_aigc_topic 表对应的实体类
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: iims_aigc_topic 表对应的实体类
+ **/
 @Data
 @Builder
 @NoArgsConstructor

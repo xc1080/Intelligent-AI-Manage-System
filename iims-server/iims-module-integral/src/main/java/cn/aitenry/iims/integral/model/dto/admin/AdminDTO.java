@@ -9,6 +9,12 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Data
 @ApiModel(description = "管理员登录时传递的数据模型")
 public class AdminDTO implements Serializable {

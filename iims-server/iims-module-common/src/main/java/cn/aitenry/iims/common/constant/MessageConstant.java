@@ -1,8 +1,11 @@
 package cn.aitenry.iims.common.constant;
 
 /**
- * 信息提示常量类
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 信息提示常量类
+ **/
 public class MessageConstant {
 
     public static final String ACCOUNT_REMOVE = "账号已被移除";

@@ -1,8 +1,11 @@
 package cn.aitenry.iims.common.constant;
 
 /**
- * 公共字段自动填充相关常量
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 公共字段自动填充相关常量
+ **/
 public class AutoFillConstant {
     /**
      * 实体类中的方法名称

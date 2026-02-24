@@ -1,11 +1,5 @@
 package cn.aitenry.iims.integral.service.impl;
 
-import cn.aitenry.iims.common.model.entity.integral.*;
-import cn.aitenry.iims.integral.model.dto.wiki.*;
-import cn.aitenry.iims.integral.model.vo.wiki.*;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.google.common.collect.Lists;
 import cn.aitenry.iims.common.enums.ArticleTypeEnum;
 import cn.aitenry.iims.common.enums.ResponseCodeEnum;
 import cn.aitenry.iims.common.enums.TaskStatusEnum;
@@ -29,6 +23,9 @@ import cn.aitenry.iims.integral.model.vo.article.FindPreNextArticleVO;
 import cn.aitenry.iims.integral.model.vo.wiki.*;
 import cn.aitenry.iims.integral.service.ArticleService;
 import cn.aitenry.iims.integral.service.WikiService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -41,6 +38,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Slf4j
 @Service
 public class WikiServiceImpl implements WikiService {

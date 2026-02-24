@@ -1,10 +1,15 @@
 package cn.aitenry.iims.integral.service;
 
-import cn.aitenry.iims.integral.model.dto.comment.*;
+import cn.aitenry.iims.common.result.PageResult;
 import cn.aitenry.iims.integral.model.dto.comment.*;
 import cn.aitenry.iims.integral.model.vo.comment.FindCommentListVO;
-import cn.aitenry.iims.common.result.PageResult;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 public interface CommentService {
 
     /**

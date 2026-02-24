@@ -5,10 +5,11 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 
 /**
- * 雪花算法id生成器
- * 雪花id只占8字节空间，体积小，内容为数字，实现有序自增，新增和删除数据，索引结构不需要重排序
- * uuid占用16字节空间，体积大， 内容为字符串，无序，     新增和删除数据，索引结构要重排序，额外开销大
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 雪花算法id生成器
+ **/
 public class SnowFlakeIdWorker {
     // 时间起始标记点，作为基准，一般取系统的最近时间（一旦确定不能变动）
     private final static long startTimes = 1678154396522L;

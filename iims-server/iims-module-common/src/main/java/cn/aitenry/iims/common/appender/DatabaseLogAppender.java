@@ -13,6 +13,12 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 数据库日志记录存储
+ **/
 @Slf4j
 @Component
 public class DatabaseLogAppender extends AppenderBase<ILoggingEvent> implements ApplicationListener<ContextClosedEvent> {

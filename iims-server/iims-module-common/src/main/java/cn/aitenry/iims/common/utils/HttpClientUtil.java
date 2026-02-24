@@ -21,8 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Http工具类
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: HTTP工具类
+ **/
 public class HttpClientUtil {
 
     static final  int TIMEOUT_MSES = 5 * 1000;

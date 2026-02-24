@@ -6,12 +6,15 @@ import org.springframework.ai.chat.messages.Message;
 import java.util.List;
 
 /**
- * 分支消息保存器接口
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 分支消息保存器接口
  * <p>
  * 该接口定义了用于管理聊天消息分支存储的基本操作，支持消息的保存、查询和获取。
  * 每个消息都有唯一的标识符，并且可以关联到前一个消息，形成消息链。
  * </p>
- */
+ **/
 public interface BranchMessageSaver {
 
     /**

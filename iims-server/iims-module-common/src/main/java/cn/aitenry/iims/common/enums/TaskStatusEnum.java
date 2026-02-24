@@ -3,6 +3,12 @@ package cn.aitenry.iims.common.enums;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
 public enum TaskStatusEnum {

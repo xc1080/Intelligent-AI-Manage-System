@@ -12,8 +12,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Sa-Token 权限认证工具类 （User版）
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: Sa-Token 权限认证工具类
+ **/
 @Component
 public class StpCustomerUtils {
 

@@ -6,8 +6,11 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Sa-Token 配置类
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: Sa-Token 配置类
+ **/
 @Configuration
 public class SaTokenConfigure implements WebMvcConfigurer {
     @Override

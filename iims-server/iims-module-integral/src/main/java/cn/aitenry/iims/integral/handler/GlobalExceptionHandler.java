@@ -17,8 +17,11 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
- * 全局异常处理器，处理项目中抛出的业务异常
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 全局异常处理器，处理项目中抛出的业务异常
+ **/
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {

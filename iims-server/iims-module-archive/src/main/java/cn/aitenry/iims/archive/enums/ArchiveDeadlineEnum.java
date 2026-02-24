@@ -1,7 +1,16 @@
 package cn.aitenry.iims.archive.enums;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
+/**
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
+@Getter
 public enum ArchiveDeadlineEnum {
 
     PERMANENT("999", "永久", "Y"),
@@ -16,18 +25,6 @@ public enum ArchiveDeadlineEnum {
         this.key = key;
         this.info = info;
         this.code = code;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public String getCode() {
-        return code;
     }
 
     public static ArchiveDeadlineEnum fromKey(String key) {

@@ -1,8 +1,11 @@
 package cn.aitenry.iims.common.constant;
 
 /**
- * 错误码常量类
- */
+ * @Author: Aitenry
+ * @Date: 2023/01/22 00:00
+ * @Version: v1.0.0
+ * @Description: 错误码常量类
+ **/
 public class ErrorCodeConstant {
 
     public static final Integer PASSWORD_ERROR = 10001;

@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @Author: Aitenry
- * @Date: 2025/11/15 23:45 (示例时间)
+ * @Date: 2025/11/15 23:45
  * @Version: v1.0.0
  * @Description: 组织架构树形菜单视图对象
  */
