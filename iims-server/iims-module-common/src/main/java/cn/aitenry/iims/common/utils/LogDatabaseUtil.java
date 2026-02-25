@@ -22,14 +22,14 @@ import java.time.LocalDateTime;
 public class LogDatabaseUtil implements ApplicationContextAware, ApplicationListener<ContextClosedEvent> {
 
     private static LogsMapper logsMapper;
-    private static SnowFlakeIdWorker commonSnowFlakeIdWorker;
+    private static SnowFlakeIdWorker snowFlakeIdWorker;
     private static volatile boolean isApplicationClosing = false;
 
     @Override
     public void setApplicationContext(@NotNull ApplicationContext context) throws BeansException {
         try {
             logsMapper = context.getBean(LogsMapper.class);
-            commonSnowFlakeIdWorker = context.getBean("commonSnowFlakeIdWorker", SnowFlakeIdWorker.class);
+            snowFlakeIdWorker = context.getBean("snowFlakeIdWorker", SnowFlakeIdWorker.class);
         } catch (Exception e) {
             System.err.println("Failed to initialize LogDatabaseUtil: " + e.getMessage());
         }
@@ -45,12 +45,12 @@ public class LogDatabaseUtil implements ApplicationContextAware, ApplicationList
             return;
         }
 
-        if (logsMapper == null || commonSnowFlakeIdWorker == null) {
+        if (logsMapper == null || snowFlakeIdWorker == null) {
             return;
         }
 
         Logs log = Logs.builder()
-                .id(commonSnowFlakeIdWorker.nextId())
+                .id(snowFlakeIdWorker.nextId())
                 .level(level)
                 .message(message)
                 .loggerName(loggerName)

@@ -30,20 +30,20 @@ import java.util.Map;
 @Service
 public class GenerateGraphServiceImpl implements GenerateGraphService {
 
-    private final SnowFlakeIdWorker aiSnowFlakeIdWorker;
+    private final SnowFlakeIdWorker snowFlakeIdWorker;
     private final ModelService modelService;
     private final AiChatSettingService settingService;
 
-    public GenerateGraphServiceImpl(SnowFlakeIdWorker aiSnowFlakeIdWorker, ModelService modelService,
+    public GenerateGraphServiceImpl(SnowFlakeIdWorker snowFlakeIdWorker, ModelService modelService,
                                     AiChatSettingService settingService) {
-        this.aiSnowFlakeIdWorker = aiSnowFlakeIdWorker;
+        this.snowFlakeIdWorker = snowFlakeIdWorker;
         this.modelService = modelService;
         this.settingService = settingService;
     }
 
 
     public long uniqueId() {
-        return aiSnowFlakeIdWorker.nextId();
+        return snowFlakeIdWorker.nextId();
     }
 
 
