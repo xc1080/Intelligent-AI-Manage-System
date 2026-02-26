@@ -185,11 +185,6 @@
             <artifactId>iims-module-common</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>cn.aitenry</groupId>
-            <artifactId>iims-module-subscriber</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>

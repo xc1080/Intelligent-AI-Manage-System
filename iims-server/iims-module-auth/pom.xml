@@ -138,16 +138,6 @@
             <artifactId>iims-module-integral</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>cn.aitenry</groupId>
-            <artifactId>iims-module-archive</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.aitenry</groupId>
-            <artifactId>iims-module-ai</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>

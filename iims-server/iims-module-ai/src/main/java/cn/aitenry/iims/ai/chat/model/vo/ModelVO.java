@@ -5,7 +5,7 @@ import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.aitenry.iims.common.enums.AiApiType;
 import cn.aitenry.iims.common.enums.AiModelType;
-import cn.aitenry.iims.common.model.vo.BaseAdminInfoVO;
+import cn.aitenry.iims.common.model.vo.BaseUserInfoVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,6 +48,6 @@ public class ModelVO {
 
     private LocalDateTime detectionTime;
 
-    private List<BaseAdminInfoVO> users;
+    private List<BaseUserInfoVO> users;
 
 }

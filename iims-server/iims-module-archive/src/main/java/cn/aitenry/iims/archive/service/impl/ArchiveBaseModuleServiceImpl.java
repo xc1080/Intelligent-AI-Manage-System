@@ -1,5 +1,6 @@
 package cn.aitenry.iims.archive.service.impl;
 
+import cn.aitenry.iims.common.model.entity.integral.User;
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -21,12 +22,11 @@ import cn.aitenry.iims.archive.model.vo.ArchiveBaseMetadataVO;
 import cn.aitenry.iims.archive.model.vo.ArchiveMenuVO;
 import cn.aitenry.iims.archive.model.vo.ArchiveMetadataVO;
 import cn.aitenry.iims.archive.service.ArchiveBaseModuleService;
-import cn.aitenry.iims.common.model.entity.base.BaseAdminInfo;
-import cn.aitenry.iims.common.model.entity.integral.Admin;
+import cn.aitenry.iims.common.model.entity.base.BaseUserInfo;
 import cn.aitenry.iims.common.model.entity.integral.Organization;
 import cn.aitenry.iims.common.model.entity.status.DeletedStatus;
 import cn.aitenry.iims.common.result.PageResult;
-import cn.aitenry.iims.integral.service.AdminService;
+import cn.aitenry.iims.integral.service.UserService;
 import cn.aitenry.iims.integral.service.OrganizationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -48,14 +48,14 @@ public class ArchiveBaseModuleServiceImpl implements ArchiveBaseModuleService {
     private final ArchiveMetadataMapper archiveMetadataMapper;
     private final ArchiveHashMapper archiveHashMapper;
     private final ArchiveTypeMapper archiveTypeMapper;
-    private final AdminService adminService;
+    private final UserService userService;
     private final OrganizationService organizationService;
 
-    public ArchiveBaseModuleServiceImpl(ArchiveMetadataMapper archiveMetadataMapper, ArchiveHashMapper archiveHashMapper, ArchiveTypeMapper archiveTypeMapper, AdminService adminService, OrganizationService organizationService) {
+    public ArchiveBaseModuleServiceImpl(ArchiveMetadataMapper archiveMetadataMapper, ArchiveHashMapper archiveHashMapper, ArchiveTypeMapper archiveTypeMapper, UserService userService, OrganizationService organizationService) {
         this.archiveMetadataMapper = archiveMetadataMapper;
         this.archiveHashMapper = archiveHashMapper;
         this.archiveTypeMapper = archiveTypeMapper;
-        this.adminService = adminService;
+        this.userService = userService;
         this.organizationService = organizationService;
     }
 
@@ -65,8 +65,8 @@ public class ArchiveBaseModuleServiceImpl implements ArchiveBaseModuleService {
         //查询当前用户的id
         long userId = StpUtil.getLoginIdAsLong();
         log.info("用户ID({}), 请求档案树列表", userId);
-        Admin admin = adminService.getById(userId);
-        Long organization = admin.getOrganization();
+        User user = userService.getById(userId);
+        Long organization = user.getOrganization();
         Organization departmentByJobId = organizationService.getDepartmentByJobId(organization);
         Long departmentId = departmentByJobId.getId();
         ArchiveMapper mapper = archiveHashMapper.getMapperById(departmentId);
@@ -124,7 +124,7 @@ public class ArchiveBaseModuleServiceImpl implements ArchiveBaseModuleService {
                 .archivalCode(metadata.getArchivalCode())
                 .archivalTitle(metadata.getArchivalTitle())
                 .archivalDate(metadata.getArchivalDate())
-                .archivalResponsible(JSONObject.parseObject(metadata.getArchivalResponsible(), BaseAdminInfo.class))
+                .archivalResponsible(JSONObject.parseObject(metadata.getArchivalResponsible(), BaseUserInfo.class))
                 .build()).toList();
 
         return new PageResult(archiveBaseMetadata.getTotal(), archiveBaseMetadataVOS);

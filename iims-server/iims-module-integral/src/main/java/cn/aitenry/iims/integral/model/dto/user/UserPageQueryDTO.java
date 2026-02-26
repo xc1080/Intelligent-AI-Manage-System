@@ -1,4 +1,4 @@
-package cn.aitenry.iims.integral.model.dto.admin;
+package cn.aitenry.iims.integral.model.dto.user;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,13 +12,13 @@ import java.io.Serializable;
  * @Description: TODO
  **/
 @Data
-public class AdminPageQueryDTO implements Serializable {
+public class UserPageQueryDTO implements Serializable {
 
-    //管理员真实姓名
+    //用户真实姓名
     @ApiModelProperty("真实姓名")
     private String name;
 
-    //管理员用户名
+    //用户用户名
     @ApiModelProperty("用户名")
     private String username;
 

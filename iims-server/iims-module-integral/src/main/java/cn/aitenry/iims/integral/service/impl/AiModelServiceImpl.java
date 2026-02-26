@@ -8,9 +8,9 @@ import cn.aitenry.iims.ai.chat.model.entity.AiModel;
 import cn.aitenry.iims.ai.chat.model.vo.ModelVO;
 import cn.aitenry.iims.ai.chat.service.AiChatModelsService;
 import cn.aitenry.iims.ai.chat.service.AiChatSettingService;
-import cn.aitenry.iims.common.model.vo.BaseAdminInfoVO;
+import cn.aitenry.iims.common.model.vo.BaseUserInfoVO;
 import cn.aitenry.iims.common.result.PageResult;
-import cn.aitenry.iims.integral.service.AdminService;
+import cn.aitenry.iims.integral.service.UserService;
 import cn.aitenry.iims.integral.service.AiModelService;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +29,12 @@ public class AiModelServiceImpl implements AiModelService {
 
     public final AiChatSettingService aiChatSettingService;
 
-    public final AdminService adminService;
+    public final UserService userService;
 
-    public AiModelServiceImpl(AiChatModelsService aiChatModelsService, AiChatSettingService aiChatSettingService, AdminService adminService) {
+    public AiModelServiceImpl(AiChatModelsService aiChatModelsService, AiChatSettingService aiChatSettingService, UserService userService) {
         this.aiChatModelsService = aiChatModelsService;
         this.aiChatSettingService = aiChatSettingService;
-        this.adminService = adminService;
+        this.userService = userService;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class AiModelServiceImpl implements AiModelService {
             results.forEach(modelVO -> {
                 Long modelId = modelVO.getId();
                 List<Long> userIds = aiChatSettingService.selectUserIdByModelId(modelId);
-                List<BaseAdminInfoVO> adminBases = adminService.getAdminBaseInfoByIds(userIds);
+                List<BaseUserInfoVO> adminBases = userService.getUserBaseInfoByIds(userIds);
                 modelVO.setUsers(adminBases);
             });
             return new PageResult(total, results);

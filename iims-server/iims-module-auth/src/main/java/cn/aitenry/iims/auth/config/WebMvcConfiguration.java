@@ -44,7 +44,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         log.info("开始注册自定义拦截器...");
         registry.addInterceptor(jwtTokenInterceptor)
                 .addPathPatterns("/iims/**")
-                .excludePathPatterns("/iims/admin/login", "/iims/admin/login/key", "/iims/admin/logout");
+                .excludePathPatterns("/iims/user/login", "/iims/user/login/key", "/iims/user/logout");
     }
 
     /**

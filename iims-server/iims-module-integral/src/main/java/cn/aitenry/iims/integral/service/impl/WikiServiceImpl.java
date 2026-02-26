@@ -1,5 +1,7 @@
 package cn.aitenry.iims.integral.service.impl;
 
+import cn.aitenry.iims.ai.rag.enums.DomProcessEnum;
+import cn.aitenry.iims.common.context.BaseContext;
 import cn.aitenry.iims.common.enums.ArticleTypeEnum;
 import cn.aitenry.iims.common.enums.ResponseCodeEnum;
 import cn.aitenry.iims.common.enums.TaskStatusEnum;
@@ -12,6 +14,7 @@ import cn.aitenry.iims.common.result.PageResult;
 import cn.aitenry.iims.common.service.MinioService;
 import cn.aitenry.iims.common.utils.MarkdownStatsUtil;
 import cn.aitenry.iims.integral.convert.WikiConvert;
+import cn.aitenry.iims.integral.event.DocumentEmbeddingEvent;
 import cn.aitenry.iims.integral.event.ReadArticleEvent;
 import cn.aitenry.iims.integral.mapper.WikiCatalogMapper;
 import cn.aitenry.iims.integral.mapper.WikiMapper;
@@ -460,5 +463,10 @@ public class WikiServiceImpl implements WikiService {
         eventPublisher.publishEvent(new ReadArticleEvent(this, articleId));
 
         return vo;
+    }
+
+    @Override
+    public void documentEmbeddingByModel(Long wikiId, DomProcessEnum domProcessEnum) {
+        eventPublisher.publishEvent(new DocumentEmbeddingEvent(this, wikiId, BaseContext.getCurrentId(), domProcessEnum));
     }
 }

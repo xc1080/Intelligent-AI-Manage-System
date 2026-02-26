@@ -4,9 +4,9 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.aitenry.iims.integral.model.dto.menu.MenuDTO;
 import cn.aitenry.iims.integral.model.dto.menu.MenuPageQueryDTO;
-import cn.aitenry.iims.integral.model.vo.admin.AdminMenuVO;
+import cn.aitenry.iims.integral.model.vo.user.UserMenuVO;
 import cn.aitenry.iims.integral.model.vo.menu.MenuVO;
-import cn.aitenry.iims.integral.service.AdminService;
+import cn.aitenry.iims.integral.service.UserService;
 import cn.aitenry.iims.integral.service.MenuService;
 import cn.aitenry.iims.common.result.PageResult;
 import cn.aitenry.iims.common.result.Result;
@@ -28,11 +28,11 @@ import java.util.List;
 public class MenuController {
 
     private final MenuService menuService;
-    private final AdminService adminService;
+    private final UserService userService;
 
-    public MenuController (MenuService menuService, AdminService adminService) {
+    public MenuController (MenuService menuService, UserService userService) {
         this.menuService = menuService;
-        this.adminService = adminService;
+        this.userService = userService;
     }
 
     /**
@@ -137,27 +137,27 @@ public class MenuController {
     /**
      * 查询菜单树形结构（角色界面使用）
      *
-     * @return Result<List<AdminMenuVo>>
+     * @return Result<List<UserMenuVO>>
      */
     @GetMapping("/menuTree")
     @ApiOperation("查询所有菜单")
-    public Result<List<AdminMenuVO>> handleTree() {
+    public Result<List<UserMenuVO>> handleTree() {
         //查询当前用户的id
         long id = StpUtil.getLoginIdAsLong();
-        List<AdminMenuVO> menusByUserId = menuService.getTreeMenus(id);
+        List<UserMenuVO> menusByUserId = menuService.getTreeMenus(id);
         return Result.success(menusByUserId);
     }
 
     /**
      * 查询所有菜单
      *
-     * @return Result<List<AdminMenuVo>>
+     * @return Result<List<UserMenuVO>>
      */
     @GetMapping("/getMenuListByUserId")
     @ApiOperation("查询所有菜单")
-    public Result<List<AdminMenuVO>> getMenuListByUserId() {
+    public Result<List<UserMenuVO>> getMenuListByUserId() {
         long id = StpUtil.getLoginIdAsLong();
-        List<AdminMenuVO> menusByUserId = adminService.getMenusByUserId(id);
+        List<UserMenuVO> menusByUserId = userService.getMenusByUserId(id);
         return Result.success(menusByUserId);
     }
 }

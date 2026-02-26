@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.aitenry.iims.integral.mapper.AdminMapper">
-    <!--新增管理员-->
+<mapper namespace="cn.aitenry.iims.integral.mapper.UserMapper">
+    <!--新增用户-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into iims_integral_admin(id, name, username, email, password, phone, sex, id_number, avatar, role, create_by, create_time, update_by, update_time)
+        insert into iims_integral_user(id, name, username, email, password, phone, sex, id_number, avatar, role, create_by, create_time, update_by, update_time)
         values (#{id}, #{name}, #{username}, #{email}, #{password}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{role}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime})
     </insert>
 
     <!--更新数据-->
     <update id="update">
-        update iims_integral_admin
+        update iims_integral_user
         <set>
             <if test="name != null">name = #{name},</if>
             <if test="username != null">username = #{username},</if>
@@ -31,18 +31,9 @@
         where id = #{id}
     </update>
 
-    <update id="updateAdminDeleted">
-        update iims_integral_admin
-        set is_deleted = #{isDeleted}, update_by = #{updateBy}, update_time = #{updateTime}
-        where id in
-        <foreach collection="ids" item="id" separator="," open="(" close=")">
-            #{id}
-        </foreach>
-    </update>
-
     <!--根据用户名或者邮箱查询用户-->
-    <select id="getByUserNameOrEmail" resultType="cn.aitenry.iims.common.model.entity.integral.Admin">
-        select * from iims_integral_admin
+    <select id="getByUserNameOrEmail" resultType="cn.aitenry.iims.common.model.entity.integral.User">
+        select * from iims_integral_user
         <where>
             <if test="email != null and email != ''">
                 and email = #{email}
@@ -60,8 +51,8 @@
     </select>
 
     <!--分页查询-->
-    <select id="pageQuery" resultType="cn.aitenry.iims.integral.model.vo.admin.AdminVO">
-        select * from iims_integral_admin
+    <select id="pageQuery" resultType="cn.aitenry.iims.integral.model.vo.user.UserVO">
+        select * from iims_integral_user
         <where>
             and is_deleted = 0
             <if test="name != null and name != ''">
@@ -75,19 +66,19 @@
 
     <!--根据用户id查询权限集合-->
     <select id="searchUserPermissions" resultType="string">
-        SELECT m.perms FROM iims_integral_admin a JOIN iims_integral_role r ON JSON_CONTAINS(a.role, CONCAT('\"', CAST(r.id AS CHAR), '\"'))
+        SELECT m.perms FROM iims_integral_user a JOIN iims_integral_role r ON JSON_CONTAINS(a.role, CONCAT('\"', CAST(r.id AS CHAR), '\"'))
                                     JOIN iims_integral_menu m ON JSON_CONTAINS(r.menus, CONCAT('\"', CAST(m.id AS CHAR), '\"'))
         WHERE a.id = #{userId} AND a.is_disable = 0;
     </select>
 
     <!--根据用户id查询角色集合-->
     <select id="searchUserRoles" resultType="cn.aitenry.iims.integral.model.vo.role.RoleVO">
-        SELECT r.id,r.role_name, r.role_en, r.menus FROM iims_integral_admin a JOIN iims_integral_role r ON JSON_CONTAINS(a.role, CONCAT('\"', CAST(r.id AS CHAR), '\"')) WHERE a.id = #{userId} AND a.is_disable = 0;
+        SELECT r.id,r.role_name, r.role_en, r.menus FROM iims_integral_user a JOIN iims_integral_role r ON JSON_CONTAINS(a.role, CONCAT('\"', CAST(r.id AS CHAR), '\"')) WHERE a.id = #{userId} AND a.is_disable = 0;
     </select>
 
     <!--根据用户id查询菜单集合-->
-    <select id="getMenusByUserId" resultType="cn.aitenry.iims.integral.model.vo.admin.AdminMenuVO">
-        SELECT m.* FROM iims_integral_admin a JOIN iims_integral_role r
+    <select id="getMenusByUserId" resultType="cn.aitenry.iims.integral.model.vo.user.UserMenuVO">
+        SELECT m.* FROM iims_integral_user a JOIN iims_integral_role r
             ON JSON_CONTAINS(a.role, CONCAT('\"', CAST(r.id AS CHAR), '\"')) JOIN iims_integral_menu m
                 ON JSON_CONTAINS(r.menus, CONCAT('\"', CAST(m.id AS CHAR), '\"'))
                    WHERE a.id = #{userId} AND m.`status` = 1 ORDER BY parent_id, order_num;
@@ -100,8 +91,24 @@
         </foreach>
     </select>
 
-    <select id="selectObjectByIds" resultType="cn.aitenry.iims.common.model.entity.integral.Admin">
-        SELECT * FROM iims_integral_admin WHERE id IN
+    <select id="selectObjectById" resultType="cn.aitenry.iims.common.model.entity.integral.User">
+        select * from iims_integral_user where id = #{id}
+    </select>
+
+    <select id="getAvatarById" resultType="long">
+        select avatar from iims_integral_user where id = #{id}
+    </select>
+
+    <select id="list" resultType="cn.aitenry.iims.common.model.entity.integral.User">
+        select * from iims_integral_user
+    </select>
+
+    <select id="baseInfoQuery" resultType="cn.aitenry.iims.common.model.entity.base.BaseUserInfo">
+        select id, name from iims_integral_user where username like concat('%', #{username}, '%')
+    </select>
+
+    <select id="selectObjectByIds" resultType="cn.aitenry.iims.common.model.entity.integral.User">
+        SELECT * FROM iims_integral_user WHERE id IN
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>

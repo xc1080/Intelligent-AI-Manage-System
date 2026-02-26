@@ -1,4 +1,4 @@
-package cn.aitenry.iims.integral.model.dto.admin;
+package cn.aitenry.iims.integral.model.dto.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,7 +15,7 @@ import java.io.Serializable;
  **/
 @Data
 @ApiModel(description = "修改密码传递的数据模型")
-public class AdminPasswordDTO implements Serializable {
+public class UserPasswordDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -6,7 +6,7 @@ import com.github.pagehelper.PageHelper;
 import cn.aitenry.iims.integral.mapper.MenuMapper;
 import cn.aitenry.iims.integral.model.dto.menu.MenuDTO;
 import cn.aitenry.iims.integral.model.dto.menu.MenuPageQueryDTO;
-import cn.aitenry.iims.integral.model.vo.admin.AdminMenuVO;
+import cn.aitenry.iims.integral.model.vo.user.UserMenuVO;
 import cn.aitenry.iims.integral.model.vo.menu.MenuVO;
 import cn.aitenry.iims.integral.service.MenuService;
 import cn.aitenry.iims.common.constant.MessageConstant;
@@ -103,18 +103,18 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<AdminMenuVO> getTreeMenus(Long userId) {
-        List<AdminMenuVO> allMenus = menuMapper.allMenu(); // 获取所有菜单的方法
-        Map<Long, AdminMenuVO> menuMap = new HashMap<>(); // 用于快速查找菜单项
+    public List<UserMenuVO> getTreeMenus(Long userId) {
+        List<UserMenuVO> allMenus = menuMapper.allMenu(); // 获取所有菜单的方法
+        Map<Long, UserMenuVO> menuMap = new HashMap<>(); // 用于快速查找菜单项
 
         // 将所有菜单放入Map中，便于后续快速定位
-        for (AdminMenuVO menu : allMenus) {
+        for (UserMenuVO menu : allMenus) {
             menuMap.put(menu.getId(), menu);
         }
 
         // 从所有菜单中筛选出根节点（父ID为0）
-        List<AdminMenuVO> rootList = new ArrayList<>();
-        for (AdminMenuVO menu : allMenus) {
+        List<UserMenuVO> rootList = new ArrayList<>();
+        for (UserMenuVO menu : allMenus) {
             if (menu.getParentId().equals(0L)) {
                 rootList.add(menu);
                 // 递归构建子菜单
@@ -129,9 +129,9 @@ public class MenuServiceImpl implements MenuService {
      * @param menu 当前菜单项
      * @param menuMap 所有菜单的Map映射，用于快速定位
      */
-    private void findChild(AdminMenuVO menu, Map<Long, AdminMenuVO> menuMap) {
-        List<AdminMenuVO> children = new ArrayList<>();
-        for (AdminMenuVO child : menuMap.values()) {
+    private void findChild(UserMenuVO menu, Map<Long, UserMenuVO> menuMap) {
+        List<UserMenuVO> children = new ArrayList<>();
+        for (UserMenuVO child : menuMap.values()) {
             if (child.getParentId().equals(menu.getId())) {
                 children.add(child);
                 // 继续查找子菜单的子菜单

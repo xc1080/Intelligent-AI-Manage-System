@@ -1,5 +1,6 @@
 package cn.aitenry.iims.integral.service;
 
+import cn.aitenry.iims.ai.rag.enums.DomProcessEnum;
 import cn.aitenry.iims.common.model.entity.integral.WikiCatalog;
 import cn.aitenry.iims.common.result.PageResult;
 import cn.aitenry.iims.integral.model.dto.article.FindArticleDetailDTO;
@@ -68,4 +69,6 @@ public interface WikiService {
     FindWikiArticlePreNextVO findArticlePreNext(FindWikiArticlePreNextDTO articlePreNextDto);
 
     FindWikiArticleDetailVO findArticleDetail(FindArticleDetailDTO articleDetailDto);
+
+    void documentEmbeddingByModel(Long wikiId, DomProcessEnum domProcessEnum);
 }

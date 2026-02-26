@@ -4,7 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import cn.aitenry.iims.common.model.entity.base.BaseAdminInfo;
+import cn.aitenry.iims.common.model.entity.base.BaseUserInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -47,7 +47,7 @@ public class ArchiveBaseMetadataVO implements Serializable {
     private String archivalLevel;
 
     @ApiModelProperty("责任人")
-    private BaseAdminInfo archivalResponsible;
+    private BaseUserInfo archivalResponsible;
 
     @ApiModelProperty("档案日期")
     private Timestamp archivalDate;

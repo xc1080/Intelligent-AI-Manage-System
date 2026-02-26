@@ -8,7 +8,7 @@ import cn.aitenry.iims.common.enums.FileStatusEnum;
 import cn.aitenry.iims.common.enums.ResponseCodeEnum;
 import cn.aitenry.iims.common.exception.BizException;
 import cn.aitenry.iims.common.markdown.MarkdownHelper;
-import cn.aitenry.iims.common.model.entity.base.BaseAdminInfo;
+import cn.aitenry.iims.common.model.entity.base.BaseUserInfo;
 import cn.aitenry.iims.common.model.entity.file.FileWarehouse;
 import cn.aitenry.iims.common.model.entity.integral.Article;
 import cn.aitenry.iims.common.model.entity.integral.ArticleContent;
@@ -32,7 +32,7 @@ import cn.aitenry.iims.integral.model.vo.article.FindArticleDetailVO;
 import cn.aitenry.iims.integral.model.vo.article.FindArticleInfoDetailVO;
 import cn.aitenry.iims.integral.model.vo.article.FindArticlePageListVO;
 import cn.aitenry.iims.integral.model.vo.article.FindPreNextArticleVO;
-import cn.aitenry.iims.integral.service.AdminService;
+import cn.aitenry.iims.integral.service.UserService;
 import cn.aitenry.iims.integral.service.ArticleService;
 import cn.aitenry.iims.integral.service.DictService;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +58,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleMapper articleMapper;
 
-    private final AdminService adminService;
+    private final UserService userService;
 
     private final ArticleContentMapper articleContentMapper;
 
@@ -70,9 +70,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    public ArticleServiceImpl(ArticleMapper articleMapper, AdminService adminService, ArticleContentMapper articleContentMapper, MinioService minioService, DictService dictService, FileStorageService fileStorageService, ApplicationEventPublisher eventPublisher) {
+    public ArticleServiceImpl(ArticleMapper articleMapper, UserService userService, ArticleContentMapper articleContentMapper, MinioService minioService, DictService dictService, FileStorageService fileStorageService, ApplicationEventPublisher eventPublisher) {
         this.articleMapper = articleMapper;
-        this.adminService = adminService;
+        this.userService = userService;
         this.articleContentMapper = articleContentMapper;
         this.minioService = minioService;
         this.dictService = dictService;
@@ -141,8 +141,8 @@ public class ArticleServiceImpl implements ArticleService {
         records.forEach(item -> {
             item.setImageUrl(minioService.generateShortLink(item.getCover()));
             item.setIsTop(item.getWeight() > 0);
-            BaseAdminInfo userInfo = item.getUserInfo();
-            userInfo.setUsername(adminService.getById(userInfo.getId()).getUsername());
+            BaseUserInfo userInfo = item.getUserInfo();
+            userInfo.setName(userService.getById(userInfo.getId()).getName());
             DictValue dictValue = dictService.getDictValueById(item.getDictCategoryId());
             if (Objects.nonNull(dictValue)) {
                 item.setCategoryName(dictValue.getValue());

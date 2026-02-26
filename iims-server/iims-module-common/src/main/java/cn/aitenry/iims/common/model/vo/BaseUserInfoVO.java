@@ -19,9 +19,9 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "管理员登录返回的数据格式")
+@ApiModel(description = "用户登录返回的数据格式")
 @Builder
-public class BaseAdminInfoVO implements Serializable {
+public class BaseUserInfoVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

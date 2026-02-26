@@ -1,4 +1,4 @@
-package cn.aitenry.iims.integral.model.vo.admin;
+package cn.aitenry.iims.integral.model.vo.user;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
@@ -15,7 +15,7 @@ import java.util.List;
  * @Description: TODO
  **/
 @Data
-public class AdminMenuVO {
+public class UserMenuVO {
 
     @ApiModelProperty("菜单id")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -61,5 +61,5 @@ public class AdminMenuVO {
     private String redirect;
 
     @ApiModelProperty("子菜单集合")
-    private List<AdminMenuVO> children;
+    private List<UserMenuVO> children;
 }

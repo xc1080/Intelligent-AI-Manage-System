@@ -1,4 +1,4 @@
-package cn.aitenry.iims.integral.model.dto.admin;
+package cn.aitenry.iims.integral.model.dto.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,8 +13,8 @@ import java.io.Serializable;
  * @Description: TODO
  **/
 @Data
-@ApiModel(description = "管理员登录时传递的数据模型")
-public class AdminLoginDTO implements Serializable {
+@ApiModel(description = "用户登录时传递的数据模型")
+public class UserLoginDTO implements Serializable {
 
     //用户名
     @ApiModelProperty("用户名")

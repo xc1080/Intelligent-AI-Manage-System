@@ -1,16 +1,13 @@
 package cn.aitenry.iims.ai.chat.service.impl;
 
-import cn.aitenry.iims.ai.rag.enums.DomProcessEnum;
-import cn.aitenry.iims.ai.rag.even.DocumentEmbeddingEvent;
+import cn.aitenry.iims.ai.chat.model.entity.ModelSetting;
+import cn.aitenry.iims.ai.chat.service.AiChatSettingService;
+import cn.aitenry.iims.ai.chat.service.ModelService;
+import cn.aitenry.iims.ai.chat.service.ModelToolService;
 import cn.aitenry.iims.ai.rag.factory.DocTypeService;
 import cn.aitenry.iims.ai.rag.factory.impl.DocTypeServiceFactory;
 import cn.aitenry.iims.ai.rag.model.entity.DocumentType;
-import cn.aitenry.iims.ai.chat.model.entity.ModelSetting;
-import cn.aitenry.iims.ai.chat.service.AiChatSettingService;
-import cn.aitenry.iims.ai.chat.service.ModelToolService;
-import cn.aitenry.iims.ai.chat.service.ModelService;
 import cn.aitenry.iims.ai.rag.utils.PromptTemplateUtil;
-import cn.aitenry.iims.common.context.BaseContext;
 import cn.aitenry.iims.common.enums.DocumentTypeEnum;
 import cn.aitenry.iims.common.service.MinioService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +20,6 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.content.Media;
 import org.springframework.ai.document.Document;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeTypeUtils;
@@ -41,18 +37,14 @@ public class ModelToolServiceImpl implements ModelToolService {
 
     private final MinioService minioService;
 
-    private final ApplicationEventPublisher eventPublisher;
-
     private final DocTypeServiceFactory docTypeServiceFactory;
 
     private final AiChatSettingService settingService;
 
     public ModelToolServiceImpl (ModelService modelService, MinioService minioService,
-                                 ApplicationEventPublisher eventPublisher, DocTypeServiceFactory docTypeServiceFactory,
-                                 AiChatSettingService settingService) {
+                                 DocTypeServiceFactory docTypeServiceFactory, AiChatSettingService settingService) {
         this.modelService = modelService;
         this.minioService = minioService;
-        this.eventPublisher = eventPublisher;
         this.docTypeServiceFactory = docTypeServiceFactory;
         this.settingService = settingService;
     }
@@ -133,11 +125,6 @@ public class ModelToolServiceImpl implements ModelToolService {
         ChatResponse finalCall = modelService.getChatModel(modelSetting.getModelId())
                 .call(new Prompt(finalMessage));
         return PromptTemplateUtil.removeThink(finalCall.getResult().getOutput().getText());
-    }
-
-    @Override
-    public void documentEmbeddingByModel(Long wikiId, DomProcessEnum domProcess) {
-        eventPublisher.publishEvent(new DocumentEmbeddingEvent(this, wikiId, BaseContext.getCurrentId(), domProcess));
     }
 
     /**

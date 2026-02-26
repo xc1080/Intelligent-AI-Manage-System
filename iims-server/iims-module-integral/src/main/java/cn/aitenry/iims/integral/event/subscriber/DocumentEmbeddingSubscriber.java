@@ -1,13 +1,18 @@
-package cn.aitenry.iims.ai.rag.even.subscriber;
+package cn.aitenry.iims.integral.event.subscriber;
 
-import cn.aitenry.iims.ai.rag.even.DocumentEmbeddingEvent;
 import cn.aitenry.iims.ai.rag.service.MilvusStoreService;
+import cn.aitenry.iims.common.utils.SnowFlakeIdWorker;
+import cn.aitenry.iims.integral.event.DocumentEmbeddingEvent;
+import cn.aitenry.iims.subscriber.enums.NotificationLevelEnum;
+import cn.aitenry.iims.subscriber.model.entity.NotificationData;
 import cn.aitenry.iims.subscriber.model.entity.SseMessage;
 import cn.aitenry.iims.subscriber.service.SseNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 /**
  * @Author: Aitenry
@@ -21,11 +26,18 @@ public class DocumentEmbeddingSubscriber implements ApplicationListener<Document
 
     private final MilvusStoreService milvusStoreService;
 
+    private final SnowFlakeIdWorker snowFlakeIdWorker;
+
     private final SseNotificationService notificationService;
 
-    public DocumentEmbeddingSubscriber(MilvusStoreService milvusStoreService, SseNotificationService notificationService) {
+    public DocumentEmbeddingSubscriber(MilvusStoreService milvusStoreService, SnowFlakeIdWorker snowFlakeIdWorker, SseNotificationService notificationService) {
         this.milvusStoreService = milvusStoreService;
+        this.snowFlakeIdWorker = snowFlakeIdWorker;
         this.notificationService = notificationService;
+    }
+
+    public long uniqueId() {
+        return snowFlakeIdWorker.nextId();
     }
 
     @Override
@@ -39,10 +51,13 @@ public class DocumentEmbeddingSubscriber implements ApplicationListener<Document
 
         log.info("==> 知识库向量化事件: {}", threadName);
 
-        // 执行文章阅读量 +1
+        // 文档向量化
         Boolean aBoolean = milvusStoreService.addDocumentByWiki(wikiId);
-        notificationService.sendToClient(
-                currentId, new SseMessage("DocumentEmbeddingEvent", wikiId));
+        SseMessage<NotificationData> message = SseMessage.notification(
+                uniqueId(), new NotificationData("知识库向量化", "已完成知识库向量化",
+                        NotificationLevelEnum.SUCCESS, LocalDateTime.now())
+        );
+        notificationService.sendToClient(currentId, message);
         log.info("==> 知识库向量化事件消费成功，wikiId: {}，知识库向量化结果: {}", wikiId, aBoolean);
     }
 }

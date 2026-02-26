@@ -10,7 +10,7 @@ import lombok.Data;
  * @Description: TODO
  **/
 @Data
-public class BaseAdminInfoQueryDTO {
-    @ApiModelProperty("用户名")
-    private String username;
+public class BaseUserInfoQueryDTO {
+    @ApiModelProperty("姓名")
+    private String name;
 }

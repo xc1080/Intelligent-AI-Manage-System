@@ -3,7 +3,7 @@ package cn.aitenry.iims.integral.model.vo.article;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import cn.aitenry.iims.common.model.entity.base.BaseAdminInfo;
+import cn.aitenry.iims.common.model.entity.base.BaseUserInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -61,7 +61,7 @@ public class FindArticlePageListVO {
 
     private Integer weight;
 
-    private BaseAdminInfo userInfo;
+    private BaseUserInfo userInfo;
 
     @ApiModelProperty("创建时间")
     private LocalDateTime createTime;

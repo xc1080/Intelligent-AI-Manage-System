@@ -1,6 +1,5 @@
 package cn.aitenry.iims.integral.controller;
 
-import cn.aitenry.iims.ai.chat.service.ModelToolService;
 import cn.aitenry.iims.ai.rag.enums.DomProcessEnum;
 import cn.aitenry.iims.common.result.PageResult;
 import cn.aitenry.iims.common.result.Result;
@@ -26,15 +25,13 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/iims/wiki")
-@Api(tags = "Admin 知识库模块")
+@Api(tags = "知识库模块")
 public class WikiController {
 
     private final WikiService wikiService;
-    private final ModelToolService modelToolService;
 
-    public WikiController(WikiService wikiService, ModelToolService modelToolService) {
+    public WikiController(WikiService wikiService) {
         this.wikiService = wikiService;
-        this.modelToolService = modelToolService;
     }
 
     @PostMapping("/add")
@@ -113,7 +110,7 @@ public class WikiController {
     @ApiOperation("（文章/文档）向量化")
     @PostMapping("/document/embedding/{wikiId}")
     public Result<String> documentEmbedding(@PathVariable Long wikiId) {
-        modelToolService.documentEmbeddingByModel(wikiId, DomProcessEnum.IIMS_INTEGRAL_ADD_DOM);
+        wikiService.documentEmbeddingByModel(wikiId, DomProcessEnum.IIMS_INTEGRAL_ADD_DOM);
         return Result.success();
     }
 

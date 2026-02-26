@@ -15,7 +15,7 @@
         <result property="updateTime" column="update_time" />
 
         <!-- 嵌套对象 userInfo 的映射 -->
-        <association property="userInfo" javaType="cn.aitenry.iims.common.model.entity.base.BaseAdminInfo">
+        <association property="userInfo" javaType="cn.aitenry.iims.common.model.entity.base.BaseUserInfo">
             <id property="id" column="userInfoId" />
         </association>
     </resultMap>

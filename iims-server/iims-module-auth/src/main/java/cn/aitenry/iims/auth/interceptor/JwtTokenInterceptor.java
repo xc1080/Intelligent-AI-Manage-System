@@ -1,11 +1,11 @@
 package cn.aitenry.iims.auth.interceptor;
 
+import cn.aitenry.iims.common.model.entity.integral.User;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.aitenry.iims.common.context.BaseContext;
 import cn.aitenry.iims.common.exception.IsTokenException;
-import cn.aitenry.iims.common.model.entity.integral.Admin;
 import cn.aitenry.iims.common.properties.JwtProperties;
-import cn.aitenry.iims.integral.service.AdminService;
+import cn.aitenry.iims.integral.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +25,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class JwtTokenInterceptor implements HandlerInterceptor {
 
     private final JwtProperties jwtProperties;
-    private final AdminService adminService;
+    private final UserService userService;
 
-    public JwtTokenInterceptor(JwtProperties jwtProperties, AdminService adminService) {
+    public JwtTokenInterceptor(JwtProperties jwtProperties, UserService userService) {
         this.jwtProperties = jwtProperties;
-        this.adminService = adminService;
+        this.userService = userService;
     }
 
     /**
@@ -56,10 +56,10 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
         // 校验令牌
         try {
             long id = StpUtil.getLoginIdAsLong();
-            Admin admin = adminService.getById(id);
-            if (admin.getIsDisable())
+            User user = userService.getById(id);
+            if (user.getIsDisable())
                 throw new IsTokenException("账号锁定");
-            if (admin.getIsDeleted())
+            if (user.getIsDeleted())
                 throw new IsTokenException("账号已被移除");
             // 将用户id存储到ThreadLocal
             BaseContext.setCurrentId(id);

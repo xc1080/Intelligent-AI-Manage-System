@@ -10,7 +10,7 @@
                 (SELECT COUNT(*) FROM iims_integral_wiki WHERE is_deleted = 0) as wikiCount,
                 (SELECT COUNT(*) FROM iims_integral_warehouse WHERE file_status != -1) as fileCount,
                 (SELECT COUNT(*) FROM iims_integral_logs WHERE is_deleted = 0) as logCount,
-                (SELECT COUNT(*) FROM iims_integral_admin WHERE is_deleted = 0) as userCount
+                (SELECT COUNT(*) FROM iims_integral_user WHERE is_deleted = 0) as userCount
     </select>
 
     <select id="getStatisticsDataByDay" resultType="cn.aitenry.iims.integral.model.vo.statistics.StatisticsDataVO">
@@ -85,7 +85,7 @@
                      0 as logCount,
                      0 as fileCount,
                      COUNT(*) as userCount
-                 FROM iims_integral_admin
+                 FROM iims_integral_user
                  WHERE is_deleted = 0
                    AND create_time BETWEEN #{startDate} AND #{endDate}
                  GROUP BY DATE(create_time)

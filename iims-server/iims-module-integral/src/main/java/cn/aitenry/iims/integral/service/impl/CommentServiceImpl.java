@@ -4,14 +4,14 @@ import cn.aitenry.iims.integral.model.dto.comment.*;
 import com.github.houbb.sensitive.word.core.SensitiveWordHelper;
 import cn.aitenry.iims.common.enums.CommentStatusEnum;
 import cn.aitenry.iims.common.model.entity.integral.Comment;
-import cn.aitenry.iims.common.model.vo.BaseAdminInfoVO;
+import cn.aitenry.iims.common.model.vo.BaseUserInfoVO;
 import cn.aitenry.iims.common.properties.CommentProperties;
 import cn.aitenry.iims.common.result.PageResult;
 import cn.aitenry.iims.integral.convert.CommentConvert;
 import cn.aitenry.iims.integral.mapper.CommentMapper;
 import cn.aitenry.iims.integral.model.vo.comment.FindCommentItemVO;
 import cn.aitenry.iims.integral.model.vo.comment.FindCommentListVO;
-import cn.aitenry.iims.integral.service.AdminService;
+import cn.aitenry.iims.integral.service.UserService;
 import cn.aitenry.iims.integral.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,12 +34,12 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentProperties properties;
 
-    private final AdminService adminService;
+    private final UserService userService;
 
-    public CommentServiceImpl(CommentMapper commentMapper, CommentProperties properties, AdminService adminService) {
+    public CommentServiceImpl(CommentMapper commentMapper, CommentProperties properties, UserService userService) {
         this.commentMapper = commentMapper;
         this.properties = properties;
-        this.adminService = adminService;
+        this.userService = userService;
     }
 
     @Override
@@ -102,12 +102,12 @@ public class CommentServiceImpl implements CommentService {
                     .filter(comment -> Objects.isNull(comment.getParentCommentId())) // parentCommentId 父级 ID 为空，则表示为一级评论
                     .map(CommentConvert.INSTANCE::convertDO2VO)
                     .collect(Collectors.toList());
-            HashMap<Long, BaseAdminInfoVO> adminBaseInfoByIds = adminService.getAdminBaseHashInfoByIds(
+            HashMap<Long, BaseUserInfoVO> adminBaseInfoByIds = userService.getUserBaseHashInfoByIds(
                     commentDOS.stream().map(Comment::getCreateBy).distinct().collect(Collectors.toList()));
             // 循环设置评论回复数据
             vos.forEach(vo -> {
                 Long commentId = vo.getId();
-                BaseAdminInfoVO adminBaseInfo = adminBaseInfoByIds.get(vo.getCreateBy());
+                BaseUserInfoVO adminBaseInfo = adminBaseInfoByIds.get(vo.getCreateBy());
                 vo.setAvatar(adminBaseInfo.getImageUrl());
                 vo.setNickname(adminBaseInfo.getUsername());
                 List<FindCommentItemVO> childComments = commentDOS.stream()
@@ -122,11 +122,11 @@ public class CommentServiceImpl implements CommentService {
                                 Optional<Comment> optionalCommentDO = commentDOS.stream()
                                         .filter(commentDO1 -> Objects.equals(commentDO1.getId(), replyCommentId)).findFirst();
                                 optionalCommentDO.ifPresent(comment -> {
-                                    BaseAdminInfoVO adminBaseInfoC = adminBaseInfoByIds.get(comment.getCreateBy());
+                                    BaseUserInfoVO adminBaseInfoC = adminBaseInfoByIds.get(comment.getCreateBy());
                                     findPageCommentVO.setReplyNickname(adminBaseInfoC.getUsername());
                                 });
                             }
-                            BaseAdminInfoVO adminBaseInfoC = adminBaseInfoByIds.get(findPageCommentVO.getCreateBy());
+                            BaseUserInfoVO adminBaseInfoC = adminBaseInfoByIds.get(findPageCommentVO.getCreateBy());
                             findPageCommentVO.setNickname(adminBaseInfoC.getUsername());
                             findPageCommentVO.setAvatar(adminBaseInfoC.getImageUrl());
                             return findPageCommentVO;

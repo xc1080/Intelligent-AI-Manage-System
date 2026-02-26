@@ -1,4 +1,4 @@
-package cn.aitenry.iims.ai.rag.even;
+package cn.aitenry.iims.integral.event;
 
 import cn.aitenry.iims.ai.rag.enums.DomProcessEnum;
 import lombok.Getter;

@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseAdminInfo {
+public class BaseUserInfo {
 
     @ApiModelProperty("用户ID")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -27,7 +27,7 @@ public class BaseAdminInfo {
     private Long id;
 
     //用户名
-    @ApiModelProperty("用户名")
-    private String username;
+    @ApiModelProperty("姓名")
+    private String name;
 
 }

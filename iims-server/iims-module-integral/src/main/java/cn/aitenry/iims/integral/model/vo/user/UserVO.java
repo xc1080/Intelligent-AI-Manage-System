@@ -1,4 +1,4 @@
-package cn.aitenry.iims.integral.model.vo.admin;
+package cn.aitenry.iims.integral.model.vo.user;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
@@ -23,9 +23,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "管理员登录返回的数据格式")
+@ApiModel(description = "用户登录返回的数据格式")
 @Builder
-public class AdminVO implements Serializable {
+public class UserVO implements Serializable {
     //主键
     @ApiModelProperty("用户ID")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -68,8 +68,8 @@ public class AdminVO implements Serializable {
     @ApiModelProperty("令牌")
     private String token;
 
-    //超级管理员
-    @ApiModelProperty("超级管理员")
+    //超级用户
+    @ApiModelProperty("超级用户")
     private Integer root;
 
     //权限集合

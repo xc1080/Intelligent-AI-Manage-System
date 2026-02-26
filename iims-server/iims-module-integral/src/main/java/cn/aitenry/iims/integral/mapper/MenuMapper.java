@@ -5,7 +5,7 @@ import cn.aitenry.iims.common.annotation.AutoFill;
 import cn.aitenry.iims.common.enums.OperationType;
 import cn.aitenry.iims.integral.model.dto.menu.MenuPageQueryDTO;
 import cn.aitenry.iims.common.model.entity.integral.Menu;
-import cn.aitenry.iims.integral.model.vo.admin.AdminMenuVO;
+import cn.aitenry.iims.integral.model.vo.user.UserMenuVO;
 import cn.aitenry.iims.integral.model.vo.menu.MenuVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -65,8 +65,8 @@ public interface MenuMapper {
 
     /**
      * 查询所有菜单
-     * @return List<AdminMenuVo>
+     * @return List<UserMenuVo>
      */
     @Select("SELECT * FROM iims_integral_menu WHERE `status` = 1 order by parent_id, order_num;")
-    List<AdminMenuVO> allMenu();
+    List<UserMenuVO> allMenu();
 }

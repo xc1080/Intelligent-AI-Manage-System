@@ -1,4 +1,4 @@
-package cn.aitenry.iims.integral.model.dto.admin;
+package cn.aitenry.iims.integral.model.dto.user;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
@@ -16,11 +16,11 @@ import java.io.Serializable;
  * @Description: TODO
  **/
 @Data
-@ApiModel(description = "管理员登录时传递的数据模型")
-public class AdminDTO implements Serializable {
+@ApiModel(description = "用户登录时传递的数据模型")
+public class UserDTO implements Serializable {
 
     //主键
-    @ApiModelProperty("管理员ID")
+    @ApiModelProperty("用户ID")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @JSONField(serializeUsing = ToStringSerializer.class)
     private Long id;
@@ -59,8 +59,8 @@ public class AdminDTO implements Serializable {
     @ApiModelProperty("角色集合")
     private String role;
 
-    //是否是超级管理员
-    @ApiModelProperty("是否是超级管理员")
+    //是否是超级用户
+    @ApiModelProperty("是否是超级用户")
     private Integer root;
 
     private Long organization;

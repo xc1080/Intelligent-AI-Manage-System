@@ -22,7 +22,7 @@ import java.io.Serializable;
 @NoArgsConstructor /*注解在类上；为类提供一个无参的构造方法*/
 @AllArgsConstructor /*注解在类上；为类提供一个全参的构造方法*/
 @EqualsAndHashCode(callSuper = true)
-public class Admin extends BaseTable implements Serializable {
+public class User extends BaseTable implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -77,7 +77,7 @@ public class Admin extends BaseTable implements Serializable {
     @ApiModelProperty("角色")
     private String role;
 
-    @ApiModelProperty("是否是超级管理员")
+    @ApiModelProperty("是否是超级用户")
     private Integer root;
 
     @ApiModelProperty("账户状态（1 禁用、0 正常）")

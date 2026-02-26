@@ -1,7 +1,7 @@
-package cn.aitenry.iims.auth.config.token;
+package cn.aitenry.iims.auth.service;
 
 import cn.dev33.satoken.stp.StpInterface;
-import cn.aitenry.iims.integral.mapper.AdminMapper;
+import cn.aitenry.iims.integral.mapper.UserMapper;
 import cn.aitenry.iims.integral.model.vo.role.RoleVO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +20,10 @@ import java.util.stream.Collectors;
  **/
 @Component
 @Slf4j
-public class StpInterfaceImpl implements StpInterface {
+public class StpService implements StpInterface {
+
     @Resource
-    private AdminMapper adminMapper;
+    private UserMapper userMapper;
 
     /**
      * 返回一个用户所拥有的权限集合
@@ -30,7 +31,7 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getPermissionList(Object userId, String loginType) {
         String uid = (String) userId;
-        Set<String> set = adminMapper.searchUserPermissions(uid);
+        Set<String> set = userMapper.searchUserPermissions(uid);
         return new ArrayList<>(set);
     }
 
@@ -40,7 +41,7 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object loginId, String loginKey) {
         String userId = (String) loginId;
-        List<RoleVO> roleVOS = adminMapper.searchUserRoles(userId);
+        List<RoleVO> roleVOS = userMapper.searchUserRoles(userId);
         return roleVOS.stream().map(RoleVO::getRoleName).collect(Collectors.toList());
     }
 }

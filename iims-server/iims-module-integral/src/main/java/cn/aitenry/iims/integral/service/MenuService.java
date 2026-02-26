@@ -2,7 +2,7 @@ package cn.aitenry.iims.integral.service;
 
 import cn.aitenry.iims.integral.model.dto.menu.MenuDTO;
 import cn.aitenry.iims.integral.model.dto.menu.MenuPageQueryDTO;
-import cn.aitenry.iims.integral.model.vo.admin.AdminMenuVO;
+import cn.aitenry.iims.integral.model.vo.user.UserMenuVO;
 import cn.aitenry.iims.integral.model.vo.menu.MenuVO;
 import cn.aitenry.iims.common.result.PageResult;
 
@@ -63,7 +63,7 @@ public interface MenuService {
 
     /**
      * 查询树形菜单
-     * @return List<AdminMenuVo>
+     * @return List<UserMenuVO>
      */
-    List<AdminMenuVO> getTreeMenus(Long id);
+    List<UserMenuVO> getTreeMenus(Long id);
 }
