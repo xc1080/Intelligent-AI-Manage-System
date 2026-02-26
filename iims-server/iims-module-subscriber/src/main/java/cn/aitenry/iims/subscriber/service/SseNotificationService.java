@@ -16,12 +16,12 @@ public interface SseNotificationService {
     /**
      * 全局广播消息（任意地方调用）
      */
-    void broadcast(SseMessage message);
+    <T> void broadcast(SseMessage<T> message);
 
     /**
      * 定向推送（按 clientId）
      */
-    void sendToClient(Long clientId, SseMessage message);
+    <T> void sendToClient(Long clientId, SseMessage<T> message);
 
     void removeClient(Long clientId, String reason);
 

@@ -40,29 +40,18 @@ public class SseNotificationServiceImpl implements SseNotificationService {
         emitter.onTimeout(() -> removeClient(clientId, "timeout"));
         emitter.onError(ex -> removeClient(clientId, "error: " + ex.getMessage()));
 
-        try {
-            emitter.send(SseEmitter.event()
-                    .name("connect")
-                    .data(Map.of("clientId", clientId, "message", "Connected"))
-                    .reconnectTime(sseProperties.getRetry()));
-        } catch (IOException e) {
-            log.warn("初始化事件发送失败: {}", clientId, e);
-            emitter.complete();
-            return registerClient();
-        }
-
         clients.put(clientId, emitter);
         log.info("SSE客户端注册: {}, 当前连接数: {}", clientId, clients.size());
         return emitter;
     }
 
     @Override
-    public void broadcast(SseMessage message) {
+    public <T> void broadcast(SseMessage<T> message) {
         sendToClients(new CopyOnWriteArrayList<>(clients.keySet()), message);
     }
 
     @Override
-    public void sendToClient(Long clientId, SseMessage message) {
+    public <T> void sendToClient(Long clientId, SseMessage<T> message) {
         sendToClients(Collections.singletonList(clientId), message);
     }
 
@@ -77,20 +66,19 @@ public class SseNotificationServiceImpl implements SseNotificationService {
         clients.keySet().forEach(id -> removeClient(id, "shutdown"));
     }
 
-    private void sendToClients(List<Long> targetIds, SseMessage msg) {
+    private <T> void sendToClients(List<Long> targetIds, SseMessage<T> msg) {
         if (targetIds.isEmpty() || msg == null) return;
 
         targetIds.forEach(clientId -> {
             SseEmitter emitter = clients.get(clientId);
-            if (emitter == null) {
-                return; // 已被移除
-            }
+            if (emitter == null) return;
 
             try {
+                // Jackson 会处理泛型序列化
                 emitter.send(SseEmitter.event()
-                        .id(msg.getId())
-                        .name(msg.getEvent() != null ? msg.getEvent() : "message")
-                        .data(msg.getData())
+                        .id(String.valueOf(msg.getId()))
+                        .name(msg.getEvent())
+                        .data(msg.getData())  // T 类型自动序列化
                         .reconnectTime(msg.getRetry() != null ? msg.getRetry() : sseProperties.getRetry()));
             } catch (IOException e) {
                 log.warn("SSE消息发送失败 [clientId={}]: {}", clientId, e.getMessage());

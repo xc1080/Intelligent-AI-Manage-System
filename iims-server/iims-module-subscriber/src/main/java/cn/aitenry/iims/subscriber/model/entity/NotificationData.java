@@ -1,0 +1,27 @@
+package cn.aitenry.iims.subscriber.model.entity;
+
+import cn.aitenry.iims.subscriber.enums.NotificationLevelEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+/**
+ *
+ * @Author: Aitenry
+ * @Date: 2025/11/15 23:44
+ * @Version: v1.0.0
+ * @Description: TODO
+ **/
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class NotificationData {
+    private String title;
+    private String content;
+    private NotificationLevelEnum level;
+    private LocalDateTime createTime;
+}

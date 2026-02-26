@@ -1,30 +1,47 @@
 package cn.aitenry.iims.subscriber.model.entity;
 
+import cn.aitenry.iims.subscriber.enums.SseEventTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 /**
- * @Author: Aitenry
- * @Date: 2023/01/22 00:00
- * @Version: v1.0.0
- * @Description: TODO
- **/
+ * 类型安全的 SSE 消息载体
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SseMessage implements Serializable {
-    private String id;
+public class SseMessage<T> implements Serializable {
+    private Long id;
     private String event;
-    private Object data;
+    private T data;
     private Long retry;
     private Long timestamp;
 
-    public SseMessage(String event, Object data) {
-        this.event = event;
+    /**
+     * 私有构造器：强制通过静态工厂方法创建
+     */
+    private SseMessage(Long id, SseEventTypeEnum eventType, T data) {
+        this.id = id;
+        this.event = eventType.getEventName();
         this.data = data;
         this.timestamp = System.currentTimeMillis();
-        this.id = java.util.UUID.randomUUID().toString();
+        this.retry = null;
+
+        eventType.validateDataType(data);
+    }
+
+    public static SseMessage<NotificationData> notification(Long id, NotificationData data) {
+        return new SseMessage<>(id, SseEventTypeEnum.NOTIFICATION, data);
+    }
+
+    public static SseMessage<SystemAlertData> systemAlert(Long id, SystemAlertData data) {
+        return new SseMessage<>(id, SseEventTypeEnum.SYSTEM_ALERT, data);
+    }
+
+    public static SseMessage<UserActionData> userAction(Long id, UserActionData data) {
+        return new SseMessage<>(id, SseEventTypeEnum.USER_ACTION, data);
     }
 }
