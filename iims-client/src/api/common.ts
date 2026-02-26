@@ -2,7 +2,7 @@ import request from '@/utils/request.ts'
 
 export function login(data: any) {
   return request({
-    url: '/admin/login',
+    url: '/user/login',
     method: 'post',
     data
   }) as any
@@ -10,21 +10,21 @@ export function login(data: any) {
 
 export function loginKey() {
   return request({
-    url: '/admin/login/key',
+    url: '/user/login/key',
     method: 'get'
   }) as any
 }
 
 export function getInfo(id: string) {
   return request({
-    url: `/admin/${id}`,
+    url: `/user/${id}`,
     method: 'get'
   }) as any
 }
 
 export function logout() {
   return request({
-    url: '/admin/logout',
+    url: '/user/logout',
     method: 'get'
   }) as any
 }
