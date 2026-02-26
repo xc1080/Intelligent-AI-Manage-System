@@ -213,7 +213,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getAdminList, startOrStop, updateAdmin, resetPassword, addAdmin, getAdmin, excelUser, deleteAdmin } from '@/api/admin'
+import { getAdminList, startOrStop, updateAdmin, resetPassword, addAdmin, getAdmin, excelUser, deleteAdmin } from '@/api/user.ts'
 import { getAllMenuTree } from '@/api/organization'
 import { getRoleList } from '@/api/role'
 import { getNowFormatDate, download } from '@/utils/tool'

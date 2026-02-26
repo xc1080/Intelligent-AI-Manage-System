@@ -45,6 +45,7 @@
                  :class="{ active: activeTopicId === item.id, moreActive: clickMoreBtnId === item.id }" @click="$emit('switch-topic', item.id)">
               <div class="chat-content">
                 <i v-if="loadTopicIdSet.has(item.id)" class="chat-loading text-base ri-loader-3-line animate-spin"></i>
+                <i v-else class="ri-message-ai-3-line message-icon text-base"></i>
                 <p class="chat-title">{{ item.title }}</p>
               </div>
               <el-popover
@@ -458,11 +459,26 @@ onUnmounted(() => {
   transition: color 0.2s;
 }
 
+.message-icon {
+  color: #303133;
+  font-size: 14px;
+  margin-bottom: 1px;
+  transition: color 0.2s;
+}
+
 .chat-loading {
   font-size: 14px;
 }
 
 .chat-item:hover .chat-title {
+  color: #409EFF;
+}
+
+.chat-item:hover .message-icon {
+  color: #409EFF;
+}
+
+.chat-item.active .message-icon {
   color: #409EFF;
 }
 

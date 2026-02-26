@@ -70,7 +70,7 @@
           >
             <div class="model-header">
               <div class="model-header-left">
-                <i v-if="model.icon" :class="model.icon" style="margin-right: 8px; font-size: 16px;"></i>
+                <i v-if="model.icon" :class="model.icon" style="margin-right: 6px; font-size: 16px;"></i>
                 <span class="model-name">{{ model.name }}</span>
               </div>
               <div
@@ -149,10 +149,10 @@ const selectedModelId = ref<string>('')
 
 // API类型映射
 const apiTypeMap: Record<string, { name: string; icon: string }> = {
-  AGENT: { name: 'Agent', icon: 'ri-leaf-line' },
-  OPENAI: { name: 'OpenAI', icon: 'ri-openai-line' },
-  OLLAMA: { name: 'Ollama', icon: 'ri-layout-masonry-line' },
-  DEEPSEEK: { name: 'DeepSeek', icon: 'ri-deepseek-line' }
+  AGENT: { name: 'Agent', icon: 'ri-leaf-fill' },
+  OPENAI: { name: 'OpenAI', icon: 'ri-openai-fill' },
+  OLLAMA: { name: 'Ollama', icon: 'ri-ollama-fill' },
+  DEEPSEEK: { name: 'DeepSeek', icon: 'ri-deepseek-fill' }
 }
 
 // 模型类型映射

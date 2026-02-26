@@ -92,7 +92,7 @@ import {ref, onMounted, nextTick, computed, onUnmounted} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElForm, ElDropdownMenu } from 'element-plus'
-import { updatePassword } from '@/api/admin.js'
+import { updatePassword } from '@/api/user.ts'
 import screenfull from "screenfull"
 import Breadcrumb from '@/components/breadcrumb/Index.vue'
 import Hamburger from '@/components/hamburger/Index.vue'

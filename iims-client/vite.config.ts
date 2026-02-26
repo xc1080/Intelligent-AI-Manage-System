@@ -2,7 +2,6 @@ import { defineConfig, type UserConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import { visualizer } from 'rollup-plugin-visualizer';
 import sass from 'vite-plugin-sass-dts';
 import tailwindcss from '@tailwindcss/vite';
@@ -33,11 +32,7 @@ export default defineConfig(({ command }) => {
       vue(),
       vueJsx(),
       sass(),
-      tailwindcss(),
-      createSvgIconsPlugin({
-        iconDirs: [path.resolve(__dirname, 'src/icons')], // 指定 SVG 图标的目录
-        symbolId: 'icon-[name]', // 生成的 Symbol ID 格式
-      }),
+      tailwindcss()
     ],
     optimizeDeps: {
       include: ['element-plus']

@@ -35,8 +35,7 @@
       <el-table-column label="描述" align="center" prop="info" />
       <el-table-column class-name="status-col" label="系统角色" align="center">
         <template #default="scope">
-          <el-switch v-model="scope.row.systemic" :active-value="1" :inactive-value="0" active-text="内置"
-                     inactive-text="外置" inline-prompt @change="setRoleStatus(scope.row)" />
+          <el-tag :type="scope.row.systemic ? 'danger' : 'success'">{{ scope.row.systemic ? '内置' : '外置' }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="createTime" label="创建时间">
@@ -84,7 +83,7 @@
           <el-tree ref="menusRef" style="width: 230px; height: 220px; overflow: auto;" :data="menus" check-strictly
                    show-checkbox node-key="id" highlight-current :props="defaultProps" :default-checked-keys="form.menus" expand-on-click-node />
         </el-form-item>
-        <el-form-item label="系统角色" prop="systemic">
+        <el-form-item v-if="!form.systemic" label="系统角色" prop="systemic">
           <el-switch v-model="form.systemic" :active-value="1" :inactive-value="0" inline-prompt active-text="内置"
                      inactive-text="外置" />
         </el-form-item>
@@ -193,19 +192,6 @@ const resetQuery = () => {
   pages.page = 1
   fetchData()
   getMenus()
-}
-
-// 设置角色状态
-const setRoleStatus = async (row: any) => {
-  listLoading.value = true
-  try {
-    const res = await updateRole(row)
-    if (res.errCode === 0) await fetchData()
-  } catch (error) {
-    console.log(error)
-  } finally {
-    listLoading.value = false
-  }
 }
 
 // 显示对话框

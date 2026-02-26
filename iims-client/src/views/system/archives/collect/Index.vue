@@ -212,7 +212,7 @@
             >
               <template #default="scope">
                 <el-button type='primary' text @click="openResponsibleInfo(scope.row.archivalResponsible.id)">
-                  {{ scope.row.archivalResponsible?.username || '-' }}
+                  {{ scope.row.archivalResponsible?.name || '-' }}
                 </el-button>
               </template>
             </el-table-column>
@@ -512,10 +512,6 @@ const doSubmitToOperateArchive = async () => {
   if (archiveId.value) {
     try {
       const data = operate.value.getOperateFormData()
-      data.archivalResponsible = JSON.stringify({
-        id: data.archivalResponsible.value,
-        username: data.archivalResponsible.label
-      })
       const res = await editArchiveMetadata(data)
       if (res.code === 1) {
         await fetchData()

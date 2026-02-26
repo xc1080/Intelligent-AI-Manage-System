@@ -136,7 +136,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { getArchiveMetadata } from '@/api/dms/collect.js'
-import { getBaseAdminPage } from "@/api/admin.js"
+import { getBaseAdminPage } from "@/api/user.ts"
 
 // 动态组件注册
 import OperateDocArchive from './operate/OperateDocArchive.vue'
@@ -247,7 +247,7 @@ const initArchiveMetadata = async () => {
         const info = JSON.parse(data.archivalResponsible)
         data.archivalResponsible = {
           value: info.id,
-          label: info.username
+          label: info.name
         }
       }
       form.archivalResponsible = data.archivalResponsible
@@ -268,22 +268,22 @@ const initArchiveMetadata = async () => {
 }
 
 // 远程搜索方法
-const remoteMethod = (username: string) => {
-  if (username) {
+const remoteMethod = (name: string) => {
+  if (name) {
     loadingResponsible.value = true
     setTimeout(async () => {
       loadingResponsible.value = false
-      const res = await getBaseAdminPage({ username: username })
+      const res = await getBaseAdminPage({ name })
       const data = res.data
       const info: { value: string; label: string }[] = []
       data.forEach((item: any) => {
         info.push({
-          value: JSON.stringify({ id: item.id, username: item.username}),
-          label: item.username
+          value: JSON.stringify({ id: item.id, name: item.name}),
+          label: item.name
         })
       })
       options.value = info.filter((item) => {
-        return item.label.toLowerCase().includes(username.toLowerCase())
+        return item.label.toLowerCase().includes(name.toLowerCase())
       })
     }, 300)
   } else {

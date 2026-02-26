@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
-import { getBaseAdminInfo } from '@/api/admin.js'
+import { getBaseAdminInfo } from '@/api/user.ts'
 import ImageWithToken from "@/components/information/ImageWithToken.vue";
 
 // 类型定义

@@ -7,7 +7,7 @@ import request from '@/utils/request.ts'
  */
 export function getAdminList(data: any) {
   return request({
-    url: '/admin/page',
+    url: '/user/page',
     method: 'post',
     data
   }) as any
@@ -20,7 +20,7 @@ export function getAdminList(data: any) {
  */
 export function startOrStop(data: any) {
   return request({
-    url: `/admin/status/${data.isDisable}?id=${data.id}`,
+    url: `/user/status/${data.isDisable}?id=${data.id}`,
     method: 'post'
   }) as any
 }
@@ -32,7 +32,7 @@ export function startOrStop(data: any) {
  */
 export function updateAdmin(data: any) {
   return request({
-    url: '/admin',
+    url: '/user',
     method: 'put',
     data
   }) as any
@@ -45,7 +45,7 @@ export function updateAdmin(data: any) {
  */
 export function updatePassword(data: any) {
   return request({
-    url: '/admin/password',
+    url: '/user/password',
     method: 'put',
     data
   }) as any
@@ -53,7 +53,7 @@ export function updatePassword(data: any) {
 
 export function addAdmin(data: any) {
   return request({
-    url: '/admin',
+    url: '/user',
     method: 'post',
     data
   }) as any
@@ -62,7 +62,7 @@ export function addAdmin(data: any) {
 // 部门导出
 export function excelUser() {
   return request({
-    url: '/admin/export',
+    url: '/user/export',
     method: 'get',
     responseType: 'blob'
   })
@@ -75,21 +75,21 @@ export function excelUser() {
  */
 export function deleteAdmin(id: string) {
   return request({
-    url: `/admin/${id}`,
+    url: `/user/${id}`,
     method: 'delete'
   }) as any
 }
 
 export function getAdmin(id: string) {
   return request({
-    url: `/admin/${id}`,
+    url: `/user/${id}`,
     method: 'get'
   }) as any
 }
 
 export function getBaseAdminPage(data: any) {
   return request({
-    url: `/admin/base/page`,
+    url: `/user/base/page`,
     method: 'post',
     data
   }) as any
@@ -98,14 +98,14 @@ export function getBaseAdminPage(data: any) {
 
 export function getBaseAdminInfo(id: string) {
   return request({
-    url: `/admin/base/info/${id}`,
+    url: `/user/base/info/${id}`,
     method: 'get'
   }) as any
 }
 
 export function resetPassword(id: string) {
   return request({
-    url: `/admin/reset/${id}`,
+    url: `/user/reset/${id}`,
     method: 'put'
   }) as any
 }
