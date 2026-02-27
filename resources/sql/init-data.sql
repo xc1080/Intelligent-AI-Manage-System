@@ -291,10 +291,10 @@ INSERT INTO `iims_archive_type` VALUES (1,'文书档案','OperateDocArchive','De
 UNLOCK TABLES;
 
 --
--- Table structure for table `iims_integral_admin`
+-- Table structure for table `iims_integral_user`
 --
 
-DROP TABLE IF EXISTS `iims_integral_admin`;
+DROP TABLE IF EXISTS `iims_integral_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `iims_integral_admin` (
