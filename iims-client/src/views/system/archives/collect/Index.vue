@@ -507,11 +507,14 @@ const handleMoreClick = async () => {
 
 // 提交操作档案
 const doSubmitToOperateArchive = async () => {
+  const data = operate.value.getOperateFormData()
+  if (!data) { return }
   dialogOperateArchive.value = false
-
   if (archiveId.value) {
     try {
-      const data = operate.value.getOperateFormData()
+      if (data.archivalResponsible && typeof data.archivalResponsible !== 'string') {
+        data.archivalResponsible = JSON.stringify(data.archivalResponsible)
+      }
       const res = await editArchiveMetadata(data)
       if (res.code === 1) {
         await fetchData()
@@ -523,7 +526,6 @@ const doSubmitToOperateArchive = async () => {
       console.log(error)
     }
   } else {
-    const data = operate.value.getOperateFormData()
     data.metadataOwnership = pages.id
     const res = await addArchiveMetadata(data)
     if (res.code === 1) {

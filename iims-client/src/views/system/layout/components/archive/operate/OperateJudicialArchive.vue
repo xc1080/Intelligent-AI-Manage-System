@@ -1,11 +1,11 @@
 <template>
   <!-- 司法档案 -->
-  <el-scrollbar class="archive-dialog-scrollbar" style="height: calc(50vh - 200px);">
+  <el-scrollbar class="archive-dialog-scrollbar">
     <el-descriptions
         class="margin-top"
         :column="3"
         border
-        style="height: calc(50vh - 200px);"
+
     >
       <el-descriptions-item>
         <template #label>

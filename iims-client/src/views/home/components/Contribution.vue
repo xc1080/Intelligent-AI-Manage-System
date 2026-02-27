@@ -8,44 +8,55 @@
     </template>
 
     <!-- 统计卡片区域 -->
-    <div class="w-full grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-      <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-800">
-        <div class="flex items-center">
-          <i class="ri-file-text-line text-2xl text-blue-500 mr-3"></i>
-          <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">文档</p>
-            <p class="text-xl font-bold text-gray-800 dark:text-white">{{ statisticsData.articleCount || 0 }}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-100 dark:border-green-800">
-        <div class="flex items-center">
-          <i class="ri-folder-2-line text-2xl text-green-500 mr-3"></i>
-          <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">文件</p>
-            <p class="text-xl font-bold text-gray-800 dark:text-white">{{ statisticsData.fileCount || 0 }}</p>
-          </div>
-        </div>
-      </div>
+    <div class="w-full grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
 
       <div class="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-100 dark:border-orange-800">
-        <div class="flex items-center">
-          <i class="ri-user-line text-2xl text-orange-500 mr-3"></i>
-          <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">人员</p>
-            <p class="text-xl font-bold text-gray-800 dark:text-white">{{ statisticsData.userCount || 0 }}</p>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <i class="ri-user-line text-2xl text-orange-500 mr-3"></i>
+            <p class="text-sm text-gray-500 dark:text-gray-400">用户</p>
           </div>
+          <p class="text-xl font-bold text-gray-800 dark:text-white">{{ statisticsData.userCount || 0 }}</p>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-800">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <i class="ri-file-text-line text-2xl text-blue-500 mr-3"></i>
+            <p class="text-sm text-gray-500 dark:text-gray-400">文档</p>
+          </div>
+          <p class="text-xl font-bold text-gray-800 dark:text-white">{{ statisticsData.articleCount || 0 }}</p>
         </div>
       </div>
 
       <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-100 dark:border-purple-800">
-        <div class="flex items-center">
-          <i class="ri-book-open-line text-2xl text-purple-500 mr-3"></i>
-          <div>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <i class="ri-book-open-line text-2xl text-purple-500 mr-3"></i>
             <p class="text-sm text-gray-500 dark:text-gray-400">知识库</p>
-            <p class="text-xl font-bold text-gray-800 dark:text-white">{{ statisticsData.wikiCount || 0 }}</p>
           </div>
+          <p class="text-xl font-bold text-gray-800 dark:text-white">{{ statisticsData.wikiCount || 0 }}</p>
+        </div>
+      </div>
+
+      <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-100 dark:border-green-800">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <i class="ri-folder-2-line text-2xl text-green-500 mr-3"></i>
+            <p class="text-sm text-gray-500 dark:text-gray-400">文件</p>
+          </div>
+          <p class="text-xl font-bold text-gray-800 dark:text-white">{{ statisticsData.fileCount || 0 }}</p>
+        </div>
+      </div>
+
+      <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-800">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <i class="ri-database-2-line text-2xl text-red-500 mr-3"></i>
+            <p class="text-sm text-gray-500 dark:text-gray-400">异常日志</p>
+          </div>
+          <p class="text-xl font-bold text-gray-800 dark:text-white">{{ statisticsData.logCount || 0 }}</p>
         </div>
       </div>
     </div>

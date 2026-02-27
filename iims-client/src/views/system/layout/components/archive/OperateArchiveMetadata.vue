@@ -8,8 +8,10 @@
     >
       <el-descriptions-item>
         <template #label>
-          <i class="ri-user-heart-line"></i>
-          责任人
+          <span class="required-label">
+            <i class="ri-user-heart-line"></i>
+            责任人
+          </span>
         </template>
         <el-select
             v-model="form.archivalResponsible"
@@ -19,6 +21,7 @@
             :remote-method="remoteMethod"
             :loading="loadingResponsible"
             style="width: 230px"
+            :class="{ 'is-error': errors.archivalResponsible }"
         >
           <el-option
               v-for="item in options"
@@ -27,31 +30,45 @@
               :value="item.value"
           />
         </el-select>
+        <div v-if="errors.archivalResponsible" class="error-message">{{ errors.archivalResponsible }}</div>
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
-          <i class="ri-pages-line"></i>
-          档号
+          <span class="required-label">
+            <i class="ri-pages-line"></i>
+            档号
+          </span>
         </template>
         <el-input
             v-model="form.archivalCode"
             style="width: 230px;"
+            :class="{ 'is-error': errors.archivalCode }"
         />
+        <div v-if="errors.archivalCode" class="error-message">{{ errors.archivalCode }}</div>
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
-          <i class="ri-draft-line"></i>
-          题名
+          <span class="required-label">
+            <i class="ri-draft-line"></i>
+            题名
+          </span>
         </template>
         <el-input
             v-model="form.archivalTitle"
             style="width: 230px;"
+            :class="{ 'is-error': errors.archivalTitle }"
         />
+        <div v-if="errors.archivalTitle" class="error-message">{{ errors.archivalTitle }}</div>
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
-          <i class="ri-time-line"></i>
-          档案年度
+          <span class="required-label">
+            <i class="ri-time-line"></i>
+            档案年度
+          </span>
         </template>
         <el-date-picker
             v-model="form.archivalYear"
@@ -59,12 +76,17 @@
             value-format="YYYY"
             placeholder="选择年度"
             style="width: 230px;"
+            :class="{ 'is-error': errors.archivalYear }"
         />
+        <div v-if="errors.archivalYear" class="error-message">{{ errors.archivalYear }}</div>
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
-          <i class="ri-time-line"></i>
-          档案日期
+          <span class="required-label">
+            <i class="ri-time-line"></i>
+            档案日期
+          </span>
         </template>
         <el-date-picker
             v-model="form.archivalDate"
@@ -72,17 +94,23 @@
             placeholder="选择日期"
             :picker-options="pickerOptions"
             style="width: 230px;"
+            :class="{ 'is-error': errors.archivalDate }"
         />
+        <div v-if="errors.archivalDate" class="error-message">{{ errors.archivalDate }}</div>
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
-          <i class="ri-calendar-schedule-line"></i>
-          保管期限
+          <span class="required-label">
+            <i class="ri-calendar-schedule-line"></i>
+            保管期限
+          </span>
         </template>
         <el-select
             v-model="form.archivalDeadline"
             placeholder="选择期限"
             style="width: 230px;"
+            :class="{ 'is-error': errors.archivalDeadline }"
         >
           <el-option
               v-for="item in deadlines"
@@ -91,16 +119,21 @@
               :value="item.value"
           />
         </el-select>
+        <div v-if="errors.archivalDeadline" class="error-message">{{ errors.archivalDeadline }}</div>
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
-          <i class="ri-information-line"></i>
-          档案密级
+          <span class="required-label">
+            <i class="ri-information-line"></i>
+            档案密级
+          </span>
         </template>
         <el-select
             v-model="form.archivalLevel"
             placeholder="选择密级"
             style="width: 230px;"
+            :class="{ 'is-error': errors.archivalLevel }"
         >
           <el-option
               v-for="item in levels"
@@ -109,20 +142,27 @@
               :value="item.value"
           />
         </el-select>
+        <div v-if="errors.archivalLevel" class="error-message">{{ errors.archivalLevel }}</div>
       </el-descriptions-item>
+
       <el-descriptions-item>
         <template #label>
-          <i class="ri-info-card-line"></i>
-          档案摘要
+          <span class="required-label">
+            <i class="ri-info-card-line"></i>
+            档案摘要
+          </span>
         </template>
         <el-input
             v-model="form.archivalAbstract"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 3}"
             placeholder="请输入档案摘要"
+            :class="{ 'is-error': errors.archivalAbstract }"
         />
+        <div v-if="errors.archivalAbstract" class="error-message">{{ errors.archivalAbstract }}</div>
       </el-descriptions-item>
     </el-descriptions>
+
     <el-divider content-position="left">档案属性</el-divider>
     <component
         :is="componentMap[name]"
@@ -151,6 +191,7 @@ import OperateJudicialArchive from './operate/OperateJudicialArchive.vue'
 import OperateBuildArchive from './operate/OperateBuildArchive.vue'
 import OperateFinancialArchive from './operate/OperateFinancialArchive.vue'
 import OperatePhysicalArchive from './operate/OperatePhysicalArchive.vue'
+import {ElMessage} from "element-plus";
 
 type ComponentMap = {
   [key: string]: any;
@@ -183,9 +224,20 @@ const metadata = ref()
 // 数据模型
 const loading = ref(false)
 const metadataProperty = ref('')
+const errors = ref({
+  archivalResponsible: '',
+  archivalCode: '',
+  archivalTitle: '',
+  archivalYear: '',
+  archivalDate: '',
+  archivalDeadline: '',
+  archivalLevel: '',
+  archivalAbstract: ''
+})
+
 const form = reactive({
   id: null as string | null,
-  archivalResponsible: {} as { value: string; label: string } | null,
+  archivalResponsible: {} as { id: string; name: string } | null,
   archivalCode: '',
   archivalTitle: '',
   archivalYear: '',
@@ -236,6 +288,65 @@ const levels = ref([
   { value: '3', label: '秘密' }
 ])
 
+// 验证函数
+const validateForm = () => {
+  let isValid = true
+  // 清空之前的错误信息
+  Object.keys(errors.value).forEach(key => {
+    errors.value[key as keyof typeof errors.value] = ''
+  })
+
+  // 验证责任人
+  if (!form.archivalResponsible || Object.keys(form.archivalResponsible).length === 0) {
+    errors.value.archivalResponsible = '请选择责任人'
+    isValid = false
+  }
+
+  // 验证档号
+  if (!form.archivalCode || !form.archivalCode.trim()) {
+    errors.value.archivalCode = '请输入档号'
+    isValid = false
+  }
+
+  // 验证题名
+  if (!form.archivalTitle || !form.archivalTitle.trim()) {
+    errors.value.archivalTitle = '请输入题名'
+    isValid = false
+  }
+
+  // 验证档案年度
+  if (!form.archivalYear) {
+    errors.value.archivalYear = '请选择档案年度'
+    isValid = false
+  }
+
+  // 验证档案日期
+  if (!form.archivalDate) {
+    errors.value.archivalDate = '请选择档案日期'
+    isValid = false
+  }
+
+  // 验证保管期限
+  if (!form.archivalDeadline) {
+    errors.value.archivalDeadline = '请选择保管期限'
+    isValid = false
+  }
+
+  // 验证档案密级
+  if (!form.archivalLevel) {
+    errors.value.archivalLevel = '请选择档案密级'
+    isValid = false
+  }
+
+  // 验证档案摘要
+  if (!form.archivalAbstract || !form.archivalAbstract.trim()) {
+    errors.value.archivalAbstract = '请输入档案摘要'
+    isValid = false
+  }
+
+  return isValid
+}
+
 // 初始化档案元数据
 const initArchiveMetadata = async () => {
   if (props.id) {
@@ -243,12 +354,13 @@ const initArchiveMetadata = async () => {
       const res = await getArchiveMetadata(props.id)
       const data = res.data
       metadataProperty.value = data.metadataProperty
-      if (data.archivalResponsible) {
+      console.log(data)
+      if (data.archivalResponsible && Object.keys(data.archivalResponsible).length > 0) {
         const info = JSON.parse(data.archivalResponsible)
-        data.archivalResponsible = {
-          value: info.id,
+        options.value = [{
+          value: data.archivalResponsible,
           label: info.name
-        }
+        }]
       }
       form.archivalResponsible = data.archivalResponsible
       form.archivalCode = data.archivalCode
@@ -278,7 +390,7 @@ const remoteMethod = (name: string) => {
       const info: { value: string; label: string }[] = []
       data.forEach((item: any) => {
         info.push({
-          value: JSON.stringify({ id: item.id, name: item.name}),
+          value: JSON.stringify({ id: item.id, name: item.name }),
           label: item.name
         })
       })
@@ -291,16 +403,14 @@ const remoteMethod = (name: string) => {
   }
 }
 
-// 获取操作表单数据
+// 获取操作表单数据 - 带验证
 const getOperateFormData = () => {
+  if (!validateForm()) {
+    return null
+  }
+
   const data = { ...form }
   if (props.id) data.id = props.id
-  if (form.archivalResponsible) {
-    const selectedOption = options.value.find(item => item.value === form.archivalResponsible?.value)
-    if (selectedOption) {
-      data.archivalResponsible = selectedOption
-    }
-  }
   data.metadataProperty = JSON.stringify(metadata.value?.form || {})
   return data
 }
@@ -312,6 +422,27 @@ onMounted(() => {
 
 // 暴露给父组件的方法
 defineExpose({
-  getOperateFormData
+  getOperateFormData,
+  validateForm
 })
 </script>
+
+<style scoped>
+.required-label::before {
+  content: '*';
+  color: #f56c6c;
+  margin-right: 2px;
+}
+
+.error-message {
+  color: #f56c6c;
+  font-size: 12px;
+  margin-top: 2px;
+  display: block;
+}
+
+.is-error .el-input__inner,
+.is-error .el-select .el-input__inner {
+  border-color: #f56c6c;
+}
+</style>
