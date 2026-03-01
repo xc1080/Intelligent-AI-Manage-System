@@ -2,7 +2,7 @@
   <el-card class="w-full">
     <template #header>
       <span class="flex items-center">
-        <i class="ri-vip-crown-fill mr-1"></i>
+        <i class="ri-bar-chart-horizontal-line mr-1"></i>
         统计信息
       </span>
     </template>

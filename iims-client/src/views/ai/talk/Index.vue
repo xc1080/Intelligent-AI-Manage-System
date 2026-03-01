@@ -171,7 +171,7 @@ const loadWikiTitles = ref<string[]>([])
 const cancelSseConnection = ref<any>(null)
 const searchWikiName = ref('')
 const isOpenChatList = ref(true)
-const milliSecond = ref<string | null>(null)
+const milliSecondMap = ref<Map<string, string>>(new Map())
 const wikiDocsDrawer = ref(false)
 const isDialogueMore = ref(true)
 const isLoadDialogueMore = ref(false)
@@ -589,6 +589,7 @@ const openNewChat = () => {
   }
   messages.value = []
   isInitDialogue.value = true
+  isSendOut.value = false
 }
 
 const switchTopic = (id: string) => {
@@ -604,8 +605,10 @@ const switchTopic = (id: string) => {
         msgParam.value.lastId = messages.value[messages.value.length - 1].id
       }
       isInitDialogue.value = true
+      isSendOut.value = true
       return
     }
+    isSendOut.value = false
     initChatDialogue()
   }
 }
@@ -651,8 +654,8 @@ const sendOut = async () => {
     )
     question.value = ''
     isSendOut.value = true
-    milliSecond.value = `${userId.value}${getChinaTimestamp()}`
-    cancelSseConnection.value = receiveAnswer(milliSecond.value, msgParam.value, (item: any) => {
+    const uuid = `${userId.value}${getChinaTimestamp()}`
+    cancelSseConnection.value = receiveAnswer(uuid, msgParam.value, (item: any) => {
       const _data = item.data
       const loadTopicId = _data.topicId
       const _messages = (dialoguePages.value.topicId === loadTopicId || dialoguePages.value.topicId === null ? messages.value : messagesMap.value.get(loadTopicId)) || []
@@ -671,6 +674,7 @@ const sendOut = async () => {
           })
         }
         messagesMap.value.set(loadTopicId, [...messages.value])
+        milliSecondMap.value.set(loadTopicId, uuid)
         loadTopicIdSet.value.add(loadTopicId)
         lastMessage.id = _data.lastId
       } else if (item.event === 'output') {
@@ -727,7 +731,7 @@ const sendOut = async () => {
         msgParam.value.lastId = _data.lastId
         message.lastId = lastMessage.id
         isSendOut.value = false
-        milliSecond.value = null
+        milliSecondMap.value.delete(loadTopicId)
         if (dialoguePages.value.topicId === loadTopicId && loadTopicId && messagesMap.value.get(loadTopicId)) {
           messages.value = [...(messagesMap.value.get(loadTopicId) || [])];
         }
@@ -756,12 +760,22 @@ const stopAnswerNow = async () => {
         type: 'warning',
       }
   ).catch(() => {})
-
-  if (confirmResult === 'confirm' && milliSecond.value) {
-    const res = await stopAnswer(milliSecond.value)
+  const topicId = msgParam.value.topicId
+  if (confirmResult !== 'confirm' || !topicId) {
+    ElNotification({
+      message: '停止生成内容失败！',
+      type: 'warning',
+      customClass: 'talkNotification',
+      offset: 47,
+    })
+    return
+  }
+  const milliSecond = milliSecondMap.value.get(topicId)
+  if (confirmResult === 'confirm' && milliSecond) {
+    const res = await stopAnswer(milliSecond)
     if (res.code === 1) {
       isSendOut.value = false
-      milliSecond.value = null
+      milliSecondMap.value.delete(topicId)
       ElNotification({
         message: '已停止生成内容！',
         type: 'success',
