@@ -1,5 +1,5 @@
 export default {
-  title: '启境智能信息平台',
+  title: '智能信息平台',
   /**
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar

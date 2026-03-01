@@ -7,7 +7,7 @@
       <router-link v-else key="expand" class="sidebar-logo-link" to="/home">
         <img v-if="logo" :src="logo" class="sidebar-logo" alt="logo">
         <div class="sidebar-title">
-          <div style="font-size: 14px; height: 21px; font-style:oblique; line-height: normal;">启境科技</div>
+          <div style="font-size: 14px; height: 21px; font-style:oblique; line-height: normal;">智能中枢</div>
           <div style="font-size: 12px; height: 16px; font-style:oblique; line-height: normal;">{{ title }} </div>
         </div>
       </router-link>
@@ -49,7 +49,7 @@ const logo = url
       height: 32px;
       vertical-align: middle;
       margin-right: 10px;
-      border-radius: 1px;
+      border-radius: 6px;
     }
 
     & .sidebar-title {

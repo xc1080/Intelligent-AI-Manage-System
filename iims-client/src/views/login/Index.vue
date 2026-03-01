@@ -4,7 +4,7 @@
     <div class="login-container">
       <el-form ref="loginFormRef" :model="loginForm" class="login-form" autocomplete="on" label-position="left">
         <div class="title-container">
-          <h3 class="title animate__animated animate__pulse animate__flipInX">启境智能信息平台</h3>
+          <h3 class="title animate__animated animate__pulse animate__flipInX">智能信息平台</h3>
           <h5 class="title-child animate__animated animate__pulse animate__fadeInUp">—— IIMS By AI ——</h5>
         </div>
 

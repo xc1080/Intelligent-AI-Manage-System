@@ -156,7 +156,7 @@
 import {ref, computed, onMounted, nextTick, watch} from 'vue';
 import { Loading } from '@element-plus/icons-vue';
 import { useStore } from 'vuex';
-import logoAvatar from '@/assets/icons/QJingTalk-logo-avatar.png';
+import logoAvatar from '@/assets/icons/iims.png';
 import { getStorage } from '@/utils/auth'
 import type {Message, MetadataItem, StatusData} from "@/views/ai/talk/types/talk.ts";
 import AvatarWithToken from "@/components/information/AvatarWithToken.vue";
