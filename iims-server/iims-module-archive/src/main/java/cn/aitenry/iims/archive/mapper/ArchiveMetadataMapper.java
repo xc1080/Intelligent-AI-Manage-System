@@ -1,15 +1,14 @@
 package cn.aitenry.iims.archive.mapper;
 
-import com.github.pagehelper.Page;
 import cn.aitenry.iims.archive.model.dto.ArchiveMenuPageQueryDTO;
 import cn.aitenry.iims.archive.model.entity.ArchiveBaseMetadata;
 import cn.aitenry.iims.archive.model.entity.ArchiveMetadata;
-import cn.aitenry.iims.common.model.entity.status.DeletedStatus;
 import cn.aitenry.iims.archive.model.vo.ArchiveMetadataVO;
 import cn.aitenry.iims.common.annotation.AutoFill;
 import cn.aitenry.iims.common.enums.OperationType;
+import cn.aitenry.iims.common.model.entity.status.DeletedStatus;
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 /**
  * @Author: Aitenry
@@ -22,7 +21,6 @@ public interface ArchiveMetadataMapper {
 
     Page<ArchiveBaseMetadata> pageQuery(ArchiveMenuPageQueryDTO archiveMenuPageQueryDto);
 
-    @Select("SELECT * FROM iims_archive_metadata WHERE id = #{id}")
     ArchiveMetadataVO getArchiveMetadataById(Long id);
 
     /**

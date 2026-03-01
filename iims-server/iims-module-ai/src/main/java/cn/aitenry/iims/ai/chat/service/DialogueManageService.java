@@ -21,7 +21,7 @@ public interface DialogueManageService {
 
     Boolean switchStar(Long id, Boolean status);
 
-    List<Message> loadingDialogueHistory(Long topicId);
+    List<Message> loadingDialogueHistory(Long topicId, Integer windowContent);
 
     Boolean delDialogue(Long lastId);
 

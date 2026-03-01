@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.aitenry.iims.integral.mapper.LogMapper">
 
-    <select id="pageQuery" resultType="cn.aitenry.iims.integral.model.vo.log.LogVO">
+    <select id="pageQuery">
         select * from iims_integral_logs
         <where>
             and is_deleted = 0

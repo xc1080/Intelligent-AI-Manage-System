@@ -115,19 +115,20 @@ public class ArchiveBaseModuleServiceImpl implements ArchiveBaseModuleService {
         int page = archiveMenuPageQueryDto.getPage();
         int pageSize = archiveMenuPageQueryDto.getPageSize();
         PageHelper.startPage(page, pageSize);
-        Page<ArchiveBaseMetadata> archiveBaseMetadata = archiveMetadataMapper.pageQuery(archiveMenuPageQueryDto);
-        List<ArchiveBaseMetadataVO> archiveBaseMetadataVOS = archiveBaseMetadata.stream().map(metadata -> ArchiveBaseMetadataVO.builder()
-                .id(metadata.getId())
-                .archivalLevel(ArchivalLevelEnum.fromKey(metadata.getArchivalLevel()).getInfo())
-                .archivalDeadline(ArchiveDeadlineEnum.fromKey(metadata.getArchivalDeadline()).getInfo())
-                .archivalYear(metadata.getArchivalYear())
-                .archivalCode(metadata.getArchivalCode())
-                .archivalTitle(metadata.getArchivalTitle())
-                .archivalDate(metadata.getArchivalDate())
-                .archivalResponsible(JSONObject.parseObject(metadata.getArchivalResponsible(), BaseUserInfo.class))
-                .build()).toList();
+        try (Page<ArchiveBaseMetadata> archiveBaseMetadata = archiveMetadataMapper.pageQuery(archiveMenuPageQueryDto)) {
+            List<ArchiveBaseMetadataVO> archiveBaseMetadataVOS = archiveBaseMetadata.stream().map(metadata -> ArchiveBaseMetadataVO.builder()
+                    .id(metadata.getId())
+                    .archivalLevel(ArchivalLevelEnum.fromKey(metadata.getArchivalLevel()).getInfo())
+                    .archivalDeadline(ArchiveDeadlineEnum.fromKey(metadata.getArchivalDeadline()).getInfo())
+                    .archivalYear(metadata.getArchivalYear())
+                    .archivalCode(metadata.getArchivalCode())
+                    .archivalTitle(metadata.getArchivalTitle())
+                    .archivalDate(metadata.getArchivalDate())
+                    .archivalResponsible(JSONObject.parseObject(metadata.getArchivalResponsible(), BaseUserInfo.class))
+                    .build()).toList();
 
-        return new PageResult(archiveBaseMetadata.getTotal(), archiveBaseMetadataVOS);
+            return new PageResult(archiveBaseMetadata.getTotal(), archiveBaseMetadataVOS);
+        }
     }
 
     @Override

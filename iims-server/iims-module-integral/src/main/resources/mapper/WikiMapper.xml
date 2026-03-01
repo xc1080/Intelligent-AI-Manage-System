@@ -8,7 +8,7 @@
         values (#{id}, #{title}, #{cover}, #{summary}, #{weight}, #{type}, #{isPublish}, #{isDeleted}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime})
     </insert>
 
-    <select id="pageQuery" resultType="cn.aitenry.iims.common.model.entity.integral.Wiki">
+    <select id="pageQuery">
         SELECT *
         FROM iims_integral_wiki
         <where>
@@ -51,5 +51,9 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="selectMaxWeight">
+        select * from iims_integral_wiki order by weight desc limit 1
+    </select>
 
 </mapper>

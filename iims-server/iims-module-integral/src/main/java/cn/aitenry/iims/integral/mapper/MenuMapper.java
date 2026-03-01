@@ -1,15 +1,13 @@
 package cn.aitenry.iims.integral.mapper;
 
-import com.github.pagehelper.Page;
 import cn.aitenry.iims.common.annotation.AutoFill;
 import cn.aitenry.iims.common.enums.OperationType;
-import cn.aitenry.iims.integral.model.dto.menu.MenuPageQueryDTO;
 import cn.aitenry.iims.common.model.entity.integral.Menu;
-import cn.aitenry.iims.integral.model.vo.user.UserMenuVO;
+import cn.aitenry.iims.integral.model.dto.menu.MenuPageQueryDTO;
 import cn.aitenry.iims.integral.model.vo.menu.MenuVO;
-import org.apache.ibatis.annotations.Delete;
+import cn.aitenry.iims.integral.model.vo.user.UserMenuVO;
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -46,7 +44,6 @@ public interface MenuMapper {
      * 根据id删除菜单
      * @param id 菜单ID
      */
-    @Delete("delete from iims_integral_menu where id = #{id}")
     void deleteById(Long id);
 
     /**
@@ -54,7 +51,6 @@ public interface MenuMapper {
      * @param id 菜单ID
      * @return Menu
      */
-    @Select("select * from iims_integral_menu where id = #{id}")
     Menu getById(Long id);
 
     /**
@@ -67,6 +63,5 @@ public interface MenuMapper {
      * 查询所有菜单
      * @return List<UserMenuVo>
      */
-    @Select("SELECT * FROM iims_integral_menu WHERE `status` = 1 order by parent_id, order_num;")
     List<UserMenuVO> allMenu();
 }

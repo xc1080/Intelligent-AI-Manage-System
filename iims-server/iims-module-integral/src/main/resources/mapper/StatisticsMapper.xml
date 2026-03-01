@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.aitenry.iims.integral.mapper.StatisticsMapper">
 
-    <select id="getStatisticsData" resultType="cn.aitenry.iims.integral.model.vo.statistics.StatisticsDataVO">
+    <select id="getStatisticsData">
         SELECT
                 (SELECT COUNT(*) FROM iims_integral_article WHERE is_deleted = 0) as articleCount,
                 (SELECT COUNT(*) FROM iims_integral_dict WHERE is_deleted = 0) as dictCount,
@@ -13,7 +13,7 @@
                 (SELECT COUNT(*) FROM iims_integral_user WHERE is_deleted = 0) as userCount
     </select>
 
-    <select id="getStatisticsDataByDay" resultType="cn.aitenry.iims.integral.model.vo.statistics.StatisticsDataVO">
+    <select id="getStatisticsDataByDay">
         SELECT
             statisticDate,
             SUM(articleCount) as articleCount,
@@ -101,18 +101,22 @@
     </insert>
 
     <!-- 根据日期查询已存在的统计数据 -->
-    <select id="getStatisticsDataByDate" resultType="cn.aitenry.iims.integral.model.entity.StatisticsEntity">
+    <select id="getStatisticsDataByDate">
         SELECT statistical_data, statistical_time
         FROM iims_integral_statistics
         WHERE DATE(statistical_time) = #{date}
     </select>
 
     <!-- 更新统计数据 -->
-    <update id="updateStatisticsData" parameterType="cn.aitenry.iims.integral.model.entity.StatisticsEntity">
+    <update id="updateStatisticsData">
         UPDATE iims_integral_statistics
         SET statistical_data = #{statisticalData},
             statistical_time = #{statisticalTime}
         WHERE DATE(statistical_time) = #{statisticalTime}
     </update>
+
+    <select id="getStatisticsAllData">
+        SELECT * from iims_integral_statistics
+    </select>
 
 </mapper>

@@ -3,4 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.aitenry.iims.ai.chat.mapper.AiChatSettingsMapper">
 
+    <select id="getModelSettingByUserId">
+        select * from iims_ai_chat_settings where user_id = #{userId} limit 1
+    </select>
+
+    <select id="selectUserIdByModelId" resultType="long">
+        SELECT user_id
+        FROM iims_ai_chat_settings
+        WHERE model_id = #{modelId} OR embedding_model = #{modelId}
+    </select>
+
 </mapper>

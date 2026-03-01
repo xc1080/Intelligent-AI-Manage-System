@@ -8,7 +8,7 @@
         values (#{id}, #{archivalCode}, #{archivalTitle}, #{archivalYear}, #{archivalDate}, #{archivalLevel}, #{archivalDeadline}, #{archivalAbstract}, #{archivalResponsible}, #{metadataProperty}, #{metadataOwnership}, #{isDeleted}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime})
     </insert>
 
-    <select id="pageQuery" resultType="cn.aitenry.iims.archive.model.entity.ArchiveBaseMetadata">
+    <select id="pageQuery">
         select * from iims_archive_metadata
         <where>
             is_deleted = 0
@@ -28,6 +28,10 @@
                 and archival_year = #{archivalYear}
             </if>
         </where>
+    </select>
+
+    <select id="getArchiveMetadataById">
+        SELECT * FROM iims_archive_metadata WHERE id = #{id}
     </select>
 
     <update id="update">

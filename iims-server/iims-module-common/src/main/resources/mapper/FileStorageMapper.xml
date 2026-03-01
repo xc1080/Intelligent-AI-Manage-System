@@ -14,6 +14,14 @@
             )
     </insert>
 
+    <select id="getFilePathById">
+        select file_path from iims_integral_warehouse where id = #{id};
+    </select>
+
+    <select id="getFileInfoByKey">
+        SELECT * from iims_integral_warehouse WHERE file_key = #{fileKey}
+    </select>
+
     <update id="update">
         update iims_integral_warehouse
         <set>
@@ -39,7 +47,11 @@
         where id = #{id};
     </update>
 
-    <select id="getObjectByIds">
+    <select id="getFileInfoById">
+        select * from iims_integral_warehouse where file_status != -1 AND id = #{id};
+    </select>
+
+    <select id="getFileInfoByIds">
         select * from iims_integral_warehouse where file_status = 1 and create_by = #{createBy} and id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}

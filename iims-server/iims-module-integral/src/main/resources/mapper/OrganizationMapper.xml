@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.aitenry.iims.integral.mapper.OrganizationMapper">
 
-    <select id="getCompanyOrgStructure" resultType="cn.aitenry.iims.integral.model.vo.organization.OrganizationMenuVO">
+    <select id="getCompanyOrgStructure">
         WITH RECURSIVE OrgTree AS (
             -- 查询出指定ID的组织记录（可能是公司、部门或职位，取决于传入的ID）
             SELECT id, parent_id, name, type, description, is_deleted, create_by, create_time, update_by, update_time
@@ -24,7 +24,7 @@
         ORDER BY parent_id, id; -- 按层级和ID排序，便于前端构建树形结构
     </select>
 
-    <select id="getDepartmentByJobId" resultType="cn.aitenry.iims.common.model.entity.integral.Organization">
+    <select id="getDepartmentByJobId">
         SELECT o.*
         FROM iims_integral_organization o
         WHERE o.id = (
@@ -37,7 +37,7 @@
           AND o.is_deleted = 0  -- 确保找到的部门也未被删除
     </select>
 
-    <select id="getDepartmentByJobIds" resultType="cn.aitenry.iims.common.model.entity.integral.Organization">
+    <select id="getDepartmentByJobIds">
         SELECT jo.id as jobId, o.*
         FROM iims_integral_organization o
         INNER JOIN (
@@ -53,7 +53,7 @@
         WHERE o.is_deleted = 0
     </select>
 
-    <select id="getOrganizationByIds" parameterType="list" resultType="cn.aitenry.iims.common.model.entity.integral.Organization">
+    <select id="getOrganizationByIds">
         SELECT
         id,
         parent_id,
@@ -68,10 +68,18 @@
         update_time
         FROM iims_integral_organization
         WHERE id IN
-        <foreach collection="list" item="id" open="(" separator="," close=")">
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
         AND is_deleted = 0 -- 确保只查询未被删除的组织
+    </select>
+
+    <select id="getCompanyList">
+        SELECT * FROM iims_integral_organization WHERE type = 0 AND is_deleted = 0
+    </select>
+
+    <select id="getAllMenuList">
+        SELECT * FROM iims_integral_organization WHERE is_deleted = 0
     </select>
 
 </mapper>

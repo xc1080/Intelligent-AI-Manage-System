@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.aitenry.iims.ai.chat.mapper.AiAgentMapper">
 
-    <select id="selectAgentList" resultType="cn.aitenry.iims.ai.chat.model.vo.SelectAgentVO">
+    <select id="selectAgentList">
         SELECT
             a.*,
             m.model_type

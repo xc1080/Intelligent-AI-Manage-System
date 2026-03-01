@@ -17,7 +17,7 @@
         VALUES (#{id}, #{dictId}, #{value}, #{remark}, #{isDeleted}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime} )
     </insert>
 
-    <update id="updateDictValue" parameterType="cn.aitenry.iims.common.model.entity.integral.DictValue">
+    <update id="updateDictValue">
         UPDATE iims_integral_dict_value
         <set>
             <if test="value != null">
@@ -62,7 +62,7 @@
         </foreach>
     </update>
 
-    <update id="updateDict" parameterType="cn.aitenry.iims.common.model.entity.integral.Dict">
+    <update id="updateDict">
         UPDATE iims_integral_dict
         <set>
             <if test="name != null">
@@ -84,7 +84,7 @@
         WHERE id = #{id}
     </update>
 
-    <select id="dictPageQuery" resultType="cn.aitenry.iims.integral.model.vo.dict.DictVO">
+    <select id="dictPageQuery">
         SELECT * FROM iims_integral_dict
         <where>
             is_deleted = 0
@@ -94,12 +94,27 @@
         </where>
     </select>
 
-    <select id="dictValuePageQuery" resultType="cn.aitenry.iims.integral.model.vo.dict.DictValueVO">
+    <select id="dictValuePageQuery">
         SELECT * FROM iims_integral_dict_value WHERE is_deleted = 0 and dict_id = #{dictId}
     </select>
 
-    <update id="disableDict" parameterType="cn.aitenry.iims.common.model.entity.status.DisableStatus">
+    <update id="disableDict">
         UPDATE iims_integral_dict SET is_disable = #{isDisable}, update_by = #{updateBy}, update_time = #{updateTime} WHERE id = #{id}
     </update>
+
+    <select id="getDictValueListByDictId">
+        select * from iims_integral_dict_value where dict_id = #{dictId}
+    </select>
+
+    <select id="getDictValueById">
+        select * from iims_integral_dict_value where id = #{id}
+    </select>
+
+    <select id="getDictValueByIds">
+        SELECT * FROM iims_integral_dict_value WHERE id IN
+        <foreach collection='ids' item='id' open='(' separator=',' close=')'>
+            #{id}
+        </foreach>
+    </select>
 
 </mapper>

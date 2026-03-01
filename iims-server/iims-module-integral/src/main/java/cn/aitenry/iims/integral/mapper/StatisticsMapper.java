@@ -4,7 +4,6 @@ import cn.aitenry.iims.integral.model.entity.StatisticsEntity;
 import cn.aitenry.iims.integral.model.vo.statistics.StatisticsDataVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,7 +47,6 @@ public interface StatisticsMapper {
      * 查询统计数据
      * @return List
      */
-    @Select("SELECT * from iims_integral_statistics")
     List<StatisticsEntity> getStatisticsAllData();
 
     /**

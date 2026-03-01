@@ -286,7 +286,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void buildArticleByFileId(Long fileId) {
-        FileWarehouse fileWarehouse = fileStorageService.getObjectById(fileId);
+        FileWarehouse fileWarehouse = fileStorageService.getFileInfoById(fileId);
         String name = FilenameUtils.removeExtension(fileWarehouse.getFileName());
         Article article = Article.builder()
                 .title(name).weight(0)

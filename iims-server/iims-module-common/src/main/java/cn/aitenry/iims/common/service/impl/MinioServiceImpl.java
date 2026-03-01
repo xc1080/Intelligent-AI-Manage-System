@@ -73,7 +73,7 @@ public class MinioServiceImpl implements MinioService {
         }
 
         String fileKey = DigestUtils.md5Hex(file.getInputStream());
-        FileWarehouse fileInfoByFileKey = fileStorageMapper.getFileInfoByFileKey(fileKey);
+        FileWarehouse fileInfoByFileKey = fileStorageMapper.getFileInfoByKey(fileKey);
         if (Objects.nonNull(fileInfoByFileKey)) {
             log.info("==> 上传文件已存在：使用快传方案...");
             return FileUpload.builder().fileId(fileInfoByFileKey.getId())
@@ -146,11 +146,11 @@ public class MinioServiceImpl implements MinioService {
     @Override
     public String getPreviewUrl(Long fileId) {
         try {
-            String objectName = fileStorageMapper.getObjectNameById(fileId);
-            if (StringUtils.isBlank(objectName)) return "";
+            String filePath = fileStorageMapper.getFilePathById(fileId);
+            if (StringUtils.isBlank(filePath)) return "";
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                     .bucket(minioProperties.getBucketName())
-                    .object(objectName)
+                    .object(filePath)
                     .method(Method.GET)
                     .build());
         } catch (Exception e) {
@@ -192,11 +192,11 @@ public class MinioServiceImpl implements MinioService {
     @Override
     public InputStream getInputStream(Long fileId) {
         try {
-            String objectName = fileStorageMapper.getObjectNameById(fileId);
+            String filePath = fileStorageMapper.getFilePathById(fileId);
             return minioClient.getObject(
                     GetObjectArgs.builder()
                             .bucket(minioProperties.getBucketName())
-                            .object(objectName)
+                            .object(filePath)
                             .build());
         } catch (ErrorResponseException | InsufficientDataException | InternalException | InvalidKeyException
                  | InvalidResponseException | IOException | NoSuchAlgorithmException | ServerException

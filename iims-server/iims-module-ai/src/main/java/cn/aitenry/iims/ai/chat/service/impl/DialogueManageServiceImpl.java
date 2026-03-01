@@ -1,10 +1,5 @@
 package cn.aitenry.iims.ai.chat.service.impl;
 
-import cn.aitenry.iims.ai.chat.model.entity.*;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import cn.aitenry.iims.ai.chat.mapper.AiChatDialogueMapper;
 import cn.aitenry.iims.ai.chat.model.dto.ChatDialoguePageQueryDTO;
 import cn.aitenry.iims.ai.chat.model.entity.*;
@@ -20,6 +15,10 @@ import cn.aitenry.iims.common.model.entity.status.DeletedStatus;
 import cn.aitenry.iims.common.result.PageResult;
 import cn.aitenry.iims.common.service.FileStorageService;
 import cn.aitenry.iims.common.service.MinioService;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
@@ -80,7 +79,7 @@ public class DialogueManageServiceImpl implements DialogueManageService {
                 chatDialogueVo.setAiContent(JSONArray.parseArray(r.getContent(), AiContent.class));
             }
             if (Objects.nonNull(ids) && !ids.isEmpty()) {
-                List<FileWarehouse> objects = storageService.getObjectByIds(ids);
+                List<FileWarehouse> objects = storageService.getFileInfoByIds(ids);
                 List<FileInfo> fileInfos = new ArrayList<>();
                 objects.forEach(object -> {
                     String previewUrl = minioService.generateShortLink(object.getId());
@@ -161,8 +160,8 @@ public class DialogueManageServiceImpl implements DialogueManageService {
     }
 
     @Override
-    public List<Message> loadingDialogueHistory(Long topicId) {
-        List<ChatDialogue> dialogueHistory = aiChatDialogueMapper.getHistoryByTopicId(topicId, 10);
+    public List<Message> loadingDialogueHistory(Long topicId, Integer windowContent) {
+        List<ChatDialogue> dialogueHistory = aiChatDialogueMapper.getHistoryByTopicId(topicId, windowContent * 2);
         List<Message> messages = new ArrayList<>(dialogueHistory.size());
 
         for (ChatDialogue chatDialogue : dialogueHistory) {
@@ -183,7 +182,7 @@ public class DialogueManageServiceImpl implements DialogueManageService {
                     }
                     List<ChatTool> tools = aiContent.getTools();
                     if (tools != null) {
-                        aiContentsBuffer.append("Tools used: ").append(JSONArray.toJSONString(tools));
+                        aiContentsBuffer.append(JSONArray.toJSONString(tools)).append("\n\n");
                     }
                 });
                 messages.add(new AssistantMessage(aiContentsBuffer.toString()));
@@ -227,7 +226,7 @@ public class DialogueManageServiceImpl implements DialogueManageService {
         }
 
         try {
-            List<FileWarehouse> storageItems = storageService.getObjectByIds(fileIds);
+            List<FileWarehouse> storageItems = storageService.getFileInfoByIds(fileIds);
             List<Media> mediaList = new ArrayList<>(storageItems.size());
 
             for (FileWarehouse item : storageItems) {

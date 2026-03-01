@@ -22,6 +22,7 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.tokenizer.JTokkitTokenCountEstimator;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.publisher.Flux;
@@ -49,8 +50,8 @@ public class ChatUtil {
     private final DocMetadataUtil docMetadataUtil;
     private final ModelService modelService;
     private final FileStorageService fileStorageService;
-
     private final AiChatSettingService settingService;
+    private static final JTokkitTokenCountEstimator estimator = new JTokkitTokenCountEstimator();
 
     public ChatUtil(DialogueManageService dialogueManageService, MilvusStoreService milvusStoreService,
                     DocMetadataUtil docMetadataUtil, ModelService modelService,
@@ -127,7 +128,7 @@ public class ChatUtil {
             error -> {
                 log.error("AI Subscribe 消息发送出错：", error);
                 BaseContext.setCurrentId(userId);
-                saveAiDialogueAndComplete(msgMap, uuid);
+                this.saveAiDialogueAndComplete(msgMap, uuid);
             },
             () -> {
                 BaseContext.setCurrentId(userId);
@@ -167,14 +168,16 @@ public class ChatUtil {
                     .topicId(topicId).lastId(lastId).sender("assistant")
                     .content(content).isStar(false).metadata(metadata).tools(toolsResult)
                     .isDeleted(false).build();
+            dialogueManageService.insertDialogue(aiAiChatDialogue);
+            log.info("AI 对话记录已保存，ID: {}", aiAiChatDialogue.getId());
             Long userId = BaseContext.getCurrentId();
-            // 异步保存 AI 对话记录，并等待完成
-            CompletableFuture<Void> saveFuture = CompletableFuture.runAsync(() -> {
+
+            CompletableFuture.runAsync(() -> {
                 BaseContext.setCurrentId(userId);
-                dialogueManageService.insertDialogue(aiAiChatDialogue);
-                log.info("AI 对话记录已保存，ID: {}", aiAiChatDialogue.getId());
+                List<Message> messages = dialogueManageService.loadingDialogueHistory(topicId, 7);
+                int estimate = estimator.estimate(messages.toString());
+                log.info("本次对话消耗了 {} Token", estimate);
             });
-            saveFuture.join(); // 等待异步操作完成
 
             // 尝试发送结束事件
             List<DocMetadataVO> list = docMetadataUtil.getDocMetadata(aiAiChatDialogue.getMetadata());

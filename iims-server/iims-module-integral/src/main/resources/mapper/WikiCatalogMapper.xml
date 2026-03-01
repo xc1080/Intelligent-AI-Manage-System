@@ -31,4 +31,56 @@
         order by id limit 1
     </select>
 
+    <select id="selectByWikiId">
+        select * from iims_integral_wiki_catalog where wiki_id = #{wikiId} and is_deleted = 0
+    </select>
+
+    <select id="countEmbedding">
+        select COUNT(CASE WHEN is_embedding = 1 THEN 1 END) AS count,
+               COUNT(*) AS total from iims_integral_wiki_catalog
+               where wiki_id = #{wikiId} and level = 2 and is_deleted = 0
+               and doc_id is not null and is_embedding is not null
+    </select>
+
+    <select id="selectByWikiIdAndArticleId">
+        SELECT *
+        FROM iims_integral_wiki_catalog
+        WHERE wiki_id = #{wikiId}
+          AND doc_id = #{docId}
+        LIMIT 1;
+    </select>
+
+    <select id="selectPreArticle">
+        SELECT *
+        FROM iims_integral_wiki_catalog
+        WHERE wiki_id = #{wikiId}
+          AND doc_id IS NOT NULL
+          AND id > #{catalogId}
+        ORDER BY id
+        LIMIT 1;
+    </select>
+
+    <select id="selectNextArticle">
+        SELECT *
+        FROM iims_integral_wiki_catalog
+        WHERE wiki_id = #{wikiId}
+        AND doc_id IS NOT NULL
+        AND id &lt; #{catalogId}
+        ORDER BY id DESC
+        LIMIT 1;
+    </select>
+
+    <update id="updateIsEmbedding">
+        UPDATE iims_integral_wiki_catalog
+        SET is_embedding = #{isEmbedding}
+        WHERE id IN
+        <foreach collection='ids' item='id' open='(' separator=',' close=')'>
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="selectWikiByDoc">
+        SELECT * FROM iims_integral_wiki_catalog WHERE doc_id = #{docId} AND type = #{type} AND is_deleted = 0
+    </select>
+
 </mapper>

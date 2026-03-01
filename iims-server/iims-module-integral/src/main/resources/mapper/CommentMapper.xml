@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.aitenry.iims.integral.mapper.CommentMapper">
+
     <insert id="insert" parameterType="map">
         INSERT INTO iims_integral_comment (
             id, content, router_url, reply_comment_id, parent_comment_id,
@@ -11,4 +12,9 @@
             #{reason}, #{status}, #{createBy}, #{updateBy}, #{createTime}, #{updateTime}
         )
     </insert>
+
+    <select id="selectByRouterUrlAndStatus">
+        SELECT * FROM iims_integral_comment WHERE router_url = #{routerUrl} AND status = #{status} ORDER BY create_time DESC;
+    </select>
+
 </mapper>

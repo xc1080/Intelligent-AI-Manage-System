@@ -89,4 +89,24 @@
         </where>
     </select>
 
+    <select id="selectMaxWeight">
+        select weight from iims_integral_article order by weight desc limit 1
+    </select>
+
+    <select id="selectById">
+        select * from iims_integral_article where id = #{articleId}
+    </select>
+
+    <select id="selectNextArticle">
+        SELECT * FROM iims_integral_article WHERE id > #{articleId} ORDER BY id LIMIT 1;
+    </select>
+
+    <select id="selectPreArticle">
+        SELECT * FROM iims_integral_article WHERE id &lt; #{articleId} ORDER BY id DESC LIMIT 1;
+    </select>
+
+    <update id="increaseReadNum">
+        UPDATE iims_integral_article SET read_num = read_num + 1 WHERE id = #{articleId};
+    </update>
+
 </mapper>

@@ -48,9 +48,10 @@ public class ChatServiceImpl implements ChatService {
     private final ChatUtil chatUtil;
     private final AgentUtil agentUtil;
 
-    public ChatServiceImpl(ModelService modelService, AiChatModelsService aiChatModelsService, AiAgentService aiAgentService, TopicManageService topicManageService,
-                           DialogueManageService dialogueManageService, FileStorageService fileStorageService,
-                           PromptHandlerContext promptHandlerContext, ChatUtil chatUtil, AgentUtil agentUtil) {
+    public ChatServiceImpl(ModelService modelService, AiChatModelsService aiChatModelsService, AiAgentService aiAgentService,
+                           TopicManageService topicManageService, DialogueManageService dialogueManageService,
+                           FileStorageService fileStorageService, PromptHandlerContext promptHandlerContext,
+                           ChatUtil chatUtil, AgentUtil agentUtil) {
         this.modelService = modelService;
         this.aiChatModelsService = aiChatModelsService;
         this.aiAgentService = aiAgentService;
@@ -95,7 +96,7 @@ public class ChatServiceImpl implements ChatService {
             try {
 
                 // 加载历史消息或文档内容，并不携带最新的用户问题，由构建Prompt时加载
-                List<Message> messages = dialogueManageService.loadingDialogueHistory(topicId);
+                List<Message> messages = dialogueManageService.loadingDialogueHistory(topicId, 6);
 
                 // 构建并插入用户对话记录
                 AiChatDialogue userAiChatDialogue = chatUtil.buildUserDialogue(messageData);
@@ -104,7 +105,7 @@ public class ChatServiceImpl implements ChatService {
                 messageData.setLastId(lastId);
 
                 List<String> fileContext = new ArrayList<>();
-                List<FileWarehouse> objects = fileStorageService.getObjectByIds(fileIds);
+                List<FileWarehouse> objects = fileStorageService.getFileInfoByIds(fileIds);
                 if (Objects.nonNull(objects) && !objects.isEmpty()) {
                     objects.forEach(object -> {
                         ModelUseInfo filePrompt = promptHandlerContext.handleFile(object);

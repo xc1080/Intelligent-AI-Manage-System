@@ -19,4 +19,8 @@
         where article_id = #{articleId}
     </update>
 
+    <select id="selectByArticleId">
+        select * from iims_integral_article_content where article_id = #{articleId}
+    </select>
+
 </mapper>

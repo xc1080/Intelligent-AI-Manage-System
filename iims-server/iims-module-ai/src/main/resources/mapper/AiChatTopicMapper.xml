@@ -8,7 +8,7 @@
         values (#{id}, #{title}, #{isDeleted}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime})
     </insert>
 
-    <select id="pageQuery" resultType="cn.aitenry.iims.ai.chat.model.vo.ChatTopicVO">
+    <select id="pageQuery">
         select * from iims_ai_chat_topic
         <where>
             <if test="id != null">

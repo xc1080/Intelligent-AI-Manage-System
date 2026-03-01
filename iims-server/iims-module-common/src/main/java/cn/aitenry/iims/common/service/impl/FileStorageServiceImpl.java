@@ -28,14 +28,14 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public List<FileWarehouse> getObjectByIds(List<Long> ids) {
+    public List<FileWarehouse> getFileInfoByIds(List<Long> ids) {
         if (Objects.isNull(ids) || ids.isEmpty()) return null;
-        return fileStorageMapper.getObjectByIds(BaseContext.getCurrentId(), ids);
+        return fileStorageMapper.getFileInfoByIds(BaseContext.getCurrentId(), ids);
     }
 
     @Override
-    public FileWarehouse getObjectById(Long id) {
-        return fileStorageMapper.getObjectById(id);
+    public FileWarehouse getFileInfoById(Long id) {
+        return fileStorageMapper.getFileInfoById(id);
     }
 
     @Override

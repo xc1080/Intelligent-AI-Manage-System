@@ -32,7 +32,7 @@
     </update>
 
     <!--根据用户名或者邮箱查询用户-->
-    <select id="getByUserNameOrEmail" resultType="cn.aitenry.iims.common.model.entity.integral.User">
+    <select id="getByUserNameOrEmail">
         select * from iims_integral_user
         <where>
             <if test="email != null and email != ''">
@@ -51,7 +51,7 @@
     </select>
 
     <!--分页查询-->
-    <select id="pageQuery" resultType="cn.aitenry.iims.integral.model.vo.user.UserVO">
+    <select id="pageQuery">
         select * from iims_integral_user
         <where>
             and is_deleted = 0
@@ -72,12 +72,12 @@
     </select>
 
     <!--根据用户id查询角色集合-->
-    <select id="searchUserRoles" resultType="cn.aitenry.iims.integral.model.vo.role.RoleVO">
+    <select id="searchUserRoles">
         SELECT r.id,r.role_name, r.role_en, r.menus FROM iims_integral_user a JOIN iims_integral_role r ON JSON_CONTAINS(a.role, CONCAT('\"', CAST(r.id AS CHAR), '\"')) WHERE a.id = #{userId} AND a.is_disable = 0;
     </select>
 
     <!--根据用户id查询菜单集合-->
-    <select id="getMenusByUserId" resultType="cn.aitenry.iims.integral.model.vo.user.UserMenuVO">
+    <select id="getMenusByUserId">
         SELECT m.* FROM iims_integral_user a JOIN iims_integral_role r
             ON JSON_CONTAINS(a.role, CONCAT('\"', CAST(r.id AS CHAR), '\"')) JOIN iims_integral_menu m
                 ON JSON_CONTAINS(r.menus, CONCAT('\"', CAST(m.id AS CHAR), '\"'))
@@ -91,7 +91,7 @@
         </foreach>
     </select>
 
-    <select id="selectObjectById" resultType="cn.aitenry.iims.common.model.entity.integral.User">
+    <select id="selectObjectById">
         select * from iims_integral_user where id = #{id}
     </select>
 
@@ -99,15 +99,15 @@
         select avatar from iims_integral_user where id = #{id}
     </select>
 
-    <select id="list" resultType="cn.aitenry.iims.common.model.entity.integral.User">
+    <select id="list">
         select * from iims_integral_user
     </select>
 
-    <select id="baseInfoQuery" resultType="cn.aitenry.iims.common.model.entity.base.BaseUserInfo">
+    <select id="baseInfoQuery">
         select id, name from iims_integral_user where username like concat('%', #{username}, '%')
     </select>
 
-    <select id="selectObjectByIds" resultType="cn.aitenry.iims.common.model.entity.integral.User">
+    <select id="selectObjectByIds">
         SELECT * FROM iims_integral_user WHERE id IN
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}

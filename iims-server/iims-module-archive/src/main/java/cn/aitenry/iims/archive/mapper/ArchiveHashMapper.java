@@ -2,7 +2,6 @@ package cn.aitenry.iims.archive.mapper;
 
 import cn.aitenry.iims.archive.model.entity.ArchiveMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 /**
  * @Author: Aitenry
@@ -13,7 +12,6 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface ArchiveHashMapper {
 
-    @Select("SELECT * FROM iims_archive_mapper WHERE organization_final_id = #{id}")
     ArchiveMapper getMapperById(Long id);
 
 }

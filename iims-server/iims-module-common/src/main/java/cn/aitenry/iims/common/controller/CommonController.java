@@ -77,7 +77,7 @@ public class CommonController {
                 return;
             }
 
-            FileWarehouse objectById = fileStorageService.getObjectById(fileId);
+            FileWarehouse objectById = fileStorageService.getFileInfoById(fileId);
             String fileType = objectById.getFileType();
             response.setContentType(fileType != null ? fileType : "application/octet-stream");
 

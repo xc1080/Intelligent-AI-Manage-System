@@ -1,15 +1,13 @@
 package cn.aitenry.iims.integral.mapper;
 
-import cn.aitenry.iims.integral.model.entity.DeletedWikiStatus;
-import cn.aitenry.iims.integral.model.entity.EmbeddingCount;
-import cn.aitenry.iims.integral.model.vo.wiki.WikiCatalogVO;
 import cn.aitenry.iims.common.annotation.AutoFill;
 import cn.aitenry.iims.common.enums.DocumentTypeEnum;
 import cn.aitenry.iims.common.enums.OperationType;
 import cn.aitenry.iims.common.model.entity.integral.WikiCatalog;
+import cn.aitenry.iims.integral.model.entity.DeletedWikiStatus;
+import cn.aitenry.iims.integral.model.entity.EmbeddingCount;
+import cn.aitenry.iims.integral.model.vo.wiki.WikiCatalogVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -30,14 +28,8 @@ public interface WikiCatalogMapper {
     @AutoFill(value = OperationType.INSERT)
     int insert(WikiCatalog wikiCatalog);
 
-    @Select("select * from iims_integral_wiki_catalog where wiki_id = #{wikiId} and is_deleted = 0")
     List<WikiCatalog> selectByWikiId(Long wikiId);
 
-    @Select("select COUNT(CASE WHEN is_embedding = 1 THEN 1 END) AS count, " +
-            "COUNT(*) AS total from iims_integral_wiki_catalog " +
-            "where wiki_id = #{wikiId} and level = 2 and is_deleted = 0 " +
-            "and doc_id is not null " +
-            "and is_embedding is not null")
     EmbeddingCount countEmbedding(Long wikiId);
 
     @AutoFill(value = OperationType.UPDATE)
@@ -48,48 +40,14 @@ public interface WikiCatalogMapper {
     @AutoFill(value = OperationType.INSERT)
     void insertBatchSomeColumn(List<WikiCatalog> wikiCatalogList);
 
-    @Select("""
-            SELECT *
-            FROM iims_integral_wiki_catalog
-            WHERE wiki_id = #{wikiId}
-              AND doc_id = #{docId}
-            LIMIT 1;""")
     WikiCatalogVO selectByWikiIdAndArticleId(Long wikiId, Long docId);
 
-    @Select("""
-            SELECT *
-            FROM iims_integral_wiki_catalog
-            WHERE wiki_id = #{wikiId}
-              AND doc_id IS NOT NULL
-              AND id > #{catalogId}
-            ORDER BY id ASC
-            LIMIT 1;""")
     WikiCatalogVO selectPreArticle(Long wikiId, Long catalogId);
 
-    @Select("""
-            SELECT *
-            FROM iims_integral_wiki_catalog
-            WHERE wiki_id = #{wikiId}
-              AND doc_id IS NOT NULL
-              AND id < #{catalogId}
-            ORDER BY id DESC
-            LIMIT 1;""")
     WikiCatalogVO selectNextArticle(Long wikiId, Long catalogId);
 
-    @Update({
-            "<script>",
-            "UPDATE iims_integral_wiki_catalog",
-            "SET is_embedding = #{isEmbedding}",
-            "WHERE id IN",
-            "<foreach collection='ids' item='id' open='(' separator=',' close=')'>",
-            "#{id}",
-            "</foreach>",
-            "</script>"
-    })
     void updateIsEmbedding(List<Long> ids, Boolean isEmbedding);
 
-
-    @Select("SELECT * FROM iims_integral_wiki_catalog WHERE doc_id = #{docId} AND type = #{type} AND is_deleted = 0")
     WikiCatalog selectWikiByDoc(Long docId, DocumentTypeEnum type);
 
 }

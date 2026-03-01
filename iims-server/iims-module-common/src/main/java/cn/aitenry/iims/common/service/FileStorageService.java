@@ -13,9 +13,9 @@ import java.util.List;
  **/
 public interface FileStorageService {
 
-    List<FileWarehouse> getObjectByIds(List<Long> ids);
+    List<FileWarehouse> getFileInfoByIds(List<Long> ids);
 
-    FileWarehouse getObjectById(Long id);
+    FileWarehouse getFileInfoById(Long id);
 
     void update(FileWarehouse fileWarehouse);
 

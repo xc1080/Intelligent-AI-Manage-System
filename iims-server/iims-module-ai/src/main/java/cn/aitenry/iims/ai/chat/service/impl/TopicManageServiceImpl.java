@@ -42,9 +42,12 @@ public class TopicManageServiceImpl implements TopicManageService {
                 .isDeleted(false).build();
         aiChatTopic.setCreateBy(BaseContext.getCurrentId());
         BeanUtils.copyProperties(pageQueryDto, aiChatTopic);
-        Page<ChatTopicVO> chatTopicVOS = aiChatTopicMapper.pageQuery(aiChatTopic);
-        long total = chatTopicVOS.getTotal();
-        List<ChatTopicVO> records = chatTopicVOS.getResult();
+        long total;
+        List<ChatTopicVO> records;
+        try (Page<ChatTopicVO> chatTopicVOS = aiChatTopicMapper.pageQuery(aiChatTopic)) {
+            total = chatTopicVOS.getTotal();
+            records = chatTopicVOS.getResult();
+        }
         return new PageResult(total, records);
     }
 

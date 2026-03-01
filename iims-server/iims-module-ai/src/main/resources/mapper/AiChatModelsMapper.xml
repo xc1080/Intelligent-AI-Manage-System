@@ -12,7 +12,7 @@
                 #{createBy}, #{createTime}, #{updateBy}, #{updateTime})
     </insert>
 
-    <select id="pageQuery" resultType="cn.aitenry.iims.ai.chat.model.vo.ModelVO">
+    <select id="pageQuery">
         select * from iims_ai_chat_models
         <where>
             and is_deleted = 0
@@ -22,7 +22,11 @@
         </where>
     </select>
 
-    <select id="selectModelList" resultType="cn.aitenry.iims.ai.chat.model.vo.SelectModelVO">
+    <select id="selectModelById">
+        select * from iims_ai_chat_models where id = #{id} limit 1
+    </select>
+
+    <select id="selectModelList">
         select * from iims_ai_chat_models where is_deleted = 0 and model_type != 0 order by type
     </select>
 

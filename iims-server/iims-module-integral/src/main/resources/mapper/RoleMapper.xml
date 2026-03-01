@@ -21,11 +21,23 @@
         where id = #{id}
     </update>
 
-    <select id="pageQuery" resultType="cn.aitenry.iims.integral.model.vo.role.RoleVO">
+    <select id="pageQuery">
         select * from iims_integral_role
         <where>
             <if test="roleName != null and roleName != ''">and role_name like concat('%', #{roleName}, '%')</if>
             <if test="roleEn != null and roleEn != ''">and role_en like concat('%', #{roleEn}, '%')</if>
         </where>
+    </select>
+
+    <delete id="deleteById">
+        delete from iims_integral_role where id = #{id} and systemic = 0
+    </delete>
+
+    <select id="getById">
+        select * from iims_integral_role where id = #{id}
+    </select>
+
+    <select id="list">
+        select * from iims_integral_role
     </select>
 </mapper>

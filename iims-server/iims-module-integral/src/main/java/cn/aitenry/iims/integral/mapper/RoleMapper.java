@@ -1,14 +1,12 @@
 package cn.aitenry.iims.integral.mapper;
 
-import com.github.pagehelper.Page;
 import cn.aitenry.iims.common.annotation.AutoFill;
 import cn.aitenry.iims.common.enums.OperationType;
-import cn.aitenry.iims.integral.model.dto.role.RolePageQueryDTO;
 import cn.aitenry.iims.common.model.entity.integral.Role;
+import cn.aitenry.iims.integral.model.dto.role.RolePageQueryDTO;
 import cn.aitenry.iims.integral.model.vo.role.RoleVO;
-import org.apache.ibatis.annotations.Delete;
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -45,7 +43,6 @@ public interface RoleMapper {
      * 根据id删除角色
      * @param id 角色ID
      */
-    @Delete("delete from iims_integral_role where id = #{id} and systemic = 0")
     void deleteById(Long id);
 
     /**
@@ -53,13 +50,11 @@ public interface RoleMapper {
      * @param id 角色ID
      * @return Role
      */
-    @Select("select * from iims_integral_role where id = #{id}")
     Role getById(Long id);
 
     /**
      * 查询所有角色
      * @return List<RoleVO>
      */
-    @Select("select * from iims_integral_role where role_name != ''")
     List<RoleVO> list();
 }
