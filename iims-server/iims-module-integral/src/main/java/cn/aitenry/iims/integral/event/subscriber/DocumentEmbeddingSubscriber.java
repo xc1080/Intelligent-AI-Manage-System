@@ -1,6 +1,7 @@
 package cn.aitenry.iims.integral.event.subscriber;
 
 import cn.aitenry.iims.ai.rag.service.MilvusStoreService;
+import cn.aitenry.iims.common.context.BaseContext;
 import cn.aitenry.iims.common.utils.SnowFlakeIdWorker;
 import cn.aitenry.iims.integral.event.DocumentEmbeddingEvent;
 import cn.aitenry.iims.subscriber.enums.NotificationLevelEnum;
@@ -50,7 +51,7 @@ public class DocumentEmbeddingSubscriber implements ApplicationListener<Document
         String threadName = Thread.currentThread().getName();
 
         log.info("==> 知识库向量化事件: {}", threadName);
-
+        BaseContext.setCurrentId(currentId);
         // 文档向量化
         Boolean aBoolean = milvusStoreService.addDocumentByWiki(wikiId);
         SseMessage<NotificationData> message = SseMessage.notification(

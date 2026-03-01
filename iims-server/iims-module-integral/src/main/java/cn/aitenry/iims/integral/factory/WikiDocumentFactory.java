@@ -87,12 +87,12 @@ public class WikiDocumentFactory implements DocumentService {
                                     filter.eq("chunk_key", delKey)).build());
                 }
             }
-            if (!documents.isEmpty()) {
-                List<Document> documentsToAdd = documents.stream()
-                        .filter(doc -> {
-                            Object chunkKey = doc.getMetadata().get("chunk_key");
-                            return chunkKey != null && addChunk.contains(chunkKey.toString());
-                        }).toList();
+            List<Document> documentsToAdd = documents.stream()
+                    .filter(doc -> {
+                        Object chunkKey = doc.getMetadata().get("chunk_key");
+                        return chunkKey != null && addChunk.contains(chunkKey.toString());
+                    }).toList();
+            if (!documentsToAdd.isEmpty()) {
                 storeService.loadMilvusVectorStore("iims", "wiki")
                         .add(documentsToAdd);
                 ids.add(wikiCatalog.getId());
