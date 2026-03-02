@@ -6,7 +6,7 @@ import request from '@/utils/request.ts'
  */
 export function getMenuTree() {
   return request({
-    url: '/dms/collect/menuTree',
+    url: '/archive/collect/menuTree',
     method: 'get'
   }) as any
 }
@@ -18,7 +18,7 @@ export function getMenuTree() {
  */
 export function getArchiveList(data: any) {
   return request({
-    url: '/dms/collect/page',
+    url: '/archive/collect/page',
     method: 'post',
     data
   }) as any
@@ -31,7 +31,7 @@ export function getArchiveList(data: any) {
  */
 export function getArchiveMetadata(id: string) {
   return request({
-    url: `/dms/collect/metadata/${id}`,
+    url: `/archive/collect/metadata/${id}`,
     method: 'get'
   }) as any
 }
@@ -43,7 +43,7 @@ export function getArchiveMetadata(id: string) {
  */
 export function editArchiveMetadata(data: any) {
   return request({
-    url: `/dms/collect/edit/metadata`,
+    url: `/archive/collect/edit/metadata`,
     method: 'post',
     data
   }) as any
@@ -56,7 +56,7 @@ export function editArchiveMetadata(data: any) {
  */
 export function addArchiveMetadata(data: any) {
   return request({
-    url: `/dms/collect/add/metadata`,
+    url: `/archive/collect/add/metadata`,
     method: 'post',
     data
   }) as any
@@ -69,7 +69,7 @@ export function addArchiveMetadata(data: any) {
  */
 export function delArchiveMetadata(data: any) {
   return request({
-    url: `/dms/collect/del/metadata`,
+    url: `/archive/collect/del/metadata`,
     method: 'post',
     data
   }) as any

@@ -1,7 +1,9 @@
 package cn.aitenry.iims.integral.service.impl;
 
 import cn.aitenry.iims.common.model.entity.integral.Organization;
+import cn.aitenry.iims.common.model.entity.status.DeletedStatus;
 import cn.aitenry.iims.integral.mapper.OrganizationMapper;
+import cn.aitenry.iims.integral.model.dto.organization.OrganizationDTO;
 import cn.aitenry.iims.integral.model.vo.organization.OrganizationMenuVO;
 import cn.aitenry.iims.integral.model.vo.organization.OrganizationVO;
 import cn.aitenry.iims.integral.service.OrganizationService;
@@ -103,6 +105,29 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<Organization> getDepartmentsByJobIds(ArrayList<Long> ids) {
         return organizationMapper.getDepartmentByJobIds(ids);
+    }
+
+    @Override
+    public void update(OrganizationDTO organizationDTO) {
+        organizationMapper.update(Organization.builder()
+                .id(organizationDTO.getId()).name(organizationDTO.getName())
+                .parentId(organizationDTO.getParentId()).description(organizationDTO.getDescription())
+                .code(organizationDTO.getCode()).type(organizationDTO.getType()).build());
+    }
+
+    @Override
+    public void save(OrganizationDTO organizationDTO) {
+        organizationMapper.insert(Organization.builder()
+                .name(organizationDTO.getName()).parentId(organizationDTO.getParentId())
+                .description(organizationDTO.getDescription()).code(organizationDTO.getCode())
+                .type(organizationDTO.getType()).build());
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        organizationMapper.updateDeleted(DeletedStatus.builder()
+                .ids(Collections.singletonList(id))
+                .isDeleted(true).build());
     }
 
     /**

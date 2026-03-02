@@ -50,7 +50,7 @@
     <el-row class="page">
       <el-col :span="24">
         <el-pagination style="justify-content: center; margin-top: 20px;" background :current-page="pages.page" :page-sizes="[100, 200, 300]" :page-size="pages.pageSize"
-                       layout="sizes, total, prev, pager, next, jumper" :total="pages.total" :hide-on-single-page="true"
+                       layout="sizes, total, prev, pager, next, jumper" :total="pages.total"
                        @current-change="handleCurrentChange" @size-change="handleSizeChange" />
       </el-col>
     </el-row>
@@ -67,10 +67,6 @@ const list = ref<any[]>([])
 const listLoading = ref(true)
 const selectedLevel = ref<string | null>(null)
 const levelOptions = [
-  {
-    value: 'INFO',
-    label: 'INFO'
-  },
   {
     value: 'WARN',
     label: 'WARN'

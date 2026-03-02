@@ -1,13 +1,16 @@
 <template>
   <div class="app-container customer-page-box">
     <div class="cus-btn-con">
-      <el-button v-if="isGoOrganization" @click="getList" style="float: left;" type="primary" plain><i class="ri-arrow-left-line"></i></el-button>
+      <el-button v-if="isGoOrganization" @click="getList" style="display: flex;" type="primary" plain>
+        <i class="ri-arrow-left-line"></i>
+      </el-button>
       <el-button
           type="primary"
           plain
-          @click="handleAdd"
+          @click="handleAdd()"
+          v-if="!isGoOrganization"
       >
-        <i style="margin-right: 3px;" class="ri-menu-add-fill"></i>新增
+        <i style="margin-right: 3px;" class="ri-menu-add-fill"></i>新增公司
       </el-button>
     </div>
 
@@ -30,9 +33,9 @@
           min-width="130"
       />
       <el-table-column
-          prop="menuType"
+          prop="type"
           label="组织类型"
-          min-width="30"
+          min-width="80"
           align="center"
       >
         <template #default="scope">
@@ -44,6 +47,12 @@
           </el-tag>
         </template>
       </el-table-column>
+      <el-table-column
+          prop="code"
+          label="全宗"
+          :show-overflow-tooltip="true"
+          min-width="100"
+      />
       <el-table-column
           prop="description"
           label="描述"
@@ -77,7 +86,7 @@
               effect="dark"
               content="添加"
               placement="bottom"
-              v-if="scope.row.type !== 2"
+              v-if="canAddChild(scope.row)"
           >
             <el-button
                 plain
@@ -106,6 +115,7 @@
               effect="dark"
               content="删除"
               placement="bottom"
+              v-if="scope.row.children.length === 0"
           >
             <el-button
                 plain
@@ -119,7 +129,7 @@
       </el-table-column>
     </el-table>
 
-    <!-- 添加或修改菜单对话框 -->
+    <!-- 添加或修改组织对话框 -->
     <el-dialog
         :title="title"
         v-model="open"
@@ -135,7 +145,7 @@
       >
         <el-row>
           <el-col :span="24">
-            <el-form-item label="上级菜单">
+            <el-form-item label="上级">
               <el-tree-select
                   v-model="form.parentId"
                   :data="menuOptions"
@@ -144,82 +154,31 @@
               />
             </el-form-item>
           </el-col>
+
           <el-col :span="24">
-            <el-form-item label="菜单类型" prop="menuType">
-              <el-radio-group v-model="form.menuType">
-                <el-radio value="M">目录</el-radio>
-                <el-radio value="C">视图</el-radio>
-                <el-radio value="F">按钮</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <el-col v-if="form.menuType !== 'F'" :span="24">
-            <el-form-item label="菜单图标">
+            <el-form-item label="名称" prop="name">
               <el-input
-                  v-model="form.icon"
-                  placeholder="点击选择图标"
-                  readonly
-              >
-                <template #prefix></template>
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="菜单名称" prop="title">
-              <el-input
-                  v-model="form.title"
-                  placeholder="请输入菜单名称"
+                  v-model="form.name"
+                  placeholder="请输入名称"
               />
             </el-form-item>
           </el-col>
-          <el-col :span="11" :offset="2">
-            <el-form-item label="显示排序" prop="orderNum">
-              <el-input-number
-                  v-model="form.orderNum"
-                  controls-position="right"
-                  :min="0"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col v-if="form.menuType !== 'F'" :span="11">
-            <el-form-item label="开启新页">
-              <el-radio-group v-model="form.isFrame">
-                <el-radio :value="0">是</el-radio>
-                <el-radio :value="1">否</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11" :offset="2" v-if="form.menuType !== 'F'">
-            <el-form-item label="路由地址" prop="path">
+          <el-col :span="24">
+            <el-form-item label="全宗">
               <el-input
-                  v-model="form.path"
-                  placeholder="请输入路由地址"
+                  v-model="form.code"
+                  placeholder="请输入全宗"
               />
             </el-form-item>
           </el-col>
-          <el-col v-if="form.menuType === 'C'" :span="11">
-            <el-form-item label="组件路径" prop="component">
+          <el-col :span="24">
+            <el-form-item label="描述">
               <el-input
-                  v-model="form.component"
-                  placeholder="请输入组件路径"
+                  v-model="form.description"
+                  type="textarea"
+                  :rows="3"
+                  placeholder="请输入描述"
               />
-            </el-form-item>
-          </el-col>
-          <el-col :span="11" :offset="form.menuType === 'F' ? 0 : 2" v-if="form.menuType !== 'M'">
-            <el-form-item label="权限标识">
-              <el-input
-                  v-model="form.perms"
-                  placeholder="请权限标识"
-                  maxlength="50"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="11" v-if="form.menuType !== 'F'">
-            <el-form-item label="显示状态" prop="visible">
-              <el-radio-group v-model="form.visible">
-                <el-radio :value="0">显示</el-radio>
-                <el-radio :value="1">隐藏</el-radio>
-              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
@@ -235,54 +194,46 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { addMenu, deleteMenu, updateMenu } from '@/api/menu'
-import { getMenuTree } from '@/api/organization'
+import { getMenuTree, addOrganization, deleteOrganization, updateOrganization } from '@/api/organization'
 import type { FormInstance } from 'element-plus'
-import {handleTree} from "@/utils/common.ts";
-interface MenuData {
+
+interface OrgData {
   id: string | null
   parentId: string
-  title: string
-  icon?: string
-  menuType: 'M' | 'C' | 'F'
-  orderNum: number
-  isFrame: 0 | 1
-  visible: 0 | 1
-  perms?: string
-  component?: string
-  path?: string
-  status: 0 | 1
-  children?: MenuData[]
+  name: string
+  type: number // 0 公司、1 部门、2 职位
+  code: string
+  description: string
+  children?: OrgData[]
   hasChildren?: boolean
 }
 
-interface MenuForm extends MenuData {
+interface OrgForm extends OrgData {
   [key: string]: any
 }
+
 // 数据模型
 const loading = ref(true)
 const isGoOrganization = ref(false)
-const menuList = ref<MenuData[]>([])
+const menuList = ref<OrgData[]>([])
 const menuOptions = ref<any[]>([])
 const open = ref(false)
 const title = ref('')
+const organizationId = ref<string | null>(null)
 const formRef = ref<FormInstance>()
+const currentParentType = ref<number | null>(null)
 
-const form = reactive<MenuForm>({
+const form = reactive<OrgForm>({
   id: null,
   parentId: '0',
-  title: '',
-  visible: 0,
-  orderNum: 0,
-  status: 0,
-  menuType: "M",
-  isFrame: 0
+  name: '',
+  type: 0,
+  code: '',
+  description: ''
 })
 
 const rules = {
-  title: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
-  orderNum: [{ required: true, message: '菜单顺序不能为空', trigger: 'blur' }],
-  path: [{ required: true, message: '路由地址不能为空', trigger: 'blur' }]
+  name: [{ required: true, message: '组织名称不能为空', trigger: 'blur' }]
 }
 
 const getList = async () => {
@@ -295,19 +246,28 @@ const getList = async () => {
     console.error(err)
   } finally {
     loading.value = false
+    organizationId.value = null
+  }
+}
+
+const canAddChild = (row: OrgData): boolean => {
+  if (!isGoOrganization.value) {
+    // 在公司页面，只允许添加公司
+    return true
+  } else {
+    // 在具体组织下，根据当前层级决定可以添加什么
+    return row.type === 0 || row.type === 1 // 公司下可以添加部门，部门下可以添加职位
   }
 }
 
 const normalizer = (node: any) => {
-  if (!node.children || node.children === 'null') {
+  if (!node.children) {
     delete node.children
   }
-  if (node.menuType === 'F') {
-    return {}
-  }
+  if (node.type === 2) return {}
   return {
     value: node.id,
-    label: node.title ?? node.label,
+    label: node.name ?? node.label,
     children: node.children ?? []
   }
 }
@@ -329,9 +289,22 @@ const normalizeTree = (tree: any): any => {
 const getTreeSelect = async () => {
   try {
     menuOptions.value = []
-    const res = await getMenuTree(null)
-    const menu: any = { id: '0', label: '主类目', children: [] }
-    menu.children = handleTree(res.data, 'id')
+    let menu: any
+    if (!isGoOrganization.value) {
+      menu = { id: '0', label: '主类目', children: [] }
+      menu.children = menuList.value
+    } else if (menuList.value[0]?.children?.length === 0) {
+      menu = menuList.value[0]
+      menuOptions.value.push({
+        value: menu.id,
+        label: menu.name ?? menu.label,
+        children: []
+      })
+      return
+    } else {
+      menu = menuList.value[0]
+    }
+    console.log(menuList.value)
     menuOptions.value.push(normalizeTree(menu))
   } catch (err) {
     console.error(err)
@@ -342,13 +315,12 @@ const reset = () => {
   Object.assign(form, {
     id: undefined,
     parentId: '0',
-    title: undefined,
-    icon: undefined,
-    menuType: 'M',
-    orderNum: undefined,
-    isFrame: 1,
-    visible: 0
+    name: '',
+    type: 0,
+    code: '',
+    description: ''
   })
+  currentParentType.value = null
 }
 
 const cancel = () => {
@@ -366,71 +338,96 @@ const handleGoOrganization = async (id: string) => {
     console.error(err)
   } finally {
     loading.value = false
+    organizationId.value = id
   }
 }
 
-const handleAdd = async (row?: MenuData) => {
+const handleAdd = async (row?: OrgData) => {
   await nextTick()
   reset()
   await getTreeSelect()
+
   if (row && row.id) {
+    // 在现有节点下添加子节点
     form.parentId = row.id
+    currentParentType.value = row.type
+
+    // 根据父级类型设置默认的组织类型
+    if (isGoOrganization.value && row.type === 0) {
+      form.type = 1 // 公司下默认添加部门
+      title.value = "新增部门"
+    } else if (row.type === 1) {
+      form.type = 2 // 部门下默认添加职位
+      title.value = "新增职位"
+    } else {
+      form.type = 0 // 其他情况默认为公司
+      title.value = "新增公司"
+    }
   } else {
     form.parentId = '0'
+    currentParentType.value = null
+    title.value = "新增公司"
+    form.type = 0
   }
-  title.value = '添加菜单'
   open.value = true
 }
 
-const handleUpdate = async (row: MenuData) => {
+const handleUpdate = async (row: OrgData) => {
   reset()
   await getTreeSelect()
   Object.assign(form, { ...row })
+
+  currentParentType.value = null
+
+  title.value = '修改组织'
   open.value = true
-  title.value = '修改菜单'
 }
 
-const submitForm = () => {
+const submitForm = async () => {
   if (!formRef.value) return
-  formRef.value.validate((valid: boolean) => {
+  await formRef.value.validate(async (valid: boolean) => {
     if (valid) {
       if (form.id) {
-        updateMenu(form).then(() => {
-          ElMessage.success({ message: '修改成功', duration: 1500 })
-          open.value = false
-          getList()
-        })
+        await updateOrganization(form)
+        ElMessage.success({message: '修改成功', duration: 1500})
       } else {
-        addMenu(form).then(() => {
-          ElMessage.success({ message: '新增成功', duration: 1500 })
-          open.value = false
-          getList()
-        })
+        await addOrganization(form)
+        ElMessage.success({message: '新增成功', duration: 1500})
       }
+      if (isGoOrganization.value && organizationId.value) {
+        await handleGoOrganization(organizationId.value)
+      } else {
+        await getList()
+      }
+      open.value = false
     }
   })
 }
 
-const handleDelete = (row: MenuData) => {
-  ElMessageBox.confirm(`是否确认删除名称为${row.title}的数据项?`, '警告', {
+const handleDelete = (row: OrgData) => {
+  ElMessageBox.confirm(`是否确认删除名称为"${row.name}"的数据项?`, '警告', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
     if (!row.id) return
-    return deleteMenu(row.id)
+    return deleteOrganization(row.id)
   }).then(() => {
-    getList()
+    if (isGoOrganization.value && organizationId.value) {
+      handleGoOrganization(organizationId.value)
+    } else {
+      getList()
+    }
   })
 }
 
-const formatMenuType = (type: string) => {
-  const map: Record<string, string> = { 0: '公司', 1: '部门', 2: '职位' }
+const formatMenuType = (type: number) => {
+  const map: Record<number, string> = { 0: '公司', 1: '部门', 2: '职位' }
   return map[type]
 }
 
-const menuTypeTag = (type: string) => {
-  const map: Record<string, string> = { 0: 'success', 1: 'primary', 2: 'info' }
+const menuTypeTag = (type: number) => {
+  const map: Record<number, string> = { 0: 'success', 1: 'primary', 2: 'info' }
   return map[type]
 }
 
@@ -452,5 +449,13 @@ onMounted(() => {
   tbody tr td:first-child .cell {
     padding-left: 25px;
   }
+}
+
+.cus-btn-con {
+  margin-bottom: 16px;
+}
+
+.mb10 {
+  margin-bottom: 4px;
 }
 </style>

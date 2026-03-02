@@ -22,7 +22,7 @@ import java.util.List;
  **/
 @RestController
 @Slf4j
-@RequestMapping("/iims/dms/collect")
+@RequestMapping("/iims/archive/collect")
 public class CollectController {
 
     private final ArchiveBaseModuleService archiveBaseModuleService;

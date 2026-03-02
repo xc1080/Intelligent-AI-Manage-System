@@ -115,7 +115,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { getArchiveMetadata } from '@/api/dms/collect.js'
+import { getArchiveMetadata } from '@/api/archive/collect.js'
 import { ElMessage } from 'element-plus'
 
 // 动态组件注册

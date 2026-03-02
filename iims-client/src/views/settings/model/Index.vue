@@ -41,7 +41,7 @@
         </template>
       </el-table-column>
       <el-table-column label="上下文大小" width="120" align="center" prop="token" />
-      <el-table-column label="描述" align="center" prop="description" />
+      <el-table-column label="描述" align="center" prop="description" :show-overflow-tooltip="true" />
       <el-table-column label="是否在线" width="65" align="center" prop="isOnline">
         <template #default="scope">
           <i :style="{ color: scope.row.isOnline ? '#67c23a' : '#f56c6c' }" class="ri-circle-fill"></i>
@@ -144,7 +144,7 @@
           />
         </el-form-item>
 
-        <el-form-item v-if="formData.type !== 'OLLAMA'" label="URL" prop="url">
+        <el-form-item label="URL" prop="url">
           <el-input
               v-model="formData.url"
               placeholder="请输入API URL"
@@ -265,7 +265,7 @@ const formRules = computed(() => ({
     { required: true, message: '请选择模型类型', trigger: 'change' }
   ],
   url: [
-    ...(formData.type !== 'OLLAMA' && !isEditMode.value ? [{ required: true, message: '请输入API URL', trigger: 'blur' }] : [])
+    { required: true, message: '请输入API URL', trigger: 'blur' }
   ],
   key: [
     ...(formData.type !== 'OLLAMA' && !isEditMode.value ? [{ required: true, message: '请输入API Key', trigger: 'blur' }] : [])
@@ -417,12 +417,11 @@ const handleDialogClosed = () => {
 }
 
 // 处理类型变化
-const handleTypeChange = (value: string) => {
+const handleTypeChange = () => {
   // 当类型改变时，重新验证表单
   if (formRef.value) {
-    formRef.value.validateField(['url', 'key'])
+    formRef.value.validateField(['key'])
   }
-  console.log('Selected type:', value)
 }
 
 // 提交表单
@@ -441,11 +440,11 @@ const submitForm = async () => {
       type: formData.type,
       modelType: formData.modelType,
       token: formData.token,
+      url: formData.url,
       description: formData.description
     }
 
     if (formData.type !== 'OLLAMA') {
-      submitData.url = formData.url
       // 在编辑模式下，只有当用户填写了新的key时才更新，否则不发送key字段
       if (!isEditMode.value || formData.key?.trim()) {
         submitData.key = formData.key

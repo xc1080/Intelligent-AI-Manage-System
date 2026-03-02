@@ -175,7 +175,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { getArchiveMetadata } from '@/api/dms/collect.js'
+import { getArchiveMetadata } from '@/api/archive/collect.js'
 import { getBaseAdminPage } from "@/api/user.ts"
 
 // 动态组件注册

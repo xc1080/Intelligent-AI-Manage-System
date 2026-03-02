@@ -14,6 +14,7 @@ interface MenuItem {
   title: string
   icon: string
   isFrame: string
+  visible: string
   menuType: string
   children?: MenuItem[]
 }
@@ -29,6 +30,7 @@ interface RouteConfig {
     title?: string
     icon?: string
     isFrame?: string
+    visible?: string
     [key: string]: any
   }
 }
@@ -109,7 +111,8 @@ function generateRoutes(children: RouteConfig[], item: MenuItem): RouteConfig[] 
       meta: {
         title: item.title,
         icon: item.icon,
-        isFrame: item.isFrame
+        isFrame: item.isFrame,
+        visible: item.visible
       }
     }
     generateMenu(parentMenu, item)
@@ -117,6 +120,12 @@ function generateRoutes(children: RouteConfig[], item: MenuItem): RouteConfig[] 
   } else {
     const menu: RouteConfig = {
       path: '',
+      meta: {
+        title: item.title,
+        icon: item.icon,
+        isFrame: item.isFrame,
+        visible: item.visible
+      },
       component: Layout,
       children: [
         {
@@ -126,7 +135,8 @@ function generateRoutes(children: RouteConfig[], item: MenuItem): RouteConfig[] 
           meta: {
             title: item.title,
             icon: item.icon,
-            isFrame: item.isFrame
+            isFrame: item.isFrame,
+            visible: item.visible
           }
         }
       ]
@@ -159,6 +169,7 @@ function getMenuConfig(item: MenuItem): RouteConfig {
 
   const baseMeta = {
     title: item.title,
+    visible: item.visible,
     icon: item.icon
   }
 

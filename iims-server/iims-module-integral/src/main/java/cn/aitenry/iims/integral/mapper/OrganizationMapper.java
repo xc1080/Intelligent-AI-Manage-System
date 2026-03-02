@@ -1,6 +1,9 @@
 package cn.aitenry.iims.integral.mapper;
 
+import cn.aitenry.iims.common.annotation.AutoFill;
+import cn.aitenry.iims.common.enums.OperationType;
 import cn.aitenry.iims.common.model.entity.integral.Organization;
+import cn.aitenry.iims.common.model.entity.status.DeletedStatus;
 import cn.aitenry.iims.integral.model.vo.organization.OrganizationMenuVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,4 +30,12 @@ public interface OrganizationMapper {
     List<Organization> getOrganizationByIds(List<Long> ids);
 
     List<Organization> getDepartmentByJobIds(ArrayList<Long> ids);
+
+    void insert(Organization organization);
+
+    @AutoFill(value = OperationType.UPDATE)
+    void update(Organization organization);
+
+    @AutoFill(value = OperationType.UPDATE)
+    Boolean updateDeleted(DeletedStatus deletedStatus);
 }

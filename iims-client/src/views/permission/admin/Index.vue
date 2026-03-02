@@ -33,7 +33,7 @@
       </authority>
     </div>
     <el-table v-loading="listLoading" :data="list" element-loading-text="数据加载中..." border fit highlight-current-row
-              empty-text="暂无数据" style="width: calc(100% - 40px); margin: auto;">
+              empty-text="暂无数据" style="width: calc(100% - 40px); height: calc(100vh - 210px); margin: auto">
       <el-table-column align="center" label="序号" width="50">
         <template #default="scope">
           {{ (pages.page - 1) * pages.pageSize + scope.$index + 1 }}
@@ -82,8 +82,8 @@
 
     <el-row class="page">
       <el-col :span="24">
-        <el-pagination background :current-page="pages.page" :page-sizes="[10, 20, 30]" :page-size="pages.pageSize"
-                       layout="sizes, total, prev, pager, next, jumper" :total="pages.total" :hide-on-single-page="true"
+        <el-pagination style="justify-content: center; margin-top: 20px;" background :current-page="pages.page" :page-sizes="[10, 20, 30]" :page-size="pages.pageSize"
+                       layout="sizes, total, prev, pager, next, jumper" :total="pages.total"
                        @current-change="handleCurrentChange" @size-change="handleSizeChange" />
       </el-col>
     </el-row>

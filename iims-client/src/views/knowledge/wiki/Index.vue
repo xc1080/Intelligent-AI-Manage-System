@@ -83,8 +83,8 @@
 
     <el-row class="page">
       <el-col :span="24">
-        <el-pagination background :current-page="page" :page-sizes="[10, 20, 30]" :page-size="size"
-                       layout="sizes, total, prev, pager, next, jumper" :total="total" :hide-on-single-page="true"
+        <el-pagination style="justify-content: center; margin-top: 20px;" background :current-page="page" :page-sizes="[10, 20, 30]" :page-size="size"
+                       layout="sizes, total, prev, pager, next, jumper" :total="total"
                        @current-change="getTableData" @size-change="handleSizeChange" />
       </el-col>
     </el-row>

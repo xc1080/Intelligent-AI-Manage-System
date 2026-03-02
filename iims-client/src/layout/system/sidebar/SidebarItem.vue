@@ -1,13 +1,13 @@
 <template>
   <div v-if="!item.hidden">
-    <app-link v-if="showSingleChild" :to="singleChildPath" :frame="singleChildFrame">
+    <app-link v-if="showSingleChild && isHideItem" :to="singleChildPath" :frame="singleChildFrame">
       <el-menu-item :index="singleChildPath" :class="{'submenu-title-noDropdown': !isNest}">
         <svg-icon :style="iconStyle" :icon-class="singleChildIcon" />
         <template #title>{{ singleChildTitle }}</template>
       </el-menu-item>
     </app-link>
 
-    <el-sub-menu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
+    <el-sub-menu v-else-if="isHideItem" ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template #title>
         <svg-icon :style="iconStyle" :icon-class="item.meta?.icon || ''" />
         <span :style="isHide">{{ item.meta?.title }}</span>
@@ -35,6 +35,7 @@ interface RouteMeta {
   icon?: string
   title?: string
   isFrame?: number
+  visible?: number
   [key: string]: any
 }
 
@@ -111,6 +112,12 @@ const hasOneShowingChild = computed(() => {
     }
   }
   return false
+})
+
+const isHideItem  = computed(() => {
+  const meta = props.item.meta
+  if (!meta) return false
+  return meta.visible === 0
 })
 
 const showSingleChild = computed(() => {

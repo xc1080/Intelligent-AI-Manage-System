@@ -18,11 +18,14 @@ public class WriteWikiDocEvent extends ApplicationEvent {
      */
     private final Long docId;
 
+    private final Long currentId;
+
     private final DocumentTypeEnum type;
 
-    public WriteWikiDocEvent(Object source, Long docId, DocumentTypeEnum type) {
+    public WriteWikiDocEvent(Object source, Long docId, Long currentId, DocumentTypeEnum type) {
         super(source);
         this.docId = docId;
+        this.currentId = currentId;
         this.type = type;
     }
 

@@ -42,12 +42,10 @@
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click="handleLogin">{{loading ? '' : '登录'}}</el-button>
       </el-form>
     </div>
-    <svg class="waves" viewBox="0 0 150 28" preserveAspectRatio="none">
+    <svg class="waves" viewBox="0 0 150 40" preserveAspectRatio="none">
       <defs>
-        <!-- 定义一个波浪路径 -->
-        <path id="wave" d="M-160 10c30 0 58-10 88-10s 58 10 88 10 58-10 88-10 58 10 88 10 v10h-352z" />
+        <path id="wave" d="M-160 20c30 0 58-15 88-15s 58 15 88 15 58-15 88-15 58 15 88 15 v20h-352z" />
       </defs>
-      <!-- 使用更多的波浪图案以确保无缝衔接 -->
       <use class="wave" xlink:href="#wave" fill="rgb(197.7, 225.9, 255)" x="-352" y="0"></use>
       <use class="wave" xlink:href="#wave" fill="rgb(197.7, 225.9, 255)" x="0" y="0"></use>
       <use class="wave" xlink:href="#wave" fill="rgb(197.7, 225.9, 255)" x="352" y="0"></use>

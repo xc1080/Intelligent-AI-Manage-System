@@ -28,6 +28,13 @@ const constantRoutes = [
         hidden: true
     },
     {
+        path: '/index', // 用户首页
+        component: () => import('@/views/user/Index.vue'),
+        meta: {
+            title: '首页'
+        },
+    },
+    {
         path: '/wiki/:wikiId', // 知识库详情页
         component: () => import('@/layout/wiki/WikiDetail.vue'),
         meta: {

@@ -1,6 +1,7 @@
 package cn.aitenry.iims.integral.service;
 
 import cn.aitenry.iims.common.model.entity.integral.Organization;
+import cn.aitenry.iims.integral.model.dto.organization.OrganizationDTO;
 import cn.aitenry.iims.integral.model.vo.organization.OrganizationMenuVO;
 import cn.aitenry.iims.integral.model.vo.organization.OrganizationVO;
 
@@ -24,4 +25,10 @@ public interface OrganizationService {
     List<Organization> getOrganizationByIds(List<Long> ids);
 
     List<Organization> getDepartmentsByJobIds(ArrayList<Long> ids);
+
+    void update(OrganizationDTO organizationDTO);
+
+    void save(OrganizationDTO organizationDTO);
+
+    void deleteById(Long id);
 }

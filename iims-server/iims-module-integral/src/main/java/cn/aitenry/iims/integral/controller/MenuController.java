@@ -59,7 +59,6 @@ public class MenuController {
     @ApiOperation("编辑菜单")
     @SaCheckPermission("permission:menu:update")
     public Result<String> update(@RequestBody MenuDTO menuDto) {
-        menuService.getById(menuDto.getId());
         menuService.update(menuDto);
         return Result.success();
     }

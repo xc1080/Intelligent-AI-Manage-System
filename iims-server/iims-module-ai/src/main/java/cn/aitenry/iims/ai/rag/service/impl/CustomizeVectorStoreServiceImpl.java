@@ -13,6 +13,7 @@ import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.embedding.TokenCountBatchingStrategy;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.ai.vectorstore.milvus.MilvusVectorStore;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,6 +30,9 @@ public class CustomizeVectorStoreServiceImpl implements CustomizeVectorStoreServ
 
     private final AiChatSettingService aiChatSettingService;
 
+    @Value("${iims.vector.host:localhost}")
+    private String host;
+
     public CustomizeVectorStoreServiceImpl(ModelService modelService, AiChatSettingService aiChatSettingService) {
         this.modelService = modelService;
         this.aiChatSettingService = aiChatSettingService;
@@ -38,7 +42,8 @@ public class CustomizeVectorStoreServiceImpl implements CustomizeVectorStoreServ
     public VectorStore loadMilvusVectorStore(String dbName, String collectionName) {
         ModelSetting userModelSetting = aiChatSettingService.getUserModelSetting();
         EmbeddingModel embeddingModel = modelService.getEmbeddingModel(userModelSetting.getEmbeddingModel());
-        MilvusServiceClient milvusServiceClient = new MilvusServiceClient(ConnectParam.newBuilder().build());
+        MilvusServiceClient milvusServiceClient = new MilvusServiceClient(ConnectParam
+                .newBuilder().withHost(host).build());
         return MilvusVectorStore.builder(milvusServiceClient, embeddingModel)
                 .databaseName(dbName)
                 .collectionName(collectionName)

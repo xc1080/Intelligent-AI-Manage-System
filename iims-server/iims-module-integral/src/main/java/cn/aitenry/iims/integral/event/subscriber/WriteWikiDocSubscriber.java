@@ -1,5 +1,6 @@
 package cn.aitenry.iims.integral.event.subscriber;
 
+import cn.aitenry.iims.common.context.BaseContext;
 import cn.aitenry.iims.integral.event.WriteWikiDocEvent;
 import cn.aitenry.iims.integral.mapper.WikiCatalogMapper;
 import cn.aitenry.iims.ai.rag.service.MilvusStoreService;
@@ -36,10 +37,12 @@ public class WriteWikiDocSubscriber implements ApplicationListener<WriteWikiDocE
         // 在这里处理收到的事件，可以是任何逻辑操作
         Long docId = event.getDocId();
         DocumentTypeEnum type = event.getType();
+        Long currentId = event.getCurrentId();
 
         // 获取当前线程名称
         String threadName = Thread.currentThread().getName();
         log.info("==> 知识库文章更新向量库: {}", threadName);
+        BaseContext.setCurrentId(currentId);
         WikiCatalog wikiCatalog = wikiCatalogMapper.selectWikiByDoc(docId, type);
         Boolean isEmbedding = wikiCatalog.getIsEmbedding();
         if (isEmbedding) {

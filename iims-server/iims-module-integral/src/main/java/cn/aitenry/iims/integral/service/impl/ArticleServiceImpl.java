@@ -1,5 +1,6 @@
 package cn.aitenry.iims.integral.service.impl;
 
+import cn.aitenry.iims.common.context.BaseContext;
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -134,10 +135,13 @@ public class ArticleServiceImpl implements ArticleService {
         LocalDateTime startDate = findArticlePageListDto.getStartDate();
         LocalDateTime endDate = findArticlePageListDto.getEndDate();
         Integer type = findArticlePageListDto.getType();
-        Page<FindArticlePageListVO> articlePageVos = articleMapper.pageQuery(title, startDate, endDate, type);
+        long total;
+        List<FindArticlePageListVO> records;
+        try (Page<FindArticlePageListVO> articlePageVos = articleMapper.pageQuery(title, startDate, endDate, type)) {
 
-        long total = articlePageVos.getTotal();
-        List<FindArticlePageListVO> records = articlePageVos.getResult();
+            total = articlePageVos.getTotal();
+            records = articlePageVos.getResult();
+        }
         records.forEach(item -> {
             item.setImageUrl(minioService.generateShortLink(item.getCover()));
             item.setIsTop(item.getWeight() > 0);
@@ -241,7 +245,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .content(content)
                     .build();
             articleContentMapper.updateByArticleId(articleContent);
-            eventPublisher.publishEvent(new WriteWikiDocEvent(this, articleId, DocumentTypeEnum.ARTICLE));
+            eventPublisher.publishEvent(new WriteWikiDocEvent(this, articleId, BaseContext.getCurrentId(), DocumentTypeEnum.ARTICLE));
         }
     }
 

@@ -149,7 +149,7 @@
       >
         <template #default="scope">
           <el-button type='primary' text @click="openUserInfo(scope.row.userInfo.id)">
-            {{ scope.row.userInfo?.username || '-' }}
+            {{ scope.row.userInfo?.name || '-' }}
           </el-button>
         </template>
       </el-table-column>
@@ -232,7 +232,6 @@
           style="justify-content: center; margin-top: 20px;"
           layout="sizes, total, prev, pager, next, jumper"
           :total="pages.total"
-          :hide-on-single-page="true"
           @current-change="handleCurrentChange"
           @size-change="handleSizeChange"
         />

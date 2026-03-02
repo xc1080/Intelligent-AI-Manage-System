@@ -54,6 +54,10 @@
               <i class="ri-edit-line menu-icon"></i>
               <span>修改信息</span>
             </el-dropdown-item>
+            <el-dropdown-item class="menu-item" @click="router.push('/index')">
+              <i class="ri-home-office-line menu-icon"></i>
+              <span>进入前台</span>
+            </el-dropdown-item>
             <el-divider style="margin: 6px 0; width: 110px;" />
             <el-dropdown-item class="menu-item" @click="logout">
               <i class="ri-logout-box-r-line menu-icon"></i>
@@ -71,7 +75,7 @@
                :close-on-click-modal="false"
                align-center
                draggable>
-      <el-form ref="pwForm" class="cus-search-box cus-dialog-form-box" :model="pwForm" :rules="rulesPassword">
+      <el-form ref="pwForm" label-position="top" class="cus-search-box cus-dialog-form-box" :model="pwForm" :rules="rulesPassword">
         <el-form-item label="旧密码" prop="oldPassword">
           <el-input v-model="pwForm.oldPassword" placeholder="请输入旧密码" clearable />
         </el-form-item>

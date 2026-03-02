@@ -6,14 +6,15 @@ import 'nprogress/nprogress.css' // progress bar style
 import { getStorage } from '@/utils/auth.js' // get token from cookie
 import getPageTitle from '@/utils/get-page-title.js'
 import { generateWatermark, removeWatermark } from '@/utils/common.js'
+import type {RouteRecordRaw} from "vue-router";
 
 NProgress.configure({ showSpinner: false })
 
 const whiteList = ['/login']
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async(to, _from, next) => {
   NProgress.start()
-  document.title = getPageTitle(to.meta.title)
+  document.title = getPageTitle(to.meta.title as string)
   const hasToken = getStorage('token')
   if (hasToken) {
     if (to.path === '/login' || to.path === '/') {
@@ -22,12 +23,12 @@ router.beforeEach(async(to, from, next) => {
     } else {
       const hasGetUserInfo = store.getters.name
       if (hasGetUserInfo) {
-        generateWatermark(getStorage('name'))
+        generateWatermark(getStorage('name') || '')
         next()
       } else {
         try {
           const accessRoutes = await store.dispatch('permission/generateRoutes')
-          accessRoutes.forEach(route => {
+          accessRoutes.forEach((route: RouteRecordRaw) => {
             router.addRoute(route)
           })
           next({ ...to, replace: true })
