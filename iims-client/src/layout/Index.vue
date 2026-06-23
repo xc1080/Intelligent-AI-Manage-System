@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { Navbar, Sidebar, AppMain } from './system'
@@ -46,6 +46,14 @@ interface RootState {
 
 const store = useStore<RootState>()
 const route = useRoute()
+
+// Debug: watch route changes
+watch(() => route.path, (newPath) => {
+  console.log(`[Layout] Route changed to: ${newPath} | isFrame: ${route.meta.isFrame} (${typeof route.meta.isFrame}) | matched: ${route.matched.length}`)
+  route.matched.forEach((r, i) => {
+    console.log(`  matched[${i}]: path="${r.path}" name="${r.name}" component=${r.components?.default ? '✓' : '✗'}`)
+  })
+}, { immediate: true })
 
 // 计算属性
 const theme = computed(() => store.state.settings.theme)

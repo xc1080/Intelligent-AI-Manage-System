@@ -120,7 +120,6 @@ import {
   stopAnswer
 } from '@/api/ai/chat.js'
 import MarkdownIt from 'markdown-it'
-import mathjax from 'markdown-it-mathjax3'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/intellij-light.min.css'
 import 'github-markdown-css/github-markdown-light.css'
@@ -656,11 +655,20 @@ const sendOut = async () => {
     isSendOut.value = true
     const uuid = `${userId.value}${getChinaTimestamp()}`
     cancelSseConnection.value = receiveAnswer(uuid, msgParam.value, (item: any) => {
+      console.log('[SSE] === Event received ===')
+      console.log('[SSE] event:', item.event, '| data:', JSON.stringify(item.data).substring(0, 300))
       const _data = item.data
       const loadTopicId = _data.topicId
+      console.log('[SSE] loadTopicId:', loadTopicId, '| dialoguePages.topicId:', dialoguePages.value.topicId, '| messages.value.length:', messages.value.length)
+      const _source = (dialoguePages.value.topicId === loadTopicId || dialoguePages.value.topicId === null) ? 'messages.value' : `messagesMap[${loadTopicId}]`
       const _messages = (dialoguePages.value.topicId === loadTopicId || dialoguePages.value.topicId === null ? messages.value : messagesMap.value.get(loadTopicId)) || []
+      console.log('[SSE] source:', _source, '| _messages.length:', _messages.length)
       const message = _messages[_messages.length - 1]
       const lastMessage = _messages[_messages.length - 2]
+      if (!message) {
+        console.warn('[SSE] No message found for topicId:', loadTopicId, 'event:', item.event, '_messages.length:', _messages.length)
+        return
+      }
       if (['output', 'end'].includes(item.event) && message.isLoadingAnswer) {
         message.isLoadingAnswer = false
       }
@@ -676,7 +684,9 @@ const sendOut = async () => {
         messagesMap.value.set(loadTopicId, [...messages.value])
         milliSecondMap.value.set(loadTopicId, uuid)
         loadTopicIdSet.value.add(loadTopicId)
-        lastMessage.id = _data.lastId
+        if (lastMessage) {
+          lastMessage.id = _data.lastId
+        }
       } else if (item.event === 'output') {
         const exchangeData = message.aiContent ?? []
         message.aiContent = _data.aiContent.map((newValue: AiContent, index: number) => {
@@ -729,7 +739,7 @@ const sendOut = async () => {
         }
         message.id = _data.lastId
         msgParam.value.lastId = _data.lastId
-        message.lastId = lastMessage.id
+        message.lastId = lastMessage?.id
         isSendOut.value = false
         milliSecondMap.value.delete(loadTopicId)
         if (dialoguePages.value.topicId === loadTopicId && loadTopicId && messagesMap.value.get(loadTopicId)) {
@@ -797,8 +807,8 @@ const initChatTopic = async () => {
   try {
     const res = await getChatTopicList(topicPages.value)
     if (res.code === 1) {
-      chatItems.value = res.data.list
-      topicPages.value.total = res.data.total
+      chatItems.value = res.data?.list || []
+      topicPages.value.total = res.data?.total || 0
     }
   } catch (error) {
     console.log(error)
@@ -820,11 +830,12 @@ const loadMoreChatTopics = async () => {
 
     if (res.code === 1) {
       // 将新数据追加到现有数据后面
-      chatItems.value = [...chatItems.value, ...res.data.list];
+      const list = res.data?.list || [];
+      chatItems.value = [...chatItems.value, ...list];
       topicPages.value.page = nextPage;
 
       // 判断是否还有更多数据
-      hasMoreData.value = chatItems.value.length < res.data.total;
+      hasMoreData.value = chatItems.value.length < (res.data?.total || 0);
     }
   } catch (error) {
     console.log(error);
@@ -837,7 +848,8 @@ const initChatDialogue = async () => {
   try {
     const res = await getChatDialogueList(dialoguePages.value)
     if (res.code === 1) {
-      res.data.list.forEach((item: Message) => {
+      const list = res.data?.list || []
+      list.forEach((item: Message) => {
         if (item.sender === 'assistant') {
           item.aiContent?.forEach(value => {
             if (value.thinking) {
@@ -861,8 +873,8 @@ const initChatDialogue = async () => {
           })
         }
       })
-      messages.value = res.data.list
-      dialoguePages.value.total = res.data.total
+      messages.value = list
+      dialoguePages.value.total = res.data?.total || 0
       if (messages.value.length > 0) {
         msgParam.value.lastId = messages.value[messages.value.length - 1].id
       }
@@ -1112,18 +1124,6 @@ const initMarkdownIt = () => {
       return hljs.highlightAuto(code).value
     },
   })
-  mdi.value.use(mathjax)
   mdi.value.use(markdownItMermaid)
-  // 自定义规则：解析 $xx$ 行内数学公式
-  mdi.value.inline.ruler.after('escape', 'math_inline', (state: any, silent: boolean) => {
-    const match = state.src.slice(state.pos).match(/^\$(.+?)\$/)
-    if (!match) return false
-    if (!silent) {
-      const token = state.push('math_inline', '', 0)
-      token.content = match[1]
-      state.pos += match[0].length
-    }
-    return true
-  })
 }
 </script>

@@ -90,8 +90,15 @@ async function initApp(): Promise<void> {
         })
     }
 
-    // 挂载应用
-    app.use(router).use(store).mount('#app')
+    // 挂载应用 — 等待路由注册完成且初始导航解析后再挂载
+    app.use(router).use(store)
+    await router.isReady()
+    app.mount('#app')
 }
 
-initApp().then()
+initApp().catch(err => {
+    console.error('[IIMS] App initialization failed:', err)
+    // 兜底：即使初始化失败也挂载应用，让用户至少看到登录页
+    const app = createApp(App)
+    app.use(router).use(store).mount('#app')
+})

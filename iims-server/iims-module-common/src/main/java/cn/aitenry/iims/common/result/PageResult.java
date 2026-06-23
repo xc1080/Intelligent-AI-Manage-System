@@ -1,10 +1,10 @@
 package cn.aitenry.iims.common.result;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,11 +14,15 @@ import java.util.List;
  * @Description: TODO
  **/
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class PageResult implements Serializable {
 
-    private long total; //总记录数
+    private long total;
 
-    private List list; //当前页数据集合
+    private List list;
+
+    public PageResult(long total, List list) {
+        this.total = total;
+        this.list = list == null ? Collections.emptyList() : list;
+    }
 }

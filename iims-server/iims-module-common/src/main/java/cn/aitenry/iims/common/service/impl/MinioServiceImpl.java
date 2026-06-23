@@ -161,6 +161,9 @@ public class MinioServiceImpl implements MinioService {
 
     @Override
     public String generateShortLink(Long fileId) {
+        if (fileId == null) {
+            return null;
+        }
         return shortLink + fileId;
     }
 
@@ -193,6 +196,10 @@ public class MinioServiceImpl implements MinioService {
     public InputStream getInputStream(Long fileId) {
         try {
             String filePath = fileStorageMapper.getFilePathById(fileId);
+            if (StringUtils.isBlank(filePath)) {
+                log.warn("File path is empty, fileId: {}", fileId);
+                return null;
+            }
             return minioClient.getObject(
                     GetObjectArgs.builder()
                             .bucket(minioProperties.getBucketName())

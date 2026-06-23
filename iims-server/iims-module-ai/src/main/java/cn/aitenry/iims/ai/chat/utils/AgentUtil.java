@@ -185,6 +185,11 @@ public class AgentUtil {
     public Flux<ReActAgentEvent> getReActAgentEvents(Long modelId, List<Message> messages, List<Long> enabledToolIds) {
         ChatModel chatModel = modelService.getChatModel(modelId);
 
+        if (chatModel == null) {
+            log.error("AI Agent 配置的底层模型无效，modelId={} 无法创建 ChatModel。请检查 iims_ai_agent.model_id 是否指向有效的语言模型。", modelId);
+            return Flux.error(new IllegalArgumentException("Agent 底层模型配置无效，无法创建 ChatModel (modelId=" + modelId + ")"));
+        }
+
         // 获取启用的工具实例列表
         List<Object> toolInstances = getEnabledToolInstances(enabledToolIds);
 

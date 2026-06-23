@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,6 +70,12 @@ public class CommonController {
     @ApiOperation("根据短链获取文件")
     public void fileByShortLink(@PathVariable Long fileId, HttpServletResponse response) {
         try {
+            FileWarehouse objectById = fileStorageService.getFileInfoById(fileId);
+            if (objectById == null || StringUtils.isBlank(objectById.getFilePath())) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("File not found.");
+                return;
+            }
             // 从 MinIO 获取 InputStream（或其他方式）
             InputStream inputStream = minioService.getInputStream(fileId);
             if (inputStream == null) {
@@ -77,7 +84,6 @@ public class CommonController {
                 return;
             }
 
-            FileWarehouse objectById = fileStorageService.getFileInfoById(fileId);
             String fileType = objectById.getFileType();
             response.setContentType(fileType != null ? fileType : "application/octet-stream");
 

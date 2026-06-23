@@ -32,3 +32,19 @@
 .iims-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #adb5bd;
 }
+
+/* Vue transition: fade-transform (used by AppMain.vue <transition name="fade-transform" mode="out-in">) */
+.fade-transform-enter-active,
+.fade-transform-leave-active {
+  transition: all 0.3s;
+}
+
+.fade-transform-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}

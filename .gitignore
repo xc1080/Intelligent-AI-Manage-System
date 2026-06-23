@@ -33,3 +33,22 @@ coverage
 iims-client/pnpm-lock.yaml
 iims-server/iims-starter/src/main/resources/application-dev.yml
 iims-server/*/src/test
+
+# Large deploy archive
+iims-deploy.zip
+
+# Pre-built JAR (too large for GitHub, build from source)
+deploy-bundle/app/*.jar
+
+# Docker runtime data (Milvus RocksDB, Ollama model blobs — actively written)
+deploy-bundle/data/
+
+# Build / generated artifacts
+iims-client/stats.html
+iims-client/vite.config.d.ts
+iims-client/vite.config.d.ts.map
+
+# Local environment / logs at root
+启动配置.txt
+*.err.log
+*.out.log

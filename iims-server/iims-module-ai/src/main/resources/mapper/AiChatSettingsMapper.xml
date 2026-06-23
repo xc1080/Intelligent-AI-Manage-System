@@ -10,7 +10,7 @@
     <select id="selectUserIdByModelId" resultType="long">
         SELECT user_id
         FROM iims_ai_chat_settings
-        WHERE model_id = #{modelId} OR embedding_model = #{modelId}
+        WHERE language_model = #{modelId} OR embedding_model = #{modelId}
     </select>
 
 </mapper>

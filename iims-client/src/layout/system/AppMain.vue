@@ -1,9 +1,7 @@
 <template>
   <section class="app-main-iims">
     <router-view v-slot="{ Component }">
-      <transition name="fade-transform" mode="out-in">
-        <component :is="Component" :key="key" />
-      </transition>
+      <component :is="Component" :key="key" />
     </router-view>
   </section>
 </template>

@@ -50,10 +50,13 @@ const views = import.meta.glob('@/views/**/*.vue')
 
 export const loadView = (view: string): (() => Promise<any>) | undefined => {
   if (!view) return undefined
-  const key = Object.keys(views).find(key => key.includes(`/${view}/Index.vue`))
+  const allKeys = Object.keys(views)
+  const key = allKeys.find(key => key.includes(`/${view}/Index.vue`))
   if (key) {
+    console.log(`[loadView] ✓ Found: "${view}" → "${key}"`)
     return () => views[key]()
   }
+  console.warn(`[loadView] ✗ NOT FOUND: "${view}" | Available keys:`, allKeys.filter(k => k.includes('ai') || k.includes('talk')))
   return undefined
 }
 

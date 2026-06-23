@@ -34,6 +34,7 @@ const sse = (
       await onOpen();
     },
     onmessage: (ev: any) => {
+      console.log('[SSE-raw] event:', ev.event, '| raw data:', typeof ev.data === 'string' ? ev.data.substring(0, 300) : ev.data)
       try {
         ev.data = JSON.parse(ev.data)
         // 调用回调函数处理数据
@@ -41,7 +42,7 @@ const sse = (
           onMessageCallback(ev)
         }
       } catch (error) {
-        console.log(error) // 如果数据不是JSON格式，则直接打印数据
+        console.warn('[SSE] JSON parse failed, raw data:', ev.data)
       }
     },
     onerror: (err: any) => {

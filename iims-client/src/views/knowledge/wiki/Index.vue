@@ -218,8 +218,8 @@ function getTableData() {
       .then((res: any) => {
         previewList.value = []
         if (res.success == true) {
-          tableData.value = res.data.list
-          total.value = res.data.total
+          tableData.value = res.data?.list || []
+          total.value = res.data?.total || 0
           tableData.value.forEach(item => {
             previewList.value.push(item.imgUrl)
           })
