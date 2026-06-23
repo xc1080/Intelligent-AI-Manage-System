@@ -10,7 +10,7 @@ import java.util.List;
  * @Author: Aitenry
  * @Date: 2025/11/16 13:57
  * @Version: v1.0.0
- * @Description: TODO
+
  **/
 @Mapper
 public interface ArchiveTypeMapper {

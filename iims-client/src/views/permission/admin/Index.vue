@@ -461,7 +461,7 @@ const excelUserData = async () => {
       type: 'warning'
     })
     const result = await excelUser()
-    download(result, '用户表' + getNowFormatDate() + '.xlsx')
+    download(result as any, '用户表' + getNowFormatDate() + '.xlsx')
   } catch (error) {
     console.log(error)
   }

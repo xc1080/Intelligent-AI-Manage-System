@@ -22,11 +22,6 @@
 
         <dependency>
             <groupId>cn.aitenry</groupId>
-            <artifactId>iims-module-search</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.aitenry</groupId>
             <artifactId>iims-module-integral</artifactId>
         </dependency>
 

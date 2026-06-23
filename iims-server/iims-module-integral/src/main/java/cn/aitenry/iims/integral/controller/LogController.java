@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Author: Aitenry
  * @Date: 2025/11/23 16:02
  * @Version: v1.0.0
- * @Description: TODO
+
  **/
 @RestController
 @RequestMapping("/iims/log")

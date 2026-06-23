@@ -51,7 +51,7 @@ const route = useRoute()
 watch(() => route.path, (newPath) => {
   console.log(`[Layout] Route changed to: ${newPath} | isFrame: ${route.meta.isFrame} (${typeof route.meta.isFrame}) | matched: ${route.matched.length}`)
   route.matched.forEach((r, i) => {
-    console.log(`  matched[${i}]: path="${r.path}" name="${r.name}" component=${r.components?.default ? '✓' : '✗'}`)
+    console.log(`  matched[${i}]: path="${r.path}" name="${String(r.name)}" component=${r.components?.default ? '✓' : '✗'}`)
   })
 }, { immediate: true })
 

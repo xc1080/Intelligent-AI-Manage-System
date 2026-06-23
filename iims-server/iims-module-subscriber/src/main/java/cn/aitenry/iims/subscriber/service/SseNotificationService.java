@@ -7,7 +7,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
  * @Author: Aitenry
  * @Date: 2026/2/5 21:19
  * @Version: v1.0.0
- * @Description: TODO
+
  **/
 public interface SseNotificationService {
 

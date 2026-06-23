@@ -7,7 +7,7 @@ import lombok.Data;
  * @Author: Aitenry
  * @Date: 2026/3/2 21:52
  * @Version: v1.0.0
- * @Description: TODO
+
  **/
 @Data
 @ApiModel(description = "组织的数据模型")

@@ -8,13 +8,12 @@ const app = createApp(App);
 app.component('svg-icon', SvgIcon);
 
 // 动态加载 SVG 文件
-const requireAll = (requireContext) => requireContext.keys().map(requireContext);
-const req = import.meta.glob('@/assets/svg/*.svg', { query: '?raw' });
+const req = import.meta.glob('@/assets/svg/*.svg', { query: '?raw', eager: false });
 
-Object.keys(req).forEach((key) => {
-  req[key]().then((content) => {
+Object.keys(req).forEach((key: string) => {
+  req[key]().then((content: any) => {
     const svgElement = document.createElement('div');
-    svgElement.innerHTML = content;
+    svgElement.innerHTML = content as string;
     document.body.appendChild(svgElement);
   });
 });

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @Author: Aitenry
  * @Date: 2025/11/23 16:57
  * @Version: v1.0.0
- * @Description: TODO
+
  **/
 @RestController
 @RequestMapping("/iims/model")

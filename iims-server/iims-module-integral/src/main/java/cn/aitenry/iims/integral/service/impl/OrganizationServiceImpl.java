@@ -15,7 +15,7 @@ import java.util.*;
  * @Author: Aitenry
  * @Date: 2025/11/15 23:44
  * @Version: v1.0.0
- * @Description: TODO
+
  **/
 @Service
 public class OrganizationServiceImpl implements OrganizationService {

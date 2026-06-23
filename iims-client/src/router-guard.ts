@@ -18,7 +18,7 @@ router.beforeEach(async(to, _from, next) => {
   console.log(`[RouterGuard] → to: ${to.path} | from: ${_from.path} | matched: ${to.matched.length} routes`)
   if (to.matched.length > 0) {
     to.matched.forEach((r, i) => {
-      console.log(`  matched[${i}]: path="${r.path}" name="${r.name}" component=${r.components?.default ? '✓' : '✗'}`)
+      console.log(`  matched[${i}]: path="${r.path}" name="${String(r.name)}" component=${r.components?.default ? '✓' : '✗'}`)
     })
   } else {
     console.warn(`[RouterGuard] ⚠ No routes matched for path: ${to.path}`)

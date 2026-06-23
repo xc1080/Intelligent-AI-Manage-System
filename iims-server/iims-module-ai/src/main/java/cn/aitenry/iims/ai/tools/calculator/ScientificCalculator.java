@@ -8,7 +8,7 @@ import java.util.function.Function;
  * @Author: Aitenry
  * @Date: 2026/1/26 23:17
  * @Version: v1.0.0
- * @Description: TODO
+
  **/
 public class ScientificCalculator {
 

@@ -14,7 +14,7 @@ import java.util.List;
  * @Author: Aitenry
  * @Date: 2025/11/15 22:52
  * @Version: v1.0.0
- * @Description: TODO
+
  **/
 @Mapper
 public interface OrganizationMapper {

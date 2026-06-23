@@ -29,7 +29,6 @@
         <module>iims-module-auth</module>
         <module>iims-module-ai</module>
         <module>iims-module-archive</module>
-        <module>iims-module-search</module>
     </modules>
 
 
@@ -113,12 +112,6 @@
             <dependency>
                 <groupId>cn.aitenry</groupId>
                 <artifactId>iims-module-auth</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.aitenry</groupId>
-                <artifactId>iims-module-search</artifactId>
                 <version>${revision}</version>
             </dependency>
 

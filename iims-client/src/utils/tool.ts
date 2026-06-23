@@ -1,16 +1,16 @@
-export const getBigNum = (arr) => {
+export const getBigNum = (arr: number[]): number => {
   return Math.max(...arr)
 }
 
-export const getNowFormatDate = () => {
+export const getNowFormatDate = (): string => {
   const date = new Date()
   const seperator1 = '-'
   const year = date.getFullYear()
-  let month = date.getMonth() + 1
-  let strDate = date.getDate()
-  let hour = date.getHours()
-  let minute = date.getMinutes()
-  let second = date.getSeconds()
+  let month: string | number = date.getMonth() + 1
+  let strDate: string | number = date.getDate()
+  let hour: string | number = date.getHours()
+  let minute: string | number = date.getMinutes()
+  let second: string | number = date.getSeconds()
   if (month >= 1 && month <= 9) {
     month = '0' + month
   }
@@ -48,7 +48,7 @@ export const getNowFormatDate = () => {
  * @param {string} name 参数2：文件名称，包含文件后缀
  * @return {*}
  */
-export const download = (blob, name) => {
+export const download = (blob: Blob, name: string): void => {
   const link = document.createElement('a') // 创建一个a标签
   const url = URL.createObjectURL(blob) // 将blob文件对象通过URL.createObjectURL()方法转为为url
   link.href = url // 为a标签设置href属性，并赋值为url
@@ -60,7 +60,7 @@ export const download = (blob, name) => {
 }
 
 // 判断开始日期（时间）必须小于结束日期（时间）
-export const isCheckStartAndEndTime = (startTime, endTime) => {
+export const isCheckStartAndEndTime = (startTime: string, endTime: string): boolean => {
   const d1 = new Date(startTime.replace(/\-/g, '/'))
   const d2 = new Date(endTime.replace(/\-/g, '/'))
   if (startTime !== '' && endTime !== '' && d1 >= d2) {

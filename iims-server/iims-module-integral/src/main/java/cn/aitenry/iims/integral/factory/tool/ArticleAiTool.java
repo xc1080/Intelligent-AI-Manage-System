@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @Author: Aitenry
  * @Date: 2025/12/27 10:24
  * @Version: v1.0.0
- * @Description: TODO
+
  **/
 @Component
 public class ArticleAiTool implements AITool {
